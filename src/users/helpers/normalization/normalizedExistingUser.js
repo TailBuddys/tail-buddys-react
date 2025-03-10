@@ -1,22 +1,9 @@
 const normalizedExistingUser = (user) => ({
-  name: {
-    first: user.first,
-    middle: user.middle,
-    last: user.last,
-  },
+  FirstName: user.FirstName,
+  LastName: user.LastName,
   phone: user.phone,
-  image: {
-    url: user.url,
-    alt: user.alt,
-  },
-  address: {
-    state: user.state,
-    country: user.country,
-    city: user.city,
-    street: user.street,
-    zip: user.zip,
-    houseNumber: user.houseNumber,
-  },
+  email: user.email,
+  password: user.password,
 });
 
 export default normalizedExistingUser;

@@ -1,5 +1,5 @@
 import {
-  Avatar,
+  // Avatar,
   Box,
   Table,
   TableCell,
@@ -13,7 +13,7 @@ import React from "react";
 export default function UserInformation({ userData }) {
   return (
     <Box>
-      <Avatar src={userData.image.url} alt={userData.image.alt} />
+      {/* <Avatar src={userData.image.url} alt={userData.image.alt} />  תמונות משתמש מובנות?!?*/}
       <TableContainer>
         <Table>
           <TableHead>
@@ -21,11 +21,7 @@ export default function UserInformation({ userData }) {
               <TableCell>
                 Full Name:
                 <Typography>
-                  {userData.name.first +
-                    " " +
-                    userData.name.middle +
-                    " " +
-                    userData.name.last}
+                  {userData.name.FirstName + " " + userData.name.LastName}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -42,20 +38,6 @@ export default function UserInformation({ userData }) {
             <TableRow>
               <TableCell>
                 Phone:<Typography>{userData.phone}</Typography>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                address:
-                <Typography>
-                  {userData.address.street +
-                    " " +
-                    userData.address.houseNumber +
-                    ", " +
-                    userData.address.city +
-                    ", " +
-                    userData.address.country}
-                </Typography>
               </TableCell>
             </TableRow>
           </TableHead>

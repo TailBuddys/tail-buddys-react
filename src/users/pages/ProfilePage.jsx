@@ -2,7 +2,7 @@ import React from "react";
 import useUsers from "../hooks/useUsers";
 import Spinner from "../../components/Spinner";
 import {
-  Avatar,
+  // Avatar,
   Container,
   Table,
   TableCell,
@@ -42,7 +42,7 @@ export default function ProfilePage() {
     return (
       <Container>
         <PageHeader title="User Profile" />
-        <Avatar src={userData.image.url} alt={userData.image.alt} />
+        {/* <Avatar src={userData.image.url} alt={userData.image.alt} /> אולי נרצה תמונות ברירת מחדל */}
         <TableContainer>
           <Table>
             <TableHead>
@@ -50,11 +50,7 @@ export default function ProfilePage() {
                 <TableCell>
                   Full Name:
                   <Typography>
-                    {userData.name.first +
-                      " " +
-                      userData.name.middle +
-                      " " +
-                      userData.name.last}
+                    {userData.name.first + " " + userData.name.last}
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -71,20 +67,6 @@ export default function ProfilePage() {
               <TableRow>
                 <TableCell>
                   Phone:<Typography>{userData.phone}</Typography>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  address:
-                  <Typography>
-                    {userData.address.street +
-                      " " +
-                      userData.address.houseNumber +
-                      ", " +
-                      userData.address.city +
-                      ", " +
-                      userData.address.country}
-                  </Typography>
                 </TableCell>
               </TableRow>
             </TableHead>

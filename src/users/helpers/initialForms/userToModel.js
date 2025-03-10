@@ -1,17 +1,11 @@
 const userToModel = (UserData) => {
   return {
-    first: UserData.name.first,
-    middle: UserData.name.middle,
-    last: UserData.name.last,
+    FirstName: UserData.FirstName,
+    LastName: UserData.LastName,
+    email: UserData.email,
     phone: UserData.phone,
-    url: UserData.image.url,
-    alt: UserData.image.alt,
-    state: UserData.address.state,
-    country: UserData.address.country,
-    city: UserData.address.city,
-    street: UserData.address.street,
-    houseNumber: UserData.address.houseNumber,
-    zip: UserData.address.zip,
+    birthDate: UserData.birthDate,
+    gender: UserData.gender,
   };
 };
 

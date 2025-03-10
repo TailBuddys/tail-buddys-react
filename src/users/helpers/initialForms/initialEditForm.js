@@ -1,16 +1,10 @@
 const initialEditForm = {
-  first: "",
-  middle: "",
-  last: "",
+  FirstName: "",
+  LastName: "",
+  email: "",
   phone: "",
-  url: "",
-  alt: "",
-  state: "",
-  country: "",
-  city: "",
-  street: "",
-  houseNumber: 0,
-  zip: 0,
+  birthDate: "",
+  gender: "",
 };
 
 export default initialEditForm;

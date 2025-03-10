@@ -19,7 +19,7 @@ export default function SignupPage() {
     handleReset,
     validateForm,
     onSubmit,
-    handleChangeCheckBox,
+    handleDateChange,
   } = useForm(initialSignupForm, signupSchema, handleSignup);
 
   const { user } = useUser();
@@ -43,7 +43,7 @@ export default function SignupPage() {
         errors={errors}
         data={data}
         onInputChange={handleChange}
-        handleChangeCheckBox={handleChangeCheckBox}
+        onDateChange={handleDateChange}
       />
     </Container>
   );

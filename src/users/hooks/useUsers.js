@@ -6,7 +6,6 @@ import {
   loginService,
   signUpService,
   updateUser,
-  updateUserBusinessStatus,
 } from "../services/usersApiService";
 import {
   getUser,
@@ -130,22 +129,6 @@ export default function useUsers() {
     setIsLoading(false);
   }, []);
 
-  const handleChangeBusinessStatus = useCallback(
-    async (user) => {
-      try {
-        const usersData = await updateUserBusinessStatus(user._id);
-        snackbarActivation(
-          "success",
-          `Business Status of User ${user.name.first} was changed sucessfully`
-        );
-        return usersData;
-      } catch (err) {
-        setError(err.message);
-      }
-    },
-    [snackbarActivation]
-  );
-
   const handleDeleteUser = useCallback(
     async (user) => {
       setIsLoading(true);
@@ -178,7 +161,6 @@ export default function useUsers() {
     handleUpdateUser,
     setExistingUser,
     handleGetAllUsers,
-    handleChangeBusinessStatus,
     handleDeleteUser,
   };
 }

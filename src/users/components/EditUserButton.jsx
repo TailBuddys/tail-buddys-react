@@ -9,7 +9,7 @@ export default function EditUserButton() {
 
   return (
     <Tooltip
-      title="Edit Account"
+      title="Edit User"
       TransitionComponent={Zoom}
       placement="left"
       arrow

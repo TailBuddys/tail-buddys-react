@@ -1,8 +1,10 @@
-import React from "react";
-import { Grid, FormControlLabel, Checkbox } from "@mui/material";
+import React, { useState } from "react";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function SignupForm({
   onSubmit,
@@ -12,8 +14,14 @@ export default function SignupForm({
   errors,
   data,
   onInputChange,
-  handleChangeCheckBox,
+  onDateChange,
 }) {
+  const [gender, setGender] = useState("");
+
+  const handlePickChange = (event) => {
+    setGender(event.target.value);
+    onInputChange(event);
+  };
   return (
     <Form
       onSubmit={onSubmit}
@@ -24,7 +32,7 @@ export default function SignupForm({
       to={ROUTES.ROOT}
     >
       <Input
-        name="first"
+        name="FirstName"
         label="first name"
         error={errors.first}
         onChange={onInputChange}
@@ -32,16 +40,7 @@ export default function SignupForm({
         sm={6}
       />
       <Input
-        name="middle"
-        label="middle name"
-        error={errors.middle}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-        required={false}
-      />
-      <Input
-        name="last"
+        name="LastName"
         label="last name"
         error={errors.last}
         onChange={onInputChange}
@@ -60,7 +59,6 @@ export default function SignupForm({
       <Input
         name="email"
         label="email"
-        type="email"
         error={errors.email}
         onChange={onInputChange}
         data={data}
@@ -75,83 +73,32 @@ export default function SignupForm({
         data={data}
         sm={6}
       />
-      <Input
-        name="url"
-        label="image url"
-        error={errors.url}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-        required={false}
-      />
-      <Input
-        name="alt"
-        label="image alt"
-        error={errors.alt}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-        required={false}
-      />
-      <Input
-        name="state"
-        label="state"
-        error={errors.state}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-        required={false}
-      />
-      <Input
-        label="country"
-        name="country"
-        error={errors.country}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-      />
-      <Input
-        name="city"
-        label="city"
-        error={errors.city}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-      />
-      <Input
-        name="street"
-        label="street"
-        error={errors.street}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-      />
-      <Input
-        name="houseNumber"
-        label="house Number"
-        type="number"
-        error={errors.houseNumber}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-      />
-      <Input
-        name="zip"
-        label="zip"
-        error={errors.zip}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-        required={false}
-      />
-      <Grid item>
-        <FormControlLabel
-          onChange={handleChangeCheckBox}
-          name="isBusiness"
-          control={<Checkbox value={data.isBusiness} color="primary" />}
-          label="Signup as business"
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          label="birth Date"
+          error={errors.birthDate}
+          onChange={onDateChange}
+          data={data}
+          sm={6}
         />
-      </Grid>
+      </LocalizationProvider>
+
+      <FormControl fullWidth>
+        <InputLabel id="gender">Gender</InputLabel>
+        <Select
+          name="gender"
+          labelId="gender"
+          id="demo-simple-select"
+          value={gender}
+          label="Gender"
+          error={errors.birthDate}
+          onChange={handlePickChange}
+        >
+          <MenuItem value={0}>Male</MenuItem>
+          <MenuItem value={1}>Female</MenuItem>
+          <MenuItem value={2}>Other</MenuItem>
+        </Select>
+      </FormControl>
     </Form>
   );
 }

@@ -37,10 +37,10 @@ export default function useForm(initialForm, schema, handleSubmit) {
     [validateProperty]
   );
 
-  const handleChangeCheckBox = useCallback(
-    (event) => {
-      const name = event.target.name;
-      const value = event.target.checked;
+  const handleDateChange = useCallback(
+    (date) => {
+      const name = "birthDate";
+      const value = date.toDate();
       const errorMessage = validateProperty(name, value);
       if (errorMessage) {
         setErrors((prev) => ({ ...prev, [name]: errorMessage }));
@@ -79,10 +79,10 @@ export default function useForm(initialForm, schema, handleSubmit) {
     data,
     errors,
     handleChange,
+    handleDateChange,
     handleReset,
     validateForm,
     onSubmit,
-    handleChangeCheckBox,
     setData,
   };
 }
