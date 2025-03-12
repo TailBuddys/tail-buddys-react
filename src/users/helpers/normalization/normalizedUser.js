@@ -3,7 +3,9 @@ const normalizeUser = (user) => ({
   LastName: user.LastName,
   phone: user.phone,
   email: user.email,
-  password: user.password,
+  passwordHash: user.password,
+  birthDate: user.birthDate,
+  gender: user.gender,
 });
 
 export default normalizeUser;

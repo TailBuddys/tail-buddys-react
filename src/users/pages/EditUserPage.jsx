@@ -21,6 +21,7 @@ export default function EditUserPage() {
     setData,
     errors,
     handleChange,
+    handleDateChange,
     handleReset,
     validateForm,
     onSubmit,
@@ -32,7 +33,7 @@ export default function EditUserPage() {
   useEffect(() => {
     const user = userRef.current;
     if (user) {
-      handleGetUser(user._id).then((data) => {
+      handleGetUser(user.id).then((data) => {
         const modelUser = userToModel(data);
         setData(modelUser);
       });
@@ -69,6 +70,7 @@ export default function EditUserPage() {
         errors={errors}
         data={data}
         onInputChange={handleChange}
+        onDateChange={handleDateChange}
       />
     </Container>
   );

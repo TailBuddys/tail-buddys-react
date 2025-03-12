@@ -91,7 +91,7 @@ export default function SignupForm({
           id="demo-simple-select"
           value={gender}
           label="Gender"
-          error={errors.birthDate}
+          error={errors.gender}
           onChange={handlePickChange}
         >
           <MenuItem value={0}>Male</MenuItem>

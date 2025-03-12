@@ -29,7 +29,6 @@ export default function AboutPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission (e.g., send data to server)
-    console.log("Form submitted:", formData);
     // Reset form fields
     setFormData({
       name: "",

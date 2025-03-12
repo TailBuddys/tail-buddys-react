@@ -31,10 +31,25 @@ export default function ProfilePage() {
       return navigate(ROUTES.ROOT);
     }
     const getData = async () => {
-      setUserData(await handleGetUser(user._id));
+      setUserData(await handleGetUser(user.id));
     };
     getData();
   }, [handleGetUser, navigate]);
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(date);
+  };
+
+  const formatGender = (gender) => {
+    const genderMap = { 0: "Male", 1: "Female", 2: "Other" };
+    return genderMap[gender] || "Unknown";
+  };
 
   if (error) return <Error errorMessage={error} />;
   if (isLoading) return <Spinner />;
@@ -50,13 +65,13 @@ export default function ProfilePage() {
                 <TableCell>
                   Full Name:
                   <Typography>
-                    {userData.name.first + " " + userData.name.last}
+                    {userData.firstName + " " + userData.lastName}
                   </Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  userID:<Typography>{userData._id}</Typography>
+                  userID:<Typography>{userData.id}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -67,6 +82,18 @@ export default function ProfilePage() {
               <TableRow>
                 <TableCell>
                   Phone:<Typography>{userData.phone}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  Birth Date:
+                  <Typography>{formatDate(userData.birthDate)}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  Gender:
+                  <Typography>{formatGender(userData.gender)}</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>

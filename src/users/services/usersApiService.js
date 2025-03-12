@@ -1,8 +1,7 @@
 import axios from "axios";
-import { getTokenFromLocalStorage } from "./localStorageService";
 
-// const apiUrl = "https://localhost:7200/users";
-const apiUrl = "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users";
+const apiUrl = "https://localhost:7121/user";
+// const apiUrl = "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users";
 
 const loginService = async (userLogin) => {
   const sortedAttempts = localStorage.getItem(
@@ -51,11 +50,7 @@ const signUpService = async (user) => {
 
 const getUserData = async (id) => {
   try {
-    const { data } = await axios.get(`${apiUrl}/${id}`, {
-      headers: {
-        Authorization: getTokenFromLocalStorage(),
-      },
-    });
+    const { data } = await axios.get(`${apiUrl}/${id}`);
     return data;
   } catch (error) {
     throw new Error(error.message);
@@ -64,15 +59,7 @@ const getUserData = async (id) => {
 
 const updateUser = async (id, normalizedExistingUser) => {
   try {
-    const { data } = await axios.put(
-      `${apiUrl}/${id}`,
-      normalizedExistingUser,
-      {
-        headers: {
-          Authorization: getTokenFromLocalStorage(),
-        },
-      }
-    );
+    const { data } = await axios.put(`${apiUrl}/${id}`, normalizedExistingUser);
     return data;
   } catch (error) {
     throw new Error(error.message.data);
@@ -81,41 +68,27 @@ const updateUser = async (id, normalizedExistingUser) => {
 
 const getAllUsers = async () => {
   try {
-    const { data } = await axios.get(apiUrl, {
-      headers: {
-        Authorization: getTokenFromLocalStorage(),
-      },
-    });
+    const { data } = await axios.get(apiUrl);
     return data;
   } catch (error) {
     throw new Error(error.message.data);
   }
 };
 
-const updateUserBusinessStatus = async (id) => {
-  try {
-    const { data } = await axios.patch(
-      `${apiUrl}/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: getTokenFromLocalStorage(),
-        },
-      }
-    );
-    return data;
-  } catch (error) {
-    throw new Error(error.message.data);
-  }
-};
+// const updateUserBusinessStatus = async (id) => { פאטץ' לאדמין?!?
+//   try {
+//     const { data } = await axios.patch(
+//       `${apiUrl}/${id}`
+//     );
+//     return data;
+//   } catch (error) {
+//     throw new Error(error.message.data);
+//   }
+// };
 
 const deleteUser = async (id) => {
   try {
-    const { data } = await axios.delete(`${apiUrl}/${id}`, {
-      headers: {
-        Authorization: getTokenFromLocalStorage(),
-      },
-    });
+    const { data } = await axios.delete(`${apiUrl}/${id}`);
     return data;
   } catch (error) {
     throw new Error(error.message.data);
@@ -128,6 +101,6 @@ export {
   getUserData,
   updateUser,
   getAllUsers,
-  updateUserBusinessStatus,
+  // updateUserBusinessStatus,
   deleteUser,
 };

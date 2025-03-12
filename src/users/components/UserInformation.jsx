@@ -21,13 +21,13 @@ export default function UserInformation({ userData }) {
               <TableCell>
                 Full Name:
                 <Typography>
-                  {userData.name.FirstName + " " + userData.name.LastName}
+                  {userData.firstName + " " + userData.lastName}
                 </Typography>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                userID:<Typography>{userData._id}</Typography>
+                userID:<Typography>{userData.id}</Typography>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -38,6 +38,16 @@ export default function UserInformation({ userData }) {
             <TableRow>
               <TableCell>
                 Phone:<Typography>{userData.phone}</Typography>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                Birth Date:<Typography>{userData.birthDate}</Typography>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                Gender:<Typography>{userData.gender}</Typography>
               </TableCell>
             </TableRow>
           </TableHead>

@@ -1,7 +1,7 @@
 const userToModel = (UserData) => {
   return {
-    FirstName: UserData.FirstName,
-    LastName: UserData.LastName,
+    firstName: UserData.firstName,
+    lastName: UserData.lastName,
     email: UserData.email,
     phone: UserData.phone,
     birthDate: UserData.birthDate,

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function EditForm({
   onSubmit,
@@ -15,10 +17,17 @@ export default function EditForm({
   onInputChange,
   onDateChange,
 }) {
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState(data.gender ?? "");
+
+  useEffect(() => {
+    if (data.gender !== undefined && data.gender !== null) {
+      setGender(data.gender);
+    }
+  }, [data.gender]);
 
   const handleChange = (event) => {
     setGender(event.target.value);
+    onInputChange(event);
   };
   return (
     <Form
@@ -30,7 +39,7 @@ export default function EditForm({
       to={ROUTES.ROOT}
     >
       <Input
-        name="FirstName"
+        name="firstName"
         label="first name"
         error={errors.first}
         onChange={onInputChange}
@@ -38,7 +47,7 @@ export default function EditForm({
         sm={6}
       />
       <Input
-        name="LastName"
+        name="lastName"
         label="last name"
         error={errors.last}
         onChange={onInputChange}
@@ -62,22 +71,25 @@ export default function EditForm({
         data={data}
         sm={6}
       />
-      <DatePicker
-        name="birthDate"
-        label="birth Date"
-        error={errors.birthDate}
-        onChange={onDateChange}
-        data={data}
-        sm={6}
-      />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          name="birthDate"
+          label="birth Date"
+          error={errors.birthDate}
+          onChange={onDateChange}
+          value={data.birthDate ? dayjs(data.birthDate) : null}
+          data={data}
+          sm={6}
+        />
+      </LocalizationProvider>
       <FormControl fullWidth>
         <InputLabel id="gender">Gender</InputLabel>
         <Select
           name="gender"
           labelId="gender"
           id="demo-simple-select"
-          value={gender}
           label="Gender"
+          value={gender}
           error={errors.gender}
           onChange={handleChange}
         >

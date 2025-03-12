@@ -8,11 +8,10 @@ export default function useAxios() {
   const snackbarActivation = useSnackbar();
 
   useEffect(() => {
-    axios.defaults.headers.common["x-auth-token"] = token;
-    // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    // axios.defaults.headers.common["x-auth-token"] = token;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
     const requestInterceptor = axios.interceptors.request.use((data) => {
-      console.log("request out");
       return Promise.resolve(data);
     });
 

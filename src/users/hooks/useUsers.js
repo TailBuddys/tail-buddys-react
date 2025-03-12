@@ -17,6 +17,7 @@ import normalizeUser from "../helpers/normalization/normalizedUser";
 import { useSnackbar } from "../../providers/SnackbarProvider";
 import { useNavigate } from "react-router-dom";
 import normalizedExistingUser from "../helpers/normalization/normalizedExistingUser";
+import useAxios from "../../hooks/useAxios";
 
 export default function useUsers() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +26,8 @@ export default function useUsers() {
   const { setUser, setToken } = useUser();
   const { snackbarActivation } = useSnackbar();
   const [existingUser, setExistingUser] = useState([]);
+
+  useAxios();
 
   const handleLogin = useCallback(
     async (userLogin, isSigned = false) => {
@@ -45,7 +48,6 @@ export default function useUsers() {
         return;
       } catch (error) {
         setError(error.message);
-        console.log(error);
         snackbarActivation("error", error.message, "filled");
         setIsLoading(false);
       }
@@ -100,7 +102,7 @@ export default function useUsers() {
 
       try {
         const normalizedUser = await updateUser(
-          user._id,
+          user.id,
           normalizedExistingUser(userFromClient)
         );
         setExistingUser(normalizedUser);
@@ -134,7 +136,7 @@ export default function useUsers() {
       setIsLoading(true);
 
       try {
-        const data = await updateUser(user._id);
+        const data = await updateUser(user.id);
         snackbarActivation(
           "success",
           `You deleted user:${user.name.first} successfully`

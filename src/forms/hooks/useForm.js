@@ -40,7 +40,7 @@ export default function useForm(initialForm, schema, handleSubmit) {
   const handleDateChange = useCallback(
     (date) => {
       const name = "birthDate";
-      const value = date.toDate();
+      const value = date.toISOString().split(".")[0];
       const errorMessage = validateProperty(name, value);
       if (errorMessage) {
         setErrors((prev) => ({ ...prev, [name]: errorMessage }));

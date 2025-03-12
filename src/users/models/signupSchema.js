@@ -23,7 +23,7 @@ const signupSchema = {
     "date.base": 'user "birthDate" must be a valid date',
   }),
   gender: Joi.string()
-    .valid("Male", "Female", "Other")
+    .valid(0, 1, 2)
     .messages({
       "any.only": 'user "gender" must be one of: Male, Female, Other',
     })

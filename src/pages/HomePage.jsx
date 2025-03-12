@@ -115,7 +115,7 @@ const HomePage = () => {
                       sx={{ display: "flex", justifyContent: "center" }}
                     >
                       <CardComponent
-                        key={item._id}
+                        key={item.id}
                         card={item}
                         handleCardDelete={handleCardDelete}
                         handleCardLike={handleCardLike}
@@ -224,7 +224,7 @@ const HomePage = () => {
                     sx={{ display: "flex", justifyContent: "center" }}
                   >
                     <CardComponent
-                      key={item._id}
+                      key={item.id}
                       card={item}
                       handleCardDelete={handleCardDelete}
                       handleCardLike={handleCardLike}

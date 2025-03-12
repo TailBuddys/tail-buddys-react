@@ -39,7 +39,6 @@ export default App;
 //     axios
 //       .get("https://localhost:7121/Park")
 //       .then((response) => {
-//         console.log("API Response:", response.data); // Debugging
 //         setParks(response.data); // Set the array of parks
 //       })
 //       .catch((error) => {
