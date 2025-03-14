@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import {
+  getDogFromLocalStorage,
   getTokenFromLocalStorage,
   getUser,
 } from "../services/localStorageService";
@@ -15,16 +16,18 @@ const UserContext = createContext();
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(getTokenFromLocalStorage());
+  const [loginDog, setLoginDog] = useState(getDogFromLocalStorage());
   const value = useMemo(
-    () => ({ user, token, setUser, setToken }),
-    [user, token]
+    () => ({ user, token, loginDog, setUser, setToken, setLoginDog }),
+    [user, token, loginDog]
   );
 
   useEffect(() => {
     if (!user) {
       setUser(getUser());
+      setLoginDog(getDogFromLocalStorage()); //?!?!?!?
     }
-  }, [user]);
+  }, [user, loginDog]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

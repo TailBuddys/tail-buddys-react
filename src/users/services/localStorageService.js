@@ -1,14 +1,18 @@
 import { jwtDecode } from "jwt-decode";
 
 const TOKEN = "my token";
-
 const setTokenInLocalStorage = (token) => {
   localStorage.setItem(TOKEN, token);
 };
-
 const removeTokenFromLocalStorage = () => localStorage.removeItem(TOKEN);
-
 const getTokenFromLocalStorage = () => localStorage.getItem(TOKEN);
+
+const LAST_DOG = "my dog";
+const setLastDogInLocalStorage = (lastDog) => {
+  localStorage.setItem(LAST_DOG, lastDog);
+};
+const removeDogFromLocalStorage = () => localStorage.removeItem(LAST_DOG);
+const getDogFromLocalStorage = () => localStorage.getItem(LAST_DOG);
 
 const getUser = () => {
   try {
@@ -24,4 +28,7 @@ export {
   removeTokenFromLocalStorage,
   getTokenFromLocalStorage,
   getUser,
+  setLastDogInLocalStorage,
+  removeDogFromLocalStorage,
+  getDogFromLocalStorage,
 };
