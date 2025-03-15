@@ -8,7 +8,7 @@ const buildQueryParams = (filters) => {
   Object.entries(filters).forEach(([key, value]) => {
     if (value !== null && value !== undefined) {
       if (Array.isArray(value)) {
-        value.forEach((v) => params.append(key, v)); // Append multiple values
+        value.forEach((v) => params.append(key, v));
       } else {
         params.append(key, value);
       }
@@ -18,7 +18,7 @@ const buildQueryParams = (filters) => {
   return params.toString();
 };
 
-const createDogService = async (dog) => {
+const createDog = async (dog) => {
   try {
     const { response } = await axios.post(apiUrl, dog);
     return response;
@@ -75,9 +75,9 @@ const updateDog = async (id, normalizedExistingDog) => {
   }
 };
 
-const deleteDog = async (id) => {
+const deleteDog = async (dogId) => {
   try {
-    const { data } = await axios.delete(`${apiUrl}/${id}`);
+    const { data } = await axios.delete(`${apiUrl}/${dogId}`);
     return data;
   } catch (error) {
     throw new Error(error.message.data);
@@ -85,7 +85,7 @@ const deleteDog = async (id) => {
 };
 
 export {
-  createDogService,
+  createDog,
   getUserDogs,
   getDogById,
   getAllDogs,

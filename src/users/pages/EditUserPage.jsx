@@ -7,7 +7,7 @@ import EditForm from "../components/EditForm";
 import initialEditForm from "../helpers/initialForms/initialEditForm";
 import userToModel from "../helpers/initialForms/userToModel";
 import ROUTES from "../../routes/routesModel";
-import { getUser } from "../services/localStorageService";
+import { getUser } from "../../services/localStorageService";
 import { useAlert } from "../../providers/AlertProvider";
 import { useNavigate } from "react-router-dom";
 

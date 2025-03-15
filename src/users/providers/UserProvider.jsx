@@ -9,7 +9,7 @@ import {
   getDogFromLocalStorage,
   getTokenFromLocalStorage,
   getUser,
-} from "../services/localStorageService";
+} from "../../services/localStorageService";
 
 const UserContext = createContext();
 

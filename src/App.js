@@ -6,19 +6,22 @@ import AlertProvider from "./providers/AlertProvider";
 import Layout from "./layout/Layout";
 import Router from "./routes/Router";
 import CustomThemeProvider from "./providers/CustomThemeProvider";
+import DogProvider from "./dogs/providers/DogProvider";
 
 function App() {
   return (
     <BrowserRouter>
       <UserProvider>
         <SnackbarProvider>
-          <AlertProvider>
-            <CustomThemeProvider>
-              <Layout>
-                <Router />
-              </Layout>
-            </CustomThemeProvider>
-          </AlertProvider>
+          <DogProvider>
+            <AlertProvider>
+              <CustomThemeProvider>
+                <Layout>
+                  <Router />
+                </Layout>
+              </CustomThemeProvider>
+            </AlertProvider>
+          </DogProvider>
         </SnackbarProvider>
       </UserProvider>
     </BrowserRouter>

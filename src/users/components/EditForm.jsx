@@ -25,7 +25,7 @@ export default function EditForm({
     }
   }, [data.gender]);
 
-  const handleChange = (event) => {
+  const handlePickChange = (event) => {
     setGender(event.target.value);
     onInputChange(event);
   };
@@ -82,6 +82,7 @@ export default function EditForm({
           sm={6}
         />
       </LocalizationProvider>
+
       <FormControl fullWidth>
         <InputLabel id="gender">Gender</InputLabel>
         <Select
@@ -91,7 +92,7 @@ export default function EditForm({
           label="Gender"
           value={gender}
           error={errors.gender}
-          onChange={handleChange}
+          onChange={handlePickChange}
         >
           <MenuItem value={0}>Male</MenuItem>
           <MenuItem value={1}>Female</MenuItem>

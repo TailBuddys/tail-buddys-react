@@ -11,7 +11,7 @@ import {
   getUser,
   removeTokenFromLocalStorage,
   setTokenInLocalStorage,
-} from "../services/localStorageService";
+} from "../../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import normalizeUser from "../helpers/normalization/normalizedUser";
 import { useSnackbar } from "../../providers/SnackbarProvider";

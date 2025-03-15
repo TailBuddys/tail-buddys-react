@@ -5,6 +5,7 @@ import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function SignupForm({
   onSubmit,
@@ -16,10 +17,10 @@ export default function SignupForm({
   onInputChange,
   onDateChange,
 }) {
-  const [gender, setGender] = useState("");
+  // const [gender, setGender] = useState("");
 
   const handlePickChange = (event) => {
-    setGender(event.target.value);
+    // setGender(event.target.value);
     onInputChange(event);
   };
   return (
@@ -75,9 +76,11 @@ export default function SignupForm({
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
+          name="birthDate"
           label="birth Date"
           error={errors.birthDate}
           onChange={onDateChange}
+          value={data.birthDate ? dayjs(data.birthDate) : null}
           data={data}
           sm={6}
         />
@@ -89,7 +92,7 @@ export default function SignupForm({
           name="gender"
           labelId="gender"
           id="demo-simple-select"
-          value={gender}
+          value={data.gender || ""}
           label="Gender"
           error={errors.gender}
           onChange={handlePickChange}

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import Error from "../../components/Error";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../services/localStorageService";
+import { getUser } from "../../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import { useState } from "react";
 import { useEffect } from "react";
