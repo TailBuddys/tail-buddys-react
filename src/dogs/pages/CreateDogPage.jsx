@@ -2,7 +2,7 @@ import React from "react";
 import useForm from "../../forms/hooks/useForm";
 import signupSchema from "../models/signupSchema";
 import initialSignupForm from "../helpers/initialForms/initialSignupForm";
-import SignupForm from "../components/SignUpForm";
+import SignupForm from "../components/CreateDogForm";
 import Container from "@mui/material/Container";
 import { useUser } from "../providers/UserProvider";
 import { Navigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import ROUTES from "../../routes/routesModel";
 import useUsers from "../hooks/useUsers";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 
-export default function SignupPage() {
+export default function CreateDogPage() {
   const { handleSignup } = useUsers();
 
   const {

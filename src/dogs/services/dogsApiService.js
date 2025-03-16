@@ -20,8 +20,8 @@ const buildQueryParams = (filters) => {
 
 const createDog = async (dog) => {
   try {
-    const { response } = await axios.post(apiUrl, dog);
-    return response;
+    const { data } = await axios.post(apiUrl, dog);
+    return data;
   } catch (error) {
     throw new Error(error.response.data);
   }

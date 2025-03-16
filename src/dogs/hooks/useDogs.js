@@ -36,7 +36,7 @@ export default function useDogs() {
         const normalizedDog = normalizeDog(dogFromClient);
         const createdDog = await createDog(normalizedDog);
         await setLastDogInLocalStorage(createdDog.id);
-        setLoginDog();
+        setLoginDog(createdDog.id);
         setToken(createdDog.refreshToken);
       } catch (error) {
         setError(error.message);
@@ -127,7 +127,7 @@ export default function useDogs() {
       setToken(deletedDog.refreshToken);
       const currentUserDogs = await getUserDogs();
       if (currentUserDogs !== null && currentUserDogs.length > 0) {
-        setLoginDog(currentUserDogs[0]);
+        setLoginDog(currentUserDogs[0].id);
       } else {
         removeDogFromLocalStorage();
       }

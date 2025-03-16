@@ -12,10 +12,19 @@ export default function DogProvider({ children }) {
   const value = useMemo(() => ({ dog, setDog }), [dog]);
 
   useEffect(() => {
-    if (!dog) {
-      setDog(handleGetDogById());
+    if (loginDog) {
+      const fetchDog = async () => {
+        try {
+          const fetchedDog = await handleGetDogById();
+          setDog(fetchedDog);
+        } catch (error) {
+          console.error("Failed to fetch dog:", error);
+        }
+      };
+
+      fetchDog();
     }
-  }, [dog, loginDog, handleGetDogById]);
+  }, [loginDog, handleGetDogById]);
 
   return <DogContext.Provider value={value}>{children}</DogContext.Provider>;
 }

@@ -1,13 +1,13 @@
 const normalizeDog = (dog) => ({
   name: dog.name,
-  description: "",
-  type: null,
-  size: null,
-  geneder: null,
-  birthdate: null,
-  address: null,
+  description: "lala",
+  type: 0,
+  size: 0,
+  geneder: true,
+  birthdate: "2020-01-01",
+  address: "lala",
   lon: 0,
   lat: 0,
-  vaccinated: null,
+  vaccinated: true,
 });
 export default normalizeDog;

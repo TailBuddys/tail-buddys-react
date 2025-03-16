@@ -17,6 +17,7 @@ export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(getTokenFromLocalStorage());
   const [loginDog, setLoginDog] = useState(getDogFromLocalStorage());
+
   const value = useMemo(
     () => ({ user, token, loginDog, setUser, setToken, setLoginDog }),
     [user, token, loginDog]

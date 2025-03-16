@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
@@ -17,10 +17,7 @@ export default function SignupForm({
   onInputChange,
   onDateChange,
 }) {
-  // const [gender, setGender] = useState("");
-
   const handlePickChange = (event) => {
-    // setGender(event.target.value);
     onInputChange(event);
   };
   return (

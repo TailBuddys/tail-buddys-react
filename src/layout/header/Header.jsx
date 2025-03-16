@@ -4,6 +4,7 @@ import React from "react";
 
 export default function Header() {
   // return <NavBar />;
+
   return (
     <Paper
       elevation={3}

@@ -1,36 +1,10 @@
 import Joi from "joi";
 
-const signupSchema = {
-  FirstName: Joi.string().min(2).max(20).required(),
-  LastName: Joi.string().min(2).max(20).required(),
-  email: Joi.string()
-    .regex(/^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/)
-    .message('user "mail" must be a valid mail')
-    .required(),
-  phone: Joi.string()
-    .regex(/0[0-9]{1,2}-?\s?[0-9]{3}\s?[0-9]{4}/)
-    .message('user "phone" must be a valid phone number')
-    .required(),
-  password: Joi.string()
-    .regex(
-      /((?=.*\d{1})(?=.*[A-Z]{1})(?=.*[a-z]{1})(?=.*[!@#$%^&*-]{1}).{8,20})/
-    )
-    .message(
-      "The password must be at least eight characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&*-"
-    )
-    .required(),
-  birthDate: Joi.date().required().messages({
-    "date.base": 'user "birthDate" must be a valid date',
-  }),
-  gender: Joi.string()
-    .valid(0, 1, 2)
-    .messages({
-      "any.only": 'user "gender" must be one of: Male, Female, Other',
-    })
-    .required(),
+const createDogSchema = {
+  name: Joi.string().min(2).max(20).required(),
 };
 
-export default signupSchema;
+export default createDogSchema;
 
 // const signupSchema = {
 //   first: Joi.string().min(2).max(256).required(),
