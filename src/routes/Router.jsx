@@ -8,6 +8,7 @@ import SignupPage from "../users/pages/SignUpPage";
 import LogInPage from "../users/pages/LogInPage";
 import EditUserPage from "../users/pages/EditUserPage";
 import ProfilePage from "../users/pages/ProfilePage";
+import CreateDogPage from "../dogs/pages/CreateDogPage";
 
 export default function Router() {
   return (
@@ -15,6 +16,7 @@ export default function Router() {
       <Route path={ROUTES.ROOT} element={<HomePage />} />
       {/* <Route path={ROUTES.ABOUT} element={<AboutPage />} /> */}
       <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
+      <Route path={ROUTES.CREATE_Dog} element={<CreateDogPage />} />
       <Route path={ROUTES.EDIT_USER} element={<EditUserPage />} />
       <Route path={ROUTES.LOGIN} element={<LogInPage />} />
       <Route path={ROUTES.USER_PROFILE} element={<ProfilePage />} />

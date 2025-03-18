@@ -37,6 +37,10 @@ export default function useUsers() {
         setTokenInLocalStorage(token);
         setToken(token);
         setUser(getUser());
+        // למצוא אם יש כלב בטוקן
+        // לראות אם יש מחובר אחרון בזיכרון
+        // להכניס למחובר האחרון את מזהה יוזר
+        // אם לא, לחבר כלב אחר מהטוקן ואם אין כלבים פארקים
         navigate(ROUTES.ROOT);
         isSigned
           ? snackbarActivation(

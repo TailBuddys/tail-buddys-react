@@ -1,33 +1,29 @@
-import React from "react";
-import useForm from "../../forms/hooks/useForm";
-import signupSchema from "../models/signupSchema";
-import initialSignupForm from "../helpers/initialForms/initialSignupForm";
-import SignupForm from "../components/CreateDogForm";
+import React, { useEffect } from "react";
 import Container from "@mui/material/Container";
-import { useUser } from "../providers/UserProvider";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
-import useUsers from "../hooks/useUsers";
-import GoogleLoginButton from "../components/GoogleLoginButton";
+import CreateDogForm from "../components/CreateDogForm";
+import useDogs from "../hooks/useDogs";
+import useForm from "../../forms/hooks/useForm";
+import initialCreateDogForm from "../helpers/initialForms/initialCreateDogForm";
+import createDogSchema from "../models/createDogSchema";
+import { getUser } from "../../services/localStorageService";
 
 export default function CreateDogPage() {
-  const { handleSignup } = useUsers();
+  const { handleCreateDog } = useDogs();
+  const navigate = useNavigate();
 
-  const {
-    data,
-    errors,
-    handleChange,
-    handleReset,
-    validateForm,
-    onSubmit,
-    handleDateChange,
-  } = useForm(initialSignupForm, signupSchema, handleSignup);
+  const { data, errors, handleChange, handleReset, validateForm, onSubmit } =
+    useForm(initialCreateDogForm, createDogSchema, handleCreateDog);
 
-  const { user } = useUser();
+  useEffect(() => {
+    const user = getUser();
+    if (!user) {
+      return navigate(ROUTES.ROOT);
+    }
+  }, [navigate]);
 
-  return user ? (
-    <Navigate to={ROUTES.ROOT} replace />
-  ) : (
+  return (
     <Container
       sx={{
         paddingTop: 8,
@@ -36,7 +32,7 @@ export default function CreateDogPage() {
         alignItems: "center",
       }}
     >
-      <SignupForm
+      <CreateDogForm
         onSubmit={onSubmit}
         onReset={handleReset}
         validateForm={validateForm}
@@ -44,9 +40,7 @@ export default function CreateDogPage() {
         errors={errors}
         data={data}
         onInputChange={handleChange}
-        onDateChange={handleDateChange}
       />
-      <GoogleLoginButton to={ROUTES.ROOT} />
     </Container>
   );
 }

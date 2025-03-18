@@ -1,20 +1,11 @@
-import { Box, Button, Container } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/routesModel";
 import PageHeader from "../components/PageHeader";
-import useDogs from "../dogs/hooks/useDogs";
-import initialCreateDogForm from "../dogs/helpers/initialForms/initialCreateDogForm";
-import createDogSchema from "../dogs/models/createDogSchema";
-import useForm from "../forms/hooks/useForm";
-import CreateDogForm from "../dogs/components/CreateDogForm";
+import GoogleAddressComponent from "../components/GoogleAddressComponent";
 
 const HomePage = () => {
   const navigate = useNavigate();
-
-  const { handleCreateDog } = useDogs();
-
-  const { data, errors, handleChange, handleReset, validateForm, onSubmit } =
-    useForm(initialCreateDogForm, createDogSchema, handleCreateDog);
 
   return (
     <>
@@ -33,14 +24,9 @@ const HomePage = () => {
                 alignItems: "center",
               }}
             >
-              <CreateDogForm
-                onSubmit={onSubmit}
-                onReset={handleReset}
-                validateForm={validateForm}
-                title={"register form"}
-                errors={errors}
-                data={data}
-                onInputChange={handleChange}
+              <Typography>navigated</Typography>
+              <GoogleAddressComponent
+                onSelect={(location) => console.log(location)}
               />
             </Container>
           </Box>
