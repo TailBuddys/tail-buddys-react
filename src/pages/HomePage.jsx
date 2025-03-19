@@ -2,11 +2,12 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/routesModel";
 import PageHeader from "../components/PageHeader";
-import GoogleAddressComponent from "../components/GoogleAddressComponent";
+// import useWebSocket from "../ws/useWebSocket";
+import MatchCompponent from "../matches/components/MatchCompponent";
 
 const HomePage = () => {
   const navigate = useNavigate();
-
+  // const connection = useWebSocket();
   return (
     <>
       <PageHeader
@@ -25,9 +26,10 @@ const HomePage = () => {
               }}
             >
               <Typography>navigated</Typography>
-              <GoogleAddressComponent
+              <MatchCompponent />
+              {/* <GoogleAddressComponent
                 onSelect={(location) => console.log(location)}
-              />
+              /> */}
             </Container>
           </Box>
           <Button
