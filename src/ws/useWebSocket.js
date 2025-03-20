@@ -1,136 +1,63 @@
 import { useEffect, useState } from "react";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { useUser } from "../users/providers/UserProvider";
-import {
-  //   getTokenFromLocalStorage,
-  getUser,
-} from "../services/localStorageService";
+import * as signalR from "@microsoft/signalr";
 
-const API_URL = "https://localhost:7121"; // Replace with your backend URL
-
-const useWebSocket = () => {
+const useWebSocket = (dogId) => {
   const [connection, setConnection] = useState(null);
-  const { token } = useUser();
+  const [notifications, setNotifications] = useState([]);
+
   useEffect(() => {
-    const user = getUser();
+    if (!dogId) return;
 
-    if (!user || !user.DogId || user.DogId.length === 0) {
-      console.error("No dogs found in token.");
-      return;
-    }
-
-    // Build the SignalR connection
-    const connectionBuilder = new HubConnectionBuilder()
-      .withUrl(`${API_URL}/NotificationHub`, {
+    const hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl("https://localhost:7121/NotificationHub", {
         // accessTokenFactory: () => getTokenFromLocalStorage(),
-        accessTokenFactory: () => token,
-      })
-      .configureLogging(LogLevel.Information)
+        accessTokenFactory: () =>
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJJc0FkbWluIjoiRmFsc2UiLCJEb2dJZCI6IjEiLCJleHAiOjE3NzQwMjcyNzEsImlzcyI6IlRhaWxCdWRkeXNTZXJ2ZXIiLCJhdWQiOiJUYWlsQnVkZHlzQXBwIn0.TBnYUDH3JH5MolgHOJ24hlFzjjZV60uzJAIseXWFtTk",
+      }) // Update with your backend URL
       .withAutomaticReconnect()
       .build();
 
-    connectionBuilder
-      .start()
-      .then(() => {
-        const dogIds = Array.isArray(user.DogId) ? user.DogId : [user.DogId];
-        dogIds.forEach((dogId) => {
-          console.log("haraBatahat");
-          connectionBuilder
-            .invoke("JoinDogGroup", dogId)
-            .catch((err) =>
-              console.error(`Failed to join group for dog ${dogId}:`, err)
-            );
-        });
-        // Join groups for all dogs
-        // user.DogId.forEach((DogId) => {
-        //   console.log("haraBatahat");
-        //   connectionBuilder
-        //     .invoke("JoinDogGroup", DogId)
-        //     .catch((err) =>
-        //       console.error(`Failed to join group for dog ${DogId}:`, err)
-        //     );
-        // });
-        console.log("SignalR Connected for dogs:", user.DogId);
-      })
-      .catch((err) => console.error("SignalR connection failed:", err));
+    setConnection(hubConnection);
 
-    // Set the connection
-    setConnection(connectionBuilder);
+    const startConnection = async () => {
+      try {
+        await hubConnection.start();
+        console.log("Connected to SignalR Hub");
+
+        // Call the JoinDogGroup function in the hub
+        hubConnection
+          .invoke("JoinDogGroup", dogId)
+          .then(() => console.log(`JoinDogGroup invoked with dogId: ${dogId}`))
+          .catch((err) => console.error("JoinDogGroup error:", err));
+
+        // Listen for incoming match notifications
+        hubConnection.on("ReceiveNewMatch", (matchId) => {
+          console.log("New Match Notification:", matchId);
+          setNotifications((prev) => [...prev, matchId]);
+        });
+
+        // Listen for errors from the server
+        hubConnection.on("Error", (message) => {
+          console.error("Server Error:", message);
+        });
+      } catch (error) {
+        console.error("SignalR Connection Error:", error);
+      }
+    };
+
+    startConnection();
 
     return () => {
-      connectionBuilder
-        .stop()
-        .then(() => console.log("SignalR connection closed"));
+      if (hubConnection) {
+        hubConnection.stop();
+        console.log("Disconnected from SignalR Hub");
+      }
     };
-  }, [token]);
+  }, [dogId]);
 
-  return connection;
+  return { notifications, connection };
 };
 
 export default useWebSocket;
 
-// import * as signalR from "@microsoft/signalr";
-// import { useEffect, useState } from "react";
-
-// const useWebSocket = (dogId, currentChatId, isMatchesTabOpen) => {
-//   const [notifications, setNotifications] = useState({
-//     totalUnreadMessages: 0,
-//     chatUnread: {},
-//     matchUnread: 0,
-//   });
-
-//   useEffect(() => {
-//     const connection = new signalR.HubConnectionBuilder()
-//       .withUrl("http://localhost:7121/notificationHub")
-//       .withAutomaticReconnect()
-//       .build();
-
-//     connection.start().then(() => {
-//       connection.invoke("JoinDogGroup", dogId);
-//     });
-
-//     connection.on("ReceiveMessage", (message) => {
-//       console.log("New message received:", message);
-//     });
-
-//     connection.on("ReceiveNewMatch", () => {
-//       console.log("New match received, refreshing matches list...");
-//     });
-
-//     connection.on("NotificationRead", (chatId) => {
-//       setNotifications((prev) => {
-//         const newChatUnread = { ...prev.chatUnread };
-//         delete newChatUnread[chatId];
-
-//         return {
-//           ...prev,
-//           chatUnread: newChatUnread,
-//           totalUnreadMessages: Object.values(newChatUnread).reduce(
-//             (sum, count) => sum + count,
-//             0
-//           ),
-//         };
-//       });
-//     });
-
-//     connection.on("MatchesNotificationRead", () => {
-//       setNotifications((prev) => ({ ...prev, matchUnread: 0 }));
-//     });
-
-//     if (currentChatId) {
-//       connection.invoke("MarkChatAsRead", dogId, currentChatId);
-//     }
-
-//     if (isMatchesTabOpen) {
-//       connection.invoke("MarkMatchesAsRead", dogId);
-//     }
-
-//     return () => {
-//       connection.stop();
-//     };
-//   }, [dogId, currentChatId, isMatchesTabOpen]);
-
-//   return notifications;
-// };
-
-// export default useWebSocket;
+//--------------------------------------------------------------------------------------------------------------------------------//

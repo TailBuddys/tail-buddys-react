@@ -2,11 +2,11 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/routesModel";
 import PageHeader from "../components/PageHeader";
-// import useWebSocket from "../ws/useWebSocket";
-import MatchCompponent from "../matches/components/MatchCompponent";
+import useWebSocket from "../ws/useWebSocket";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { notifications } = useWebSocket(1);
   // const connection = useWebSocket();
   return (
     <>
@@ -26,7 +26,14 @@ const HomePage = () => {
               }}
             >
               <Typography>navigated</Typography>
-              <MatchCompponent />
+              <div>
+                <h2>Dog Matches</h2>
+                <ul>
+                  {notifications.map((match, index) => (
+                    <li key={index}>Match ID: {match}</li>
+                  ))}
+                </ul>
+              </div>
               {/* <GoogleAddressComponent
                 onSelect={(location) => console.log(location)}
               /> */}
