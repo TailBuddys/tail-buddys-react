@@ -16,6 +16,7 @@ import {
 import {
   removeDogFromLocalStorage,
   setLastDogInLocalStorage,
+  setTokenInLocalStorage,
 } from "../../services/localStorageService";
 import normalizedExistingDog from "../helpers/normalization/normalizedExistingDog";
 import { useUser } from "../../users/providers/UserProvider";
@@ -37,6 +38,7 @@ export default function useDogs() {
         const createdDog = await createDog(normalizedDog);
         await setLastDogInLocalStorage(createdDog.id);
         setLoginDog(createdDog.id);
+        await setTokenInLocalStorage(createdDog.refreshToken);
         setToken(createdDog.refreshToken);
       } catch (error) {
         setError(error.message);

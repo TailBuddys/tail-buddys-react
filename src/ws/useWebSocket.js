@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import * as signalR from "@microsoft/signalr";
+import { getTokenFromLocalStorage } from "../services/localStorageService";
 
 const useWebSocket = (dogId) => {
   const [connection, setConnection] = useState(null);
@@ -11,8 +12,7 @@ const useWebSocket = (dogId) => {
     const hubConnection = new signalR.HubConnectionBuilder()
       .withUrl("https://localhost:7121/NotificationHub", {
         // accessTokenFactory: () => getTokenFromLocalStorage(),
-        accessTokenFactory: () =>
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJJc0FkbWluIjoiRmFsc2UiLCJEb2dJZCI6IjEiLCJleHAiOjE3NzQwMjcyNzEsImlzcyI6IlRhaWxCdWRkeXNTZXJ2ZXIiLCJhdWQiOiJUYWlsQnVkZHlzQXBwIn0.TBnYUDH3JH5MolgHOJ24hlFzjjZV60uzJAIseXWFtTk",
+        accessTokenFactory: () => `Bearer ${getTokenFromLocalStorage()}`,
       }) // Update with your backend URL
       .withAutomaticReconnect()
       .build();
@@ -26,7 +26,7 @@ const useWebSocket = (dogId) => {
 
         // Call the JoinDogGroup function in the hub
         hubConnection
-          .invoke("JoinDogGroup", dogId)
+          .invoke("JoinDogGroup", parseInt(dogId))
           .then(() => console.log(`JoinDogGroup invoked with dogId: ${dogId}`))
           .catch((err) => console.error("JoinDogGroup error:", err));
 

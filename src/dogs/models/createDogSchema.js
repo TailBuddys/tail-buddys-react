@@ -2,6 +2,9 @@ import Joi from "joi";
 
 const createDogSchema = {
   name: Joi.string().min(2).max(20).required(),
+  address: Joi.string().min(5).max(100).required(),
+  lon: Joi.number().min(-180).max(180).required(),
+  lat: Joi.number().min(-90).max(90).required(),
 };
 
 export default createDogSchema;

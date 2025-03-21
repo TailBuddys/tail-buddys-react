@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const editSchema = {
+const userEditSchema = {
   firstName: Joi.string().min(2).max(20).required(),
   lastName: Joi.string().min(2).max(20).required(),
   email: Joi.string()
@@ -22,4 +22,4 @@ const editSchema = {
     .required(),
 };
 
-export default editSchema;
+export default userEditSchema;

@@ -5,9 +5,9 @@ const normalizeDog = (dog) => ({
   size: null,
   geneder: null,
   birthdate: null,
-  address: null,
-  lon: 0,
-  lat: 0,
+  address: dog.address,
+  lon: dog.lon,
+  lat: dog.lat,
   vaccinated: null,
 });
 export default normalizeDog;

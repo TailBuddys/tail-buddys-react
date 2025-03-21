@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import PageHeader from "../../components/PageHeader";
 import EditUserButton from "../components/EditUserButton";
 
-export default function ProfilePage() {
+export default function UserProfilePage() {
   const { handleGetUser, error, isLoading } = useUsers();
   const navigate = useNavigate();
   const [userData, setUserData] = useState();

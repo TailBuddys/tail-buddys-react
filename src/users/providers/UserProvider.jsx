@@ -28,7 +28,7 @@ export default function UserProvider({ children }) {
       setUser(getUser());
       setLoginDog(getDogFromLocalStorage()); //?!?!?!?
     }
-  }, [user, loginDog]);
+  }, [user, loginDog, token]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

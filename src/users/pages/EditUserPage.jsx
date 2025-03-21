@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from "react";
 import useForm from "../../forms/hooks/useForm";
 import Container from "@mui/material/Container";
 import useUsers from "../hooks/useUsers";
-import editSchema from "../models/editSchema";
-import EditForm from "../components/EditForm";
-import initialEditForm from "../helpers/initialForms/initialEditForm";
+import userEditSchema from "../models/userEditSchema";
+import EditUserForm from "../components/EditUserForm";
+import initialUserEditForm from "../helpers/initialForms/initialUserEditForm";
 import userToModel from "../helpers/initialForms/userToModel";
 import ROUTES from "../../routes/routesModel";
 import { getUser } from "../../services/localStorageService";
@@ -25,7 +25,7 @@ export default function EditUserPage() {
     handleReset,
     validateForm,
     onSubmit,
-  } = useForm(initialEditForm, editSchema, (newUser) => {
+  } = useForm(initialUserEditForm, userEditSchema, (newUser) => {
     handleUpdateUser(userRef.current, newUser);
   });
   const { alertActivation } = useAlert();
@@ -55,7 +55,7 @@ export default function EditUserPage() {
         alignItems: "center",
       }}
     >
-      <EditForm
+      <EditUserForm
         onSubmit={() => {
           alertActivation(
             "info",

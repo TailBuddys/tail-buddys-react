@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/routesModel";
 import PageHeader from "../components/PageHeader";
 import useWebSocket from "../ws/useWebSocket";
+import { getDogFromLocalStorage } from "../services/localStorageService";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { notifications } = useWebSocket(1);
+  const { notifications } = useWebSocket(getDogFromLocalStorage());
   // const connection = useWebSocket();
   return (
     <>

@@ -2,7 +2,7 @@ import React from "react";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
-// import GoogleAddressComponent from "../../components/GoogleAddressComponent";
+import GoogleAddressComponent from "../../components/GoogleAddressComponent";
 
 export default function CreateDogForm({
   onSubmit,
@@ -13,6 +13,12 @@ export default function CreateDogForm({
   data,
   onInputChange,
 }) {
+  const handleSelectAddress = (address, placeId) => {
+    data.address = address;
+    data.lon = placeId.lng;
+    data.lat = placeId.lat;
+  };
+
   return (
     <Form
       onSubmit={onSubmit}
@@ -30,7 +36,7 @@ export default function CreateDogForm({
         data={data}
         sm={6}
       />
-      {/* <GoogleAddressComponent onSelect={(location) => console.log(location)} /> */}
+      <GoogleAddressComponent onSelectAddress={handleSelectAddress} />
     </Form>
   );
 }

@@ -1,4 +1,4 @@
-const initialEditForm = {
+const initialUserEditForm = {
   FirstName: "",
   LastName: "",
   email: "",
@@ -7,4 +7,4 @@ const initialEditForm = {
   gender: "",
 };
 
-export default initialEditForm;
+export default initialUserEditForm;

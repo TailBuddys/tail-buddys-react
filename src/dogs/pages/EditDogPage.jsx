@@ -3,7 +3,7 @@ import useForm from "../../forms/hooks/useForm";
 import Container from "@mui/material/Container";
 import useUsers from "../hooks/useUsers";
 import editSchema from "../models/editSchema";
-import EditForm from "../components/EditForm";
+import EditForm from "../components/EditDogForm";
 import initialEditForm from "../helpers/initialForms/initialEditForm";
 import userToModel from "../helpers/initialForms/userToModel";
 import ROUTES from "../../routes/routesModel";

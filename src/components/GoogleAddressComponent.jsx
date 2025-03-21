@@ -1,120 +1,48 @@
-// import React, { useState } from "react";
-// import { TextField, List, ListItem, ListItemButton } from "@mui/material";
-// import usePlacesAutocomplete, {
-//   getGeocode,
-//   getLatLng,
-// } from "use-places-autocomplete";
+import React, { useEffect, useRef } from "react";
 
-// export default function GoogleAddressComponent({ onSelect }) {
-//   const [inputValue, setInputValue] = useState("");
-//   const {
-//     suggestions: { status, data },
-//     setValue,
-//     clearSuggestions,
-//   } = usePlacesAutocomplete({
-//     googleMapsApiKey: "AIzaSyCXjFcSrYoaLNpyFjM81IBrZUQZdHc7cpg",
-//   });
+const GoogleAddressComponent = ({
+  placeholder = "Enter an address...",
+  onSelectAddress,
+}) => {
+  const inputRef = useRef(null);
 
-//   const handleSelect = async (description) => {
-//     setValue(description, false);
-//     setInputValue(description);
-//     clearSuggestions();
+  useEffect(() => {
+    if (!window.google || !window.google.maps || !inputRef.current) return;
 
-//     const results = await getGeocode({ address: description });
-//     const { lat, lng } = await getLatLng(results[0]);
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      {
+        types: ["geocode"], // Only address suggestions
+        componentRestrictions: { country: "il" }, // Restrict to Israel
+      }
+    );
 
-//     onSelect({ address: description, lat, lng });
-//   };
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (
+        place.formatted_address &&
+        place.geometry &&
+        place.geometry.location
+      ) {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        onSelectAddress(place.formatted_address, { lat, lng });
+      }
+    });
 
-//   return (
-//     <div>
-//       <TextField
-//         fullWidth
-//         label="Enter an address"
-//         value={inputValue}
-//         onChange={(e) => {
-//           setValue(e.target.value);
-//           setInputValue(e.target.value);
-//           console.log(data);
-//         }}
-//       />
-//       {status === "OK" && (
-//         <List>
-//           {data.map(({ place_id, description }) => (
-//             <ListItem key={place_id} disablePadding>
-//               <ListItemButton onClick={() => handleSelect(description)}>
-//                 {description}
-//               </ListItemButton>
-//             </ListItem>
-//           ))}
-//         </List>
-//       )}
-//     </div>
-//   );
-// }
-
-import React, { useState } from "react";
-import { TextField, List, ListItem, ListItemButton } from "@mui/material";
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
-
-// const GOOGLE_API_KEY = "AIzaSyCXjFcSrYoaLNpyFjM81IBrZUQZdHc7cpg"; // Replace with your API key
-
-export default function GoogleAddressComponent({ onSelect }) {
-  const [inputValue, setInputValue] = useState("");
-
-  const {
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: {
-      /* You can restrict results by country if needed */
-      // componentRestrictions: { country: "us" },
-    },
-    debounce: 300, // Helps reduce API calls
-    // googleMapsApiKey: GOOGLE_API_KEY, // Set your API key
-  });
-
-  const handleSelect = async (description) => {
-    setValue(description, false);
-    setInputValue(description);
-    clearSuggestions();
-
-    try {
-      const results = await getGeocode({ address: description });
-      const { lat, lng } = await getLatLng(results[0]);
-
-      onSelect({ address: description, lat, lng });
-    } catch (error) {
-      console.error("Error fetching location details: ", error);
-    }
-  };
+    return () => {
+      window.google.maps.event.clearInstanceListeners(autocomplete);
+    };
+  }, [onSelectAddress]);
 
   return (
-    <div>
-      <TextField
-        fullWidth
-        label="Enter an address"
-        value={inputValue}
-        onChange={(e) => {
-          setValue(e.target.value);
-          setInputValue(e.target.value);
-        }}
-      />
-      {status === "OK" && (
-        <List>
-          {data.map(({ place_id, description }) => (
-            <ListItem key={place_id} disablePadding>
-              <ListItemButton onClick={() => handleSelect(description)}>
-                {description}
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      )}
-    </div>
+    <input
+      ref={inputRef}
+      type="text"
+      placeholder={placeholder}
+      className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
   );
-}
+};
+
+export default GoogleAddressComponent;
