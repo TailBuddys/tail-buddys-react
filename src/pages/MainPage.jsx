@@ -6,32 +6,17 @@ import ChatScreenComponent from "../chats/components/ChatScreenComponent";
 
 const MainPage = () => {
   return (
-    <Grid2 container sx={{ height: "85vh" }}>
+    <Grid2 container>
       <Grid2 container size={10}>
-        <Grid2
-          size={12}
-          sx={{
-            height: "10vh",
-          }}
-        >
+        <Grid2 size={12}>
           <MatchScreenComponent />
         </Grid2>
-        <Grid2
-          size={12}
-          sx={{
-            height: "75vh",
-          }}
-        >
+        <Grid2 size={12}>
           <MainScreenComponent />
         </Grid2>
       </Grid2>
       <Grid2 container size={2}>
-        <Grid2
-          size={12}
-          sx={{
-            height: "85vh",
-          }}
-        >
+        <Grid2 size={12}>
           <ChatScreenComponent />
         </Grid2>
       </Grid2>

@@ -13,7 +13,7 @@ export default function RightNavBar() {
 
   useEffect(() => {
     user
-      ? handleGetUser(user._id).then((data) => {
+      ? handleGetUser(user.id).then((data) => {
           setUserData(data);
         })
       : setUserData(false);

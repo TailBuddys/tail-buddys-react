@@ -23,12 +23,21 @@ export default function UserProvider({ children }) {
     [user, token, loginDog]
   );
 
+  // useEffect(() => {
+  //   if (!user) {
+  //     setUser(getUser());
+  //     setLoginDog(getDogFromLocalStorage()); //?!?!?!?
+  //   }
+  // }, [user, loginDog, token]);
   useEffect(() => {
-    if (!user) {
-      setUser(getUser());
-      setLoginDog(getDogFromLocalStorage()); //?!?!?!?
+    if (!user && token) {
+      const decodedUser = getUser();
+      if (decodedUser && typeof decodedUser === "object") {
+        setUser(decodedUser);
+      }
+      setLoginDog(getDogFromLocalStorage());
     }
-  }, [user, loginDog, token]);
+  }, [token, user]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

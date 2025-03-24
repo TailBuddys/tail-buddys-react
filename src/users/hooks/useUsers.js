@@ -10,6 +10,7 @@ import {
 import {
   getUser,
   removeTokenFromLocalStorage,
+  setLastDogInLocalStorage,
   setTokenInLocalStorage,
 } from "../../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
@@ -23,7 +24,7 @@ export default function useUsers() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState();
-  const { setUser, setToken } = useUser();
+  const { setUser, setToken, setLoginDog, loginDog } = useUser();
   const { snackbarActivation } = useSnackbar();
   const [existingUser, setExistingUser] = useState([]);
 
@@ -36,12 +37,18 @@ export default function useUsers() {
         const token = await loginService(userLogin);
         setTokenInLocalStorage(token);
         setToken(token);
-        setUser(getUser());
-        // למצוא אם יש כלב בטוקן
-        // לראות אם יש מחובר אחרון בזיכרון
-        // להכניס למחובר האחרון את מזהה יוזר
-        // אם לא, לחבר כלב אחר מהטוקן ואם אין כלבים פארקים
-        navigate(ROUTES.ROOT);
+        const decodedUser = getUser();
+        setUser(decodedUser);
+
+        if (!decodedUser?.DogId?.length) {
+          navigate(ROUTES.ROOT);
+        } else {
+          if (!loginDog || !decodedUser.DogId.includes(loginDog)) {
+            setLoginDog(setLastDogInLocalStorage(decodedUser.DogId[0]));
+          }
+          navigate(ROUTES.ROOT);
+        }
+
         isSigned
           ? snackbarActivation(
               "success",
@@ -57,7 +64,7 @@ export default function useUsers() {
       }
       setIsLoading(false);
     },
-    [setToken, setUser, navigate, snackbarActivation]
+    [setToken, setLoginDog, setUser, navigate, snackbarActivation, loginDog]
   );
 
   const handleLogout = useCallback(() => {

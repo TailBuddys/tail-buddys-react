@@ -6,7 +6,7 @@ import { useUser } from "../../../../users/providers/UserProvider";
 import ROUTES from "../../../../routes/routesModel";
 import MenuLink from "../../../../routes/components/MenuLink";
 
-const Menu = ({ isOpen, anchorEl, onClose }) => {
+const UserMenu = ({ isOpen, anchorEl, onClose }) => {
   const { user } = useUser();
   const { handleLogout } = useUsers();
 
@@ -67,4 +67,4 @@ const Menu = ({ isOpen, anchorEl, onClose }) => {
   );
 };
 
-export default Menu;
+export default UserMenu;

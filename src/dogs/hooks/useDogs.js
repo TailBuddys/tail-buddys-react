@@ -132,6 +132,7 @@ export default function useDogs() {
         setLoginDog(currentUserDogs[0].id);
       } else {
         removeDogFromLocalStorage();
+        setLoginDog(null);
       }
       snackbarActivation("success", `You deleted dog successfully`);
     } catch (error) {

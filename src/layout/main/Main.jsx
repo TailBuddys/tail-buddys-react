@@ -8,7 +8,7 @@ export default function Main({ children }) {
   return (
     <Box
       sx={{
-        minHeight: "85vh",
+        minHeight: "86.5vh",
         padding: "5px",
         backgroundColor: isDark ? "#333333" : "#e3f2fd",
         color: isDark ? "white" : "black",

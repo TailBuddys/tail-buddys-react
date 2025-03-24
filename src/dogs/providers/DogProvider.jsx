@@ -2,13 +2,16 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useUser } from "../../users/providers/UserProvider";
 import useDogs from "../hooks/useDogs";
 import { useNavigate } from "react-router-dom";
-import ROUTES from "../../routes/routesModel";
+import {
+  removeDogFromLocalStorage,
+  setLastDogInLocalStorage,
+} from "../../services/localStorageService";
 
 const DogContext = createContext();
 
 export default function DogProvider({ children }) {
   const [dog, setDog] = useState(null);
-  const { user, loginDog } = useUser();
+  const { setLoginDog, user, loginDog } = useUser();
   const { handleGetDogById } = useDogs();
   const navigate = useNavigate();
 
@@ -16,13 +19,19 @@ export default function DogProvider({ children }) {
 
   useEffect(() => {
     if (user) {
-      if (user.DogId.includes(loginDog)) {
+      if (user.DogId?.includes(loginDog)) {
         console.log("relation valid");
-      } else {
+      } else if (user.DogId) {
         console.log("fuck off");
-        navigate(ROUTES.ROOT);
+        setLoginDog(setLastDogInLocalStorage(user.DogId[0]));
+        window.location.reload();
+      } else {
+        console.log("you have no dogs");
+        removeDogFromLocalStorage();
+        setLoginDog(null);
       }
     }
+
     if (loginDog) {
       const fetchDog = async () => {
         try {
@@ -35,7 +44,7 @@ export default function DogProvider({ children }) {
 
       fetchDog();
     }
-  }, [user, loginDog, handleGetDogById, navigate]);
+  }, [setLoginDog, user, loginDog, handleGetDogById, navigate]);
 
   return <DogContext.Provider value={value}>{children}</DogContext.Provider>;
 }

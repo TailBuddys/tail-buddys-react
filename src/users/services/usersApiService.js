@@ -41,8 +41,8 @@ const loginService = async (userLogin) => {
 
 const signUpService = async (user) => {
   try {
-    const { response } = await axios.post(apiUrl, user);
-    return response;
+    const response = await axios.post(apiUrl, user);
+    return response.data;
   } catch (error) {
     throw new Error(error.response.data);
   }
