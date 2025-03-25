@@ -7,7 +7,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
-export default function EditForm({
+export default function EditDogForm({
   onSubmit,
   onReset,
   validateForm,
@@ -39,8 +39,8 @@ export default function EditForm({
       to={ROUTES.ROOT}
     >
       <Input
-        name="firstName"
-        label="first name"
+        name="name"
+        label="name"
         error={errors.first}
         onChange={onInputChange}
         data={data}

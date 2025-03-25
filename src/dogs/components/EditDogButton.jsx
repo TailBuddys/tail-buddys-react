@@ -4,16 +4,11 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
-export default function EditUserButton() {
+export default function EditDogButton() {
   const navigate = useNavigate();
 
   return (
-    <Tooltip
-      title="Edit User"
-      TransitionComponent={Zoom}
-      placement="left"
-      arrow
-    >
+    <Tooltip title="Edit Dog" TransitionComponent={Zoom} placement="left" arrow>
       <Fab
         color="primary"
         aria-label="add"
@@ -23,7 +18,7 @@ export default function EditUserButton() {
           right: 16,
         }}
         onClick={() => {
-          navigate(ROUTES.EDIT_USER);
+          navigate(ROUTES.EDIT_DOG);
         }}
       >
         <ModeEditIcon />

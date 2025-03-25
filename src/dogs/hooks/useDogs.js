@@ -60,6 +60,21 @@ export default function useDogs() {
     }
   }, []);
 
+  const handleSwitchDog = useCallback(
+    async (dogId) => {
+      setIsLoading(true);
+      try {
+        await setLastDogInLocalStorage(dogId);
+        setLoginDog(dogId);
+        setIsLoading(false);
+        return;
+      } catch (error) {
+        setError(error.message);
+      }
+    },
+    [setLoginDog]
+  );
+
   const handleGetDogById = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -139,7 +154,6 @@ export default function useDogs() {
       setError(error.message);
     }
     setTimeout(() => {
-      // window.location.reload();
       navigate(ROUTES.ROOT);
     }, 1500);
   }, [snackbarActivation, setToken, navigate, loginDog, setLoginDog]);
@@ -149,6 +163,7 @@ export default function useDogs() {
     isLoading,
     handleCreateDog,
     handleGetUserDogs,
+    handleSwitchDog,
     handleGetDogById,
     handleUpdateDog,
     handleGetAllDogsAdmin,

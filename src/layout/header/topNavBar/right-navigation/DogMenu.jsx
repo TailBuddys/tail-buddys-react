@@ -26,13 +26,13 @@ const DogMenu = ({ isOpen, anchorEl, onClose }) => {
         {loginDog && (
           <>
             <MenuLink
-              text="DogProfile"
-              navigateTo={ROUTES.USER_PROFILE}
+              text="Dog Profile"
+              navigateTo={ROUTES.DOG_PROFILE}
               onClick={onClose}
             />
             <MenuLink
               text="edit Dog"
-              navigateTo={ROUTES.EDIT_USER}
+              navigateTo={ROUTES.EDIT_DOG}
               onClick={onClose}
             />
           </>

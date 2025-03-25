@@ -1,20 +1,20 @@
 import React, { useEffect, useRef } from "react";
 import useForm from "../../forms/hooks/useForm";
 import Container from "@mui/material/Container";
-import useUsers from "../hooks/useUsers";
-import editSchema from "../models/editSchema";
-import EditForm from "../components/EditDogForm";
-import initialEditForm from "../helpers/initialForms/initialEditForm";
-import userToModel from "../helpers/initialForms/userToModel";
 import ROUTES from "../../routes/routesModel";
-import { getUser } from "../services/localStorageService";
 import { useAlert } from "../../providers/AlertProvider";
 import { useNavigate } from "react-router-dom";
+import DogDataToModel from "../helpers/initialForms/dogToModel";
+import { getDogFromLocalStorage } from "../../services/localStorageService";
+import editDogSchema from "../models/editDogSchema";
+import initialEditDogForm from "../helpers/initialForms/initialEditDogForm";
+import useDogs from "../hooks/useDogs";
+import EditDogForm from "../components/EditDogForm";
 
-export default function EditUserPage() {
-  const { handleUpdateUser, handleGetUser } = useUsers();
+export default function EditDogPage() {
+  const { handleGetDogById, handleUpdateDog } = useDogs();
   const navigate = useNavigate();
-  const userRef = useRef(getUser());
+  const dogRef = useRef(getDogFromLocalStorage());
 
   const {
     data,
@@ -25,22 +25,22 @@ export default function EditUserPage() {
     handleReset,
     validateForm,
     onSubmit,
-  } = useForm(initialEditForm, editSchema, (newUser) => {
-    handleUpdateUser(userRef.current, newUser);
+  } = useForm(initialEditDogForm, editDogSchema, (newDog) => {
+    handleUpdateDog(dogRef.current, newDog);
   });
   const { alertActivation } = useAlert();
 
   useEffect(() => {
-    const user = userRef.current;
-    if (user) {
-      handleGetUser(user.id).then((data) => {
-        const modelUser = userToModel(data);
-        setData(modelUser);
+    const dog = dogRef.current;
+    if (dog) {
+      handleGetDogById(dog).then((data) => {
+        const modelDog = DogDataToModel(data);
+        setData(modelDog);
       });
     } else {
       navigate(ROUTES.ROOT);
     }
-  }, [handleGetUser, setData, navigate]);
+  }, [handleGetDogById, setData, navigate]);
 
   const confirmEdit = () => {
     onSubmit(onSubmit);
@@ -55,7 +55,7 @@ export default function EditUserPage() {
         alignItems: "center",
       }}
     >
-      <EditForm
+      <EditDogForm
         onSubmit={() => {
           alertActivation(
             "info",
@@ -66,7 +66,7 @@ export default function EditUserPage() {
         }}
         onReset={handleReset}
         validateForm={validateForm}
-        title={"edit form"}
+        title={"edit dog form"}
         errors={errors}
         data={data}
         onInputChange={handleChange}

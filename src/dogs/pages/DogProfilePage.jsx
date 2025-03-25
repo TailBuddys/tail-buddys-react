@@ -1,5 +1,4 @@
-import React from "react";
-import useUsers from "../hooks/useUsers";
+import React, { useState } from "react";
 import Spinner from "../../components/Spinner";
 import {
   // Avatar,
@@ -12,29 +11,29 @@ import {
   Typography,
 } from "@mui/material";
 import Error from "../../components/Error";
-import { useNavigate } from "react-router-dom";
-import { getUser } from "../services/localStorageService";
-import ROUTES from "../../routes/routesModel";
-import { useState } from "react";
 import { useEffect } from "react";
 import PageHeader from "../../components/PageHeader";
-import EditUserButton from "../components/EditUserButton";
+import ROUTES from "../../routes/routesModel";
+import { getDogFromLocalStorage } from "../../services/localStorageService";
+import useDogs from "../hooks/useDogs";
+import { useNavigate } from "react-router-dom";
+import EditDogButton from "../components/EditDogButton";
 
-export default function ProfilePage() {
-  const { handleGetUser, error, isLoading } = useUsers();
+export default function DogProfilePage() {
+  const { handleGetDogById, error, isLoading } = useDogs();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState();
+  const [dogData, setDogData] = useState();
 
   useEffect(() => {
-    const user = getUser();
-    if (!user) {
+    const dog = getDogFromLocalStorage();
+    if (!dog) {
       return navigate(ROUTES.ROOT);
     }
     const getData = async () => {
-      setUserData(await handleGetUser(user.id));
+      setDogData(await handleGetDogById(dog));
     };
     getData();
-  }, [handleGetUser, navigate]);
+  }, [handleGetDogById, navigate]);
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -53,10 +52,10 @@ export default function ProfilePage() {
 
   if (error) return <Error errorMessage={error} />;
   if (isLoading) return <Spinner />;
-  if (userData) {
+  if (dogData) {
     return (
       <Container>
-        <PageHeader title="User Profile" />
+        <PageHeader title="Dog Profile" />
         {/* <Avatar src={userData.image.url} alt={userData.image.alt} /> אולי נרצה תמונות ברירת מחדל */}
         <TableContainer>
           <Table>
@@ -65,41 +64,41 @@ export default function ProfilePage() {
                 <TableCell>
                   Full Name:
                   <Typography>
-                    {userData.firstName + " " + userData.lastName}
+                    {dogData.firstName + " " + dogData.lastName}
                   </Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  userID:<Typography>{userData.id}</Typography>
+                  userID:<Typography>{dogData.id}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  Email:<Typography>{userData.email}</Typography>
+                  Email:<Typography>{dogData.email}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  Phone:<Typography>{userData.phone}</Typography>
+                  Phone:<Typography>{dogData.phone}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
                   Birth Date:
-                  <Typography>{formatDate(userData.birthDate)}</Typography>
+                  <Typography>{formatDate(dogData.birthDate)}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
                   Gender:
-                  <Typography>{formatGender(userData.gender)}</Typography>
+                  <Typography>{formatGender(dogData.gender)}</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
           </Table>
         </TableContainer>
-        <EditUserButton />
+        <EditDogButton />
       </Container>
     );
   }

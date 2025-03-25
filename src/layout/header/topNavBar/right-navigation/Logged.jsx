@@ -30,15 +30,23 @@ const Logged = ({ userData }) => {
   return (
     <>
       {loginDog ? (
-        <Tooltip title="Open Menu" TransitionComponent={Zoom} arrow>
+        <Tooltip title="Dog Menu" TransitionComponent={Zoom} arrow>
           <IconButton
             sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
             onClick={() => setDogOpen(true)}
           >
             {userData ? (
-              <Avatar alt={userData.image} src={userData.image} />
+              <Avatar
+                sx={{ width: 32, height: 32 }}
+                alt={userData.image}
+                src={userData.image}
+              />
             ) : (
-              <Avatar alt="avatar" src="/assets/imgs/avatarLogged.png" />
+              <Avatar
+                sx={{ width: 32, height: 32 }}
+                alt="avatar"
+                src="/assets/imgs/avatarLogged.png"
+              />
             )}
           </IconButton>
           <DogMenu
@@ -51,7 +59,7 @@ const Logged = ({ userData }) => {
         <Typography>++</Typography>
       )}
 
-      <Tooltip title="Open Menu" TransitionComponent={Zoom} arrow>
+      <Tooltip title="User Menu" TransitionComponent={Zoom} arrow>
         <IconButton
           sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
           onClick={() => setUserOpen(true)}
