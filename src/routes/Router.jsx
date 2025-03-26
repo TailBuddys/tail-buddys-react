@@ -22,7 +22,7 @@ export default function Router() {
       <Route path={ROUTES.LOGIN} element={<LogInPage />} />
       <Route path={ROUTES.EDIT_USER} element={<EditUserPage />} />
       <Route path={ROUTES.USER_PROFILE} element={<UserProfilePage />} />
-      <Route path={ROUTES.CREATE_Dog} element={<CreateDogPage />} />
+      <Route path={ROUTES.CREATE_DOG} element={<CreateDogPage />} />
       <Route path={ROUTES.EDIT_DOG} element={<EditDogPage />} />
       <Route path={ROUTES.DOG_PROFILE} element={<DogProfilePage />} />
       <Route path="*" element={<ErrorPage />} />

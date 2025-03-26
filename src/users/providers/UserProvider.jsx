@@ -19,7 +19,14 @@ export default function UserProvider({ children }) {
   const [loginDog, setLoginDog] = useState(getDogFromLocalStorage());
 
   const value = useMemo(
-    () => ({ user, token, loginDog, setUser, setToken, setLoginDog }),
+    () => ({
+      user,
+      token,
+      loginDog,
+      setUser,
+      setToken,
+      setLoginDog,
+    }),
     [user, token, loginDog]
   );
 

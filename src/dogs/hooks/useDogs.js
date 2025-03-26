@@ -60,20 +60,17 @@ export default function useDogs() {
     }
   }, []);
 
-  const handleSwitchDog = useCallback(
-    async (dogId) => {
-      setIsLoading(true);
-      try {
-        await setLastDogInLocalStorage(dogId);
-        setLoginDog(dogId);
-        setIsLoading(false);
-        return;
-      } catch (error) {
-        setError(error.message);
-      }
-    },
-    [setLoginDog]
-  );
+  const handleSwitchDog = useCallback(async (dogId) => {
+    setIsLoading(true);
+    try {
+      await setLastDogInLocalStorage(dogId);
+      setIsLoading(false);
+      window.location.reload();
+      return;
+    } catch (error) {
+      setError(error.message);
+    }
+  }, []);
 
   const handleGetDogById = useCallback(async () => {
     setIsLoading(true);

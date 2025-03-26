@@ -12,10 +12,14 @@ const DogContext = createContext();
 export default function DogProvider({ children }) {
   const [dog, setDog] = useState(null);
   const { setLoginDog, user, loginDog } = useUser();
-  const { handleGetDogById } = useDogs();
+  const { handleGetDogById, handleGetUserDogs } = useDogs();
+  const [userDogs, setUserDogs] = useState();
   const navigate = useNavigate();
 
-  const value = useMemo(() => ({ dog, setDog }), [dog]);
+  const value = useMemo(
+    () => ({ dog, userDogs, setDog, setUserDogs }),
+    [dog, userDogs]
+  );
 
   useEffect(() => {
     if (user) {
@@ -33,18 +37,27 @@ export default function DogProvider({ children }) {
     }
 
     if (loginDog) {
-      const fetchDog = async () => {
+      const fetchDogs = async () => {
         try {
           const fetchedDog = await handleGetDogById();
           setDog(fetchedDog);
+          const fetchedUserDogs = await handleGetUserDogs();
+          setUserDogs(fetchedUserDogs);
         } catch (error) {
-          console.error("Failed to fetch dog:", error);
+          console.error("Failed to fetch dog or user Dogs:", error);
         }
       };
 
-      fetchDog();
+      fetchDogs();
     }
-  }, [setLoginDog, user, loginDog, handleGetDogById, navigate]);
+  }, [
+    setLoginDog,
+    user,
+    loginDog,
+    handleGetDogById,
+    handleGetUserDogs,
+    navigate,
+  ]);
 
   return <DogContext.Provider value={value}>{children}</DogContext.Provider>;
 }

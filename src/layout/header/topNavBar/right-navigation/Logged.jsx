@@ -3,10 +3,14 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import { useTheme as useMuiTheme } from "@mui/material/styles";
-import { Typography, useMediaQuery, Zoom } from "@mui/material";
+import { useMediaQuery, Zoom } from "@mui/material";
 import UserMenu from "./UserMenu";
 import { useUser } from "../../../../users/providers/UserProvider";
 import DogMenu from "./DogMenu";
+import { useDog } from "../../../../dogs/providers/DogProvider";
+import PetsIcon from "@mui/icons-material/Pets";
+import NavBarLink from "../../../../routes/components/NavBarLink";
+import ROUTES from "../../../../routes/routesModel";
 
 const Logged = ({ userData }) => {
   const theme = useMuiTheme();
@@ -17,6 +21,7 @@ const Logged = ({ userData }) => {
   const [anchorEL, setAnchor] = useState(null);
   const anchorRef = useRef();
   const { loginDog } = useUser();
+  const { userDogs } = useDog();
 
   useEffect(() => {
     setAnchor(anchorRef.current);
@@ -29,24 +34,25 @@ const Logged = ({ userData }) => {
 
   return (
     <>
-      {loginDog ? (
+      {loginDog && userDogs ? (
         <Tooltip title="Dog Menu" TransitionComponent={Zoom} arrow>
           <IconButton
             sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
             onClick={() => setDogOpen(true)}
           >
-            {userData ? (
+            {userDogs.find((dog) => dog.id === Number(loginDog))?.imageUrl !==
+            null ? (
               <Avatar
                 sx={{ width: 32, height: 32 }}
-                alt={userData.image}
-                src={userData.image}
+                alt={"dog avatar"}
+                src={
+                  userDogs.find((dog) => dog.id === Number(loginDog))?.imageUrl
+                }
               />
             ) : (
-              <Avatar
-                sx={{ width: 32, height: 32 }}
-                alt="avatar"
-                src="/assets/imgs/avatarLogged.png"
-              />
+              <Avatar sx={{ width: 32, height: 32 }}>
+                <PetsIcon />
+              </Avatar>
             )}
           </IconButton>
           <DogMenu
@@ -56,7 +62,9 @@ const Logged = ({ userData }) => {
           />
         </Tooltip>
       ) : (
-        <Typography>++</Typography>
+        <NavBarLink to={ROUTES.CREATE_DOG}>
+          <Avatar alt="add new dog" src="\assets\images\addDogIcon.png" />
+        </NavBarLink>
       )}
 
       <Tooltip title="User Menu" TransitionComponent={Zoom} arrow>
@@ -64,10 +72,8 @@ const Logged = ({ userData }) => {
           sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
           onClick={() => setUserOpen(true)}
         >
-          {userData ? (
-            <Avatar alt={userData.image} src={userData.image} />
-          ) : (
-            <Avatar alt="avatar" src="/assets/imgs/avatarLogged.png" />
+          {userData && (
+            <Avatar alt="person & dog" src="\assets\images\userDogIcon.png" />
           )}
         </IconButton>
         <UserMenu
