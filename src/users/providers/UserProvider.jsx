@@ -17,17 +17,20 @@ export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(getTokenFromLocalStorage());
   const [loginDog, setLoginDog] = useState(getDogFromLocalStorage());
+  const [seeParksOrDogs, setSeeParksOrDogs] = useState(null);
 
   const value = useMemo(
     () => ({
       user,
       token,
       loginDog,
+      seeParksOrDogs,
       setUser,
       setToken,
       setLoginDog,
+      setSeeParksOrDogs,
     }),
-    [user, token, loginDog]
+    [user, token, loginDog, seeParksOrDogs]
   );
 
   // useEffect(() => {
@@ -45,6 +48,14 @@ export default function UserProvider({ children }) {
       setLoginDog(getDogFromLocalStorage());
     }
   }, [token, user]);
+
+  useEffect(() => {
+    if (!loginDog) {
+      setSeeParksOrDogs("parks");
+    } else {
+      setSeeParksOrDogs("dogs");
+    }
+  }, [loginDog]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

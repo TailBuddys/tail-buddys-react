@@ -12,6 +12,7 @@ import UserProfilePage from "../users/pages/UserProfilePage";
 import MainPage from "../pages/MainPage";
 import EditDogPage from "../dogs/pages/EditDogPage";
 import DogProfilePage from "../dogs/pages/DogProfilePage";
+import UploadDogImagesPage from "../dogs/pages/UploadDogImagesPage";
 
 export default function Router() {
   return (
@@ -25,6 +26,7 @@ export default function Router() {
       <Route path={ROUTES.CREATE_DOG} element={<CreateDogPage />} />
       <Route path={ROUTES.EDIT_DOG} element={<EditDogPage />} />
       <Route path={ROUTES.DOG_PROFILE} element={<DogProfilePage />} />
+      <Route path={ROUTES.UPLOAD_DOG_IMAGE} element={<UploadDogImagesPage />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

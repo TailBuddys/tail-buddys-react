@@ -24,7 +24,8 @@ export default function useUsers() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState();
-  const { setUser, setToken, setLoginDog, loginDog } = useUser();
+  const { setUser, setToken, setLoginDog, loginDog, setSeeParksOrDogs } =
+    useUser();
   const { snackbarActivation } = useSnackbar();
   const [existingUser, setExistingUser] = useState([]);
 
@@ -163,6 +164,14 @@ export default function useUsers() {
     [snackbarActivation]
   );
 
+  const handleSwitchParksDogs = (event) => {
+    if (event.target.checked === false) {
+      setSeeParksOrDogs("dogs");
+    } else {
+      setSeeParksOrDogs("parks");
+    }
+  };
+
   return {
     error,
     isLoading,
@@ -175,5 +184,6 @@ export default function useUsers() {
     setExistingUser,
     handleGetAllUsers,
     handleDeleteUser,
+    handleSwitchParksDogs,
   };
 }

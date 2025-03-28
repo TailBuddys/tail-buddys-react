@@ -50,7 +50,7 @@ const Logged = ({ userData }) => {
                 }
               />
             ) : (
-              <Avatar sx={{ width: 32, height: 32 }}>
+              <Avatar>
                 <PetsIcon />
               </Avatar>
             )}
@@ -62,7 +62,7 @@ const Logged = ({ userData }) => {
           />
         </Tooltip>
       ) : (
-        <NavBarLink to={ROUTES.CREATE_DOG}>
+        <NavBarLink to={ROUTES.CREATE_DOG} sx={{ marginLeft: 15 }}>
           <Avatar alt="add new dog" src="\assets\images\addDogIcon.png" />
         </NavBarLink>
       )}
@@ -72,9 +72,7 @@ const Logged = ({ userData }) => {
           sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
           onClick={() => setUserOpen(true)}
         >
-          {userData && (
-            <Avatar alt="person & dog" src="\assets\images\userDogIcon.png" />
-          )}
+          <Avatar alt="person & dog" src="\assets\images\userDogIcon.png" />
         </IconButton>
         <UserMenu
           anchorEl={anchorEL}
