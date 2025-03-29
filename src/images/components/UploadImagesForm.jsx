@@ -5,7 +5,7 @@ import FormButton from "../../forms/components/FormButton";
 const UploadImagesForm = ({
   title = "",
   onSubmit,
-  validateForm,
+  validateImage,
   color = "inherit",
   spacing = 1,
   styles = {},
@@ -39,7 +39,7 @@ const UploadImagesForm = ({
         <FormButton
           node="Submit"
           onClick={onSubmit}
-          //   disabled={!validateForm()}
+          disabled={validateImage}
           size="large"
         />
       </Grid>

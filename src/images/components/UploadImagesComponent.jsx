@@ -12,7 +12,6 @@ const UploadImagesComponent = ({ imageNum }) => {
   const handleChange = (event) => {
     let url = handleFileChange(event, imageNum);
     setImagePreview(url);
-    console.log("Uploaded File:", url); //להעיף
   };
 
   const VisuallyHiddenInput = styled("input")({

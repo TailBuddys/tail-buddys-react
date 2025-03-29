@@ -2,12 +2,13 @@ import { useCallback, useState } from "react";
 import useAxios from "../../hooks/useAxios";
 import { useSnackbar } from "../../providers/SnackbarProvider";
 
-export default function useImages(initialForm, handleSubmit) {
+export default function useImages(initialForm) {
   useAxios();
   const [data, setData] = useState(initialForm);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const { snackbarActivation } = useSnackbar();
+  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
 
   const handleUploadImages = useCallback(
     async (imagesFromClient, entityId, entityType) => {
@@ -23,18 +24,22 @@ export default function useImages(initialForm, handleSubmit) {
     [snackbarActivation]
   );
 
-  const validateImage = useCallback(async (file) => {
-    if (file !== null) {
-      return true;
-    } else {
-      return false;
-    }
-  }, []);
+  const validateImage = useCallback(
+    async (file) => {
+      if (file !== undefined) {
+        if (!allowedTypes.includes(file.type)) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    },
+    [allowedTypes]
+  );
 
   const handleFileChange = (event, imageNum) => {
     const file = event.target.files[0]; // Get only the first file
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-
+    const name = `file${imageNum}`;
     if (file) {
       if (!allowedTypes.includes(file.type)) {
         alert("Invalid file type. Please upload a JPG or PNG image."); // יהפוך לאלרט שלנו
@@ -43,11 +48,15 @@ export default function useImages(initialForm, handleSubmit) {
       validateImage(file);
 
       const imageURL = URL.createObjectURL(file);
-      console.log("Uploaded File:", file); //להעיף
+      // console.log("Uploaded File:", file); //להעיף
+      console.log(data);
+
       setData((prev) => ({
         ...prev,
-        [`file${imageNum}`]: file,
+        [name]: file,
       }));
+      console.log(data);
+
       return imageURL;
     }
   };

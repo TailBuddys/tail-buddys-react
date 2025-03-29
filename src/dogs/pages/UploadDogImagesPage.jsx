@@ -2,13 +2,16 @@ import React from "react";
 import UploadImagesComponent from "../../images/components/UploadImagesComponent";
 import useImages from "../../images/hooks/useImages";
 import UploadImagesForm from "../../images/components/UploadImagesForm";
+import initialUploadImagesForm from "../../images/helpers/initialForms/initialUploadImagesForm";
 
 const UploadDogImagesPage = () => {
-  const { handleUploadImages, validateImage } = useImages();
+  const { handleUploadImages, validateImage } = useImages(
+    initialUploadImagesForm
+  );
   return (
     <UploadImagesForm
       onSubmit={handleUploadImages}
-      validateForm={validateImage}
+      validateImage={validateImage()}
       title={"Upload Images"}
       styles={{ maxWidth: "800px" }}
     >
