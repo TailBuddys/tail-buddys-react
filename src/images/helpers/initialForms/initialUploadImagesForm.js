@@ -3,5 +3,6 @@ const initialUploadImagesForm = {
   file2: null,
   file3: null,
   file4: null,
+  file5: null,
 };
 export default initialUploadImagesForm;

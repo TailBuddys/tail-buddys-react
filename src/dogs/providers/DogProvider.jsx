@@ -23,11 +23,23 @@ export default function DogProvider({ children }) {
 
   useEffect(() => {
     if (user) {
-      if (user.DogId?.includes(loginDog)) {
+      let dogIds = [];
+      if (typeof user.DogId === "string") {
+        try {
+          dogIds = JSON.parse(user.DogId); // Convert string to array
+        } catch (e) {
+          console.error("Invalid DogId format", e);
+        }
+      } else {
+        dogIds = user.DogId;
+      }
+      if (dogIds?.includes(loginDog)) {
         console.log("relation valid");
-      } else if (user.DogId) {
-        console.log("fuck off");
-        setLoginDog(setLastDogInLocalStorage(user.DogId[0]));
+      } else if (dogIds && dogIds.length > 0) {
+        console.log("not your dog");
+        const firstDogId = dogIds[0];
+        setLastDogInLocalStorage(firstDogId);
+        setLoginDog(firstDogId);
         window.location.reload();
       } else {
         console.log("you have no dogs");
@@ -52,8 +64,8 @@ export default function DogProvider({ children }) {
     }
   }, [
     setLoginDog,
-    user,
     loginDog,
+    user,
     handleGetDogById,
     handleGetUserDogs,
     navigate,

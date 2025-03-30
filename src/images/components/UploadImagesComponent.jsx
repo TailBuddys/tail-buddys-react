@@ -1,17 +1,21 @@
 import { Button, Card, CardMedia, IconButton, styled } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useState } from "react";
-import useImages from "../hooks/useImages";
+// import useImages from "../hooks/useImages";
 
-const UploadImagesComponent = ({ imageNum }) => {
-  const { handleFileChange } = useImages();
+const UploadImagesComponent = ({ imageNum, onImageChange }) => {
+  // const { handleFileChange } = useImages();
   const [imagePreview, setImagePreview] = useState(
     "/assets/images/addImageIcon.png"
   );
 
   const handleChange = (event) => {
-    let url = handleFileChange(event, imageNum);
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
     setImagePreview(url);
+    onImageChange(file, imageNum); // send file to parent
   };
 
   const VisuallyHiddenInput = styled("input")({

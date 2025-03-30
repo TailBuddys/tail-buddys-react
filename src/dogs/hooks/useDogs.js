@@ -14,6 +14,7 @@ import {
   updateDog,
 } from "../services/dogsApiService";
 import {
+  getUser,
   removeDogFromLocalStorage,
   setLastDogInLocalStorage,
   setTokenInLocalStorage,
@@ -25,7 +26,7 @@ export default function useDogs() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState();
-  const { loginDog, setToken, setLoginDog } = useUser();
+  const { loginDog, setToken, setUser, setLoginDog } = useUser();
   const { snackbarActivation } = useSnackbar();
 
   useAxios();
@@ -36,17 +37,23 @@ export default function useDogs() {
       try {
         const normalizedDog = normalizeDog(dogFromClient);
         const createdDog = await createDog(normalizedDog);
-        await setLastDogInLocalStorage(createdDog.id);
-        setLoginDog(createdDog.id);
         await setTokenInLocalStorage(createdDog.refreshToken);
         setToken(createdDog.refreshToken);
+
+        const decodedUser = getUser();
+        if (decodedUser && typeof decodedUser === "object") {
+          setUser(decodedUser);
+        }
+
+        await setLastDogInLocalStorage(createdDog.id + "");
+        setLoginDog(createdDog.id + "");
       } catch (error) {
         setError(error.message);
         snackbarActivation("error", error.message, "filled");
       }
       setIsLoading(false);
     },
-    [snackbarActivation, setLoginDog, setToken]
+    [snackbarActivation, setLoginDog, setToken, setUser]
   );
 
   const handleGetUserDogs = useCallback(async () => {
