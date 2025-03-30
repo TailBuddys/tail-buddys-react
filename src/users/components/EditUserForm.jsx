@@ -80,6 +80,14 @@ export default function EditUserForm({
           value={data.birthDate ? dayjs(data.birthDate) : null}
           data={data}
           sm={6}
+          slotProps={{
+            textField: {
+              inputProps: { readOnly: true },
+              fullWidth: true,
+              error: Boolean(errors.birthDate),
+              helperText: errors.birthDate,
+            },
+          }}
         />
       </LocalizationProvider>
 
