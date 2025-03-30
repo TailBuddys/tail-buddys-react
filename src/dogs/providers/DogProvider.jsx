@@ -26,7 +26,8 @@ export default function DogProvider({ children }) {
       let dogIds = [];
       if (typeof user.DogId === "string") {
         try {
-          dogIds = JSON.parse(user.DogId); // Convert string to array
+          const parsed = JSON.parse(user.DogId);
+          dogIds = Array.isArray(parsed) ? parsed : [];
         } catch (e) {
           console.error("Invalid DogId format", e);
         }

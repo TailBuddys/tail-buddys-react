@@ -5,11 +5,11 @@ import FormButton from "../../forms/components/FormButton";
 const UploadImagesForm = ({
   title = "",
   onSubmit,
-  validateImage,
   color = "inherit",
   spacing = 1,
   styles = {},
   children,
+  images,
 }) => {
   return (
     <Box
@@ -39,7 +39,7 @@ const UploadImagesForm = ({
         <FormButton
           node="Submit"
           onClick={onSubmit}
-          disabled={validateImage}
+          disabled={!Object.values(images).some((file) => file !== null)}
           size="large"
         />
       </Grid>
