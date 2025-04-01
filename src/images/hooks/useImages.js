@@ -1,9 +1,13 @@
 import { useCallback, useState } from "react";
 import useAxios from "../../hooks/useAxios";
 import { useSnackbar } from "../../providers/SnackbarProvider";
+import { uploadImage } from "../services/ImagesApiService";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../routes/routesModel";
 
 export default function useImages(initialForm) {
   useAxios();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const { snackbarActivation } = useSnackbar();
@@ -28,14 +32,19 @@ export default function useImages(initialForm) {
     async (imagesFromClient, entityId, entityType) => {
       setIsLoading(true);
       try {
-        //   const createdDog = await createDog(normalizedDog); // API CALL
+        Object.entries(imagesFromClient).forEach(([key, value]) => {
+          if (value !== null) {
+            uploadImage(value, entityId, entityType);
+          }
+        });
       } catch (error) {
         setError(error.message);
         snackbarActivation("error", error.message, "filled");
       }
       setIsLoading(false);
+      navigate(ROUTES.EDIT_DOG);
     },
-    [snackbarActivation]
+    [snackbarActivation, navigate]
   );
 
   const handleFileChange = (event, imageNum) => {

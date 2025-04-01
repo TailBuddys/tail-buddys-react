@@ -27,7 +27,7 @@ export default function DogProvider({ children }) {
       if (typeof user.DogId === "string") {
         try {
           const parsed = JSON.parse(user.DogId);
-          dogIds = Array.isArray(parsed) ? parsed : [];
+          dogIds = Array.isArray(parsed) ? parsed : [String(parsed)];
         } catch (e) {
           console.error("Invalid DogId format", e);
         }
@@ -39,9 +39,11 @@ export default function DogProvider({ children }) {
       } else if (dogIds && dogIds.length > 0) {
         console.log("not your dog");
         const firstDogId = dogIds[0];
-        setLastDogInLocalStorage(firstDogId);
-        setLoginDog(firstDogId);
-        window.location.reload();
+        if (firstDogId !== loginDog) {
+          setLastDogInLocalStorage(firstDogId);
+          setLoginDog(firstDogId);
+          window.location.reload();
+        }
       } else {
         console.log("you have no dogs");
         removeDogFromLocalStorage();

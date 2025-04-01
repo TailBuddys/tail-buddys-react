@@ -45,15 +45,16 @@ export default function useDogs() {
           setUser(decodedUser);
         }
 
-        await setLastDogInLocalStorage(createdDog.id + "");
-        setLoginDog(createdDog.id + "");
+        await setLastDogInLocalStorage(String(createdDog.id));
+        setLoginDog(String(createdDog.id));
       } catch (error) {
         setError(error.message);
         snackbarActivation("error", error.message, "filled");
       }
       setIsLoading(false);
+      navigate(ROUTES.UPLOAD_DOG_IMAGE);
     },
-    [snackbarActivation, setLoginDog, setToken, setUser]
+    [snackbarActivation, setLoginDog, setToken, setUser, navigate]
   );
 
   const handleGetUserDogs = useCallback(async () => {

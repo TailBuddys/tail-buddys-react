@@ -10,6 +10,8 @@ const UploadImagesForm = ({
   styles = {},
   children,
   images,
+  entityId,
+  entityType,
 }) => {
   return (
     <Box
@@ -38,7 +40,7 @@ const UploadImagesForm = ({
       >
         <FormButton
           node="Submit"
-          onClick={onSubmit}
+          onClick={() => onSubmit(images, entityId, entityType)}
           disabled={!Object.values(images).some((file) => file !== null)}
           size="large"
         />
