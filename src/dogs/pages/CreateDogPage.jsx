@@ -16,6 +16,23 @@ export default function CreateDogPage() {
   const { data, errors, handleChange, handleReset, validateForm, onSubmit } =
     useForm(initialCreateDogForm, createDogSchema, handleCreateDog);
 
+  const handleAddressChange = (address, placeId) => {
+    if (!address || !placeId) {
+      // ✅ Clear fields if user removes address
+      handleChange({ target: { name: "address", value: "" } });
+      handleChange({ target: { name: "lon", value: "" } });
+      handleChange({ target: { name: "lat", value: "" } });
+      validateForm(); // ✅ Force re-validation after clearing
+      return;
+    }
+
+    // ✅ Set address and coordinates
+    handleChange({ target: { name: "address", value: address } });
+    handleChange({ target: { name: "lon", value: placeId.lng } });
+    handleChange({ target: { name: "lat", value: placeId.lat } });
+    validateForm(); // ✅ Optional: trigger validation after setting
+  };
+
   useEffect(() => {
     const user = getUser();
     if (!user) {
@@ -40,6 +57,7 @@ export default function CreateDogPage() {
         errors={errors}
         data={data}
         onInputChange={handleChange}
+        onAddressChange={handleAddressChange} // ✅ ADDED
       />
     </Container>
   );

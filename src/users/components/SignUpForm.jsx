@@ -80,6 +80,14 @@ export default function SignupForm({
           value={data.birthDate ? dayjs(data.birthDate) : null}
           data={data}
           sm={6}
+          slotProps={{
+            textField: {
+              inputProps: { readOnly: true },
+              fullWidth: true,
+              error: Boolean(errors.birthDate),
+              helperText: errors.birthDate,
+            },
+          }}
         />
       </LocalizationProvider>
 
@@ -89,7 +97,7 @@ export default function SignupForm({
           name="gender"
           labelId="gender"
           id="demo-simple-select"
-          value={data.gender || ""}
+          value={data.gender}
           label="Gender"
           error={errors.gender}
           onChange={handlePickChange}
