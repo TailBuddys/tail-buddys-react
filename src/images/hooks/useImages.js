@@ -4,11 +4,25 @@ import { useSnackbar } from "../../providers/SnackbarProvider";
 
 export default function useImages(initialForm) {
   useAxios();
-  const [data, setData] = useState(initialForm);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const { snackbarActivation } = useSnackbar();
+  const initialImageRoot = "/assets/images/addImageIcon.png";
   const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+  const [imagePreview, setImagePreview] = useState({
+    image1: initialImageRoot,
+    image2: initialImageRoot,
+    image3: initialImageRoot,
+    image4: initialImageRoot,
+    image5: initialImageRoot,
+  });
+  const [images, setImages] = useState({
+    file1: null,
+    file2: null,
+    file3: null,
+    file4: null,
+    file5: null,
+  });
 
   const handleUploadImages = useCallback(
     async (imagesFromClient, entityId, entityType) => {
@@ -24,49 +38,35 @@ export default function useImages(initialForm) {
     [snackbarActivation]
   );
 
-  const validateImage = useCallback(
-    async (file) => {
-      if (file !== undefined) {
-        if (!allowedTypes.includes(file.type)) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    },
-    [allowedTypes]
-  );
-
   const handleFileChange = (event, imageNum) => {
     const file = event.target.files[0]; // Get only the first file
-    const name = `file${imageNum}`;
     if (file) {
       if (!allowedTypes.includes(file.type)) {
         alert("Invalid file type. Please upload a JPG or PNG image."); // יהפוך לאלרט שלנו
-        return "/assets/images/addImageIcon.png";
+        return;
       }
-      validateImage(file);
-
-      const imageURL = URL.createObjectURL(file);
-      // console.log("Uploaded File:", file); //להעיף
-      console.log(data);
-
-      setData((prev) => ({
-        ...prev,
-        [name]: file,
-      }));
-      console.log(data);
-
-      return imageURL;
+      const url = URL.createObjectURL(file);
+      setImagePreview((prev) => ({ ...prev, [`image${imageNum}`]: url }));
+      setImages((prev) => ({ ...prev, [`file${imageNum}`]: file }));
     }
   };
 
+  const handleDeleteView = (imageNum) => {
+    setImagePreview((prev) => ({
+      ...prev,
+      [`image${imageNum}`]: initialImageRoot,
+    }));
+    setImages((prev) => ({ ...prev, [`file${imageNum}`]: null }));
+  };
+
   return {
-    data,
     isLoading,
     error,
+    images,
+    imagePreview,
+    setImages,
     handleUploadImages,
-    validateImage,
+    handleDeleteView,
     handleFileChange,
   };
 }
