@@ -84,6 +84,15 @@ const deleteDog = async (dogId) => {
   }
 };
 
+const getDogTypes = async () => {
+  try {
+    const { data } = await axios.get(`${apiUrl}/dogTypes`);
+    return data;
+  } catch (error) {
+    throw new Error(error.response?.data || "Failed to fetch dog types");
+  }
+};
+
 export {
   createDog,
   getUserDogs,
@@ -92,4 +101,5 @@ export {
   getUnmatchedDogs,
   updateDog,
   deleteDog,
+  getDogTypes,
 };

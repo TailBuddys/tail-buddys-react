@@ -19,9 +19,17 @@ export default function EditDogPage() {
   const {
     data,
     setData,
+    gender,
+    setGender,
+    dogType,
+    setDogType,
     errors,
+    resetGoogleAddressRef,
     handleChange,
     handleDateChange,
+    handleGenderChange,
+    handleTypeChange,
+    handleSelectAddress,
     handleReset,
     validateForm,
     onSubmit,
@@ -69,8 +77,16 @@ export default function EditDogPage() {
         title={"edit dog form"}
         errors={errors}
         data={data}
+        gender={gender}
+        setGender={setGender}
+        dogType={dogType}
+        setDogType={setDogType}
         onInputChange={handleChange}
         onDateChange={handleDateChange}
+        handleGenderChange={handleGenderChange}
+        handleTypeChange={handleTypeChange}
+        handleSelectAddress={handleSelectAddress}
+        resetGoogleAddressRef={resetGoogleAddressRef}
       />
     </Container>
   );

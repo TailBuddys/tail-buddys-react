@@ -49,6 +49,7 @@ const GoogleAddressComponent = ({
 
   const handleInputChange = (e) => {
     const value = e.target.value;
+
     if (value === "") {
       onSelectAddress("", null); // ✅ Notify parent that address was cleared
     }

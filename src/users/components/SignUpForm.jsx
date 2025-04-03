@@ -6,7 +6,6 @@ import ROUTES from "../../routes/routesModel";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-
 export default function SignupForm({
   onSubmit,
   onReset,
@@ -16,10 +15,8 @@ export default function SignupForm({
   data,
   onInputChange,
   onDateChange,
+  handleGenderChange,
 }) {
-  const handlePickChange = (event) => {
-    onInputChange(event);
-  };
   return (
     <Form
       onSubmit={onSubmit}
@@ -100,7 +97,7 @@ export default function SignupForm({
           value={data.gender}
           label="Gender"
           error={errors.gender}
-          onChange={handlePickChange}
+          onChange={handleGenderChange}
         >
           <MenuItem value={0}>Male</MenuItem>
           <MenuItem value={1}>Female</MenuItem>

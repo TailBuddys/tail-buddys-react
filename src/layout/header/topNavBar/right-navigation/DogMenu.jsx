@@ -36,8 +36,13 @@ const DogMenu = ({ isOpen, anchorEl, onClose }) => {
               onClick={onClose}
             />
             <MenuLink
-              text="edit Dog"
+              text="Edit Dog"
               navigateTo={ROUTES.EDIT_DOG}
+              onClick={onClose}
+            />
+            <MenuLink
+              text="Create New Dog"
+              navigateTo={ROUTES.CREATE_DOG}
               onClick={onClose}
             />
           </>

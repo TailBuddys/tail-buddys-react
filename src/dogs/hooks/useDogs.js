@@ -9,6 +9,7 @@ import {
   deleteDog,
   getAllDogs,
   getDogById,
+  getDogTypes,
   getUnmatchedDogs,
   getUserDogs,
   updateDog,
@@ -23,6 +24,7 @@ import normalizedExistingDog from "../helpers/normalization/normalizedExistingDo
 import { useUser } from "../../users/providers/UserProvider";
 
 export default function useDogs() {
+  const [dogTypes, setDogTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState();
@@ -163,9 +165,21 @@ export default function useDogs() {
     }, 1500);
   }, [snackbarActivation, setToken, navigate, loginDog, setLoginDog]);
 
+  const fetchDogTypes = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const types = await getDogTypes();
+      setDogTypes(types);
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }, []);
+
   return {
     error,
     isLoading,
+    dogTypes,
     handleCreateDog,
     handleGetUserDogs,
     handleSwitchDog,
@@ -174,5 +188,6 @@ export default function useDogs() {
     handleGetAllDogsAdmin,
     handleGetUnmatchedDogs,
     handleDeleteDog,
+    fetchDogTypes,
   };
 }

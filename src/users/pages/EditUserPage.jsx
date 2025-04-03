@@ -19,9 +19,12 @@ export default function EditUserPage() {
   const {
     data,
     setData,
+    gender,
+    setGender,
     errors,
     handleChange,
     handleDateChange,
+    handleGenderChange,
     handleReset,
     validateForm,
     onSubmit,
@@ -69,8 +72,11 @@ export default function EditUserPage() {
         title={"edit form"}
         errors={errors}
         data={data}
+        gender={gender}
+        setGender={setGender}
         onInputChange={handleChange}
         onDateChange={handleDateChange}
+        handleGenderChange={handleGenderChange}
       />
     </Container>
   );

@@ -21,6 +21,7 @@ export default function SignupPage() {
     validateForm,
     onSubmit,
     handleDateChange,
+    handleGenderChange,
   } = useForm(initialSignupForm, signupSchema, handleSignup);
 
   const { user } = useUser();
@@ -45,6 +46,7 @@ export default function SignupPage() {
         data={data}
         onInputChange={handleChange}
         onDateChange={handleDateChange}
+        handleGenderChange={handleGenderChange}
       />
       <GoogleLoginButton to={ROUTES.ROOT} />
     </Container>

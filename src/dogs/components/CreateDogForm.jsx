@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React from "react";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
@@ -12,35 +12,14 @@ export default function CreateDogForm({
   errors,
   data,
   onInputChange,
-  onAddressChange, // ✅ ADDED
+  resetGoogleAddressRef,
+  handleSelectAddress,
 }) {
-  const resetGoogleAddressRef = useRef(null);
-
-  const handleSelectAddress = useMemo(() => {
-    return (address, placeId) => {
-      if (onAddressChange) {
-        onAddressChange(address, placeId);
-      }
-    };
-  }, [onAddressChange]);
-
-  const handleResetAddress = useMemo(() => {
-    return () => {
-      if (resetGoogleAddressRef.current) {
-        resetGoogleAddressRef.current(); // ✅ reset input
-      }
-      if (onAddressChange) {
-        onAddressChange("", null); // ✅ notify parent
-      }
-    };
-  }, [onAddressChange]);
-
   return (
     <Form
       onSubmit={onSubmit}
       onReset={() => {
-        if (onReset) onReset(); // ✅ Call parent reset if needed
-        handleResetAddress(); // ✅ Actually reset the address input
+        if (onReset) onReset();
       }}
       validateForm={validateForm}
       title={title}
@@ -56,7 +35,7 @@ export default function CreateDogForm({
         sm={6}
       />
       <GoogleAddressComponent
-        onReset={(callback) => (resetGoogleAddressRef.current = callback)} // ✅ pass reset setter
+        onReset={(callback) => (resetGoogleAddressRef.current = callback)}
         onSelectAddress={handleSelectAddress}
       />
     </Form>

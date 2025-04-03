@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
@@ -14,21 +14,18 @@ export default function EditUserForm({
   title,
   errors,
   data,
+  gender,
+  setGender,
   onInputChange,
   onDateChange,
+  handleGenderChange,
 }) {
-  const [gender, setGender] = useState(data.gender ?? "");
-
   useEffect(() => {
     if (data.gender !== undefined && data.gender !== null) {
       setGender(data.gender);
     }
-  }, [data.gender]);
+  }, [data.gender, setGender]);
 
-  const handlePickChange = (event) => {
-    setGender(event.target.value);
-    onInputChange(event);
-  };
   return (
     <Form
       onSubmit={onSubmit}
@@ -100,7 +97,7 @@ export default function EditUserForm({
           label="Gender"
           value={gender}
           error={errors.gender}
-          onChange={handlePickChange}
+          onChange={handleGenderChange}
         >
           <MenuItem value={0}>Male</MenuItem>
           <MenuItem value={1}>Female</MenuItem>

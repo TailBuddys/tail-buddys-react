@@ -14,9 +14,6 @@ const UploadDogImagesPage = () => {
   } = useImages();
 
   const currentDog = getDogFromLocalStorage();
-  // if (!currentDog) {
-  //   return <Spinner />;
-  // }
   return (
     <UploadImagesForm
       onSubmit={handleUploadImages}
