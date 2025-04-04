@@ -21,6 +21,8 @@ export default function EditDogPage() {
     setData,
     gender,
     setGender,
+    size,
+    setSize,
     dogType,
     setDogType,
     errors,
@@ -28,6 +30,7 @@ export default function EditDogPage() {
     handleChange,
     handleDateChange,
     handleGenderChange,
+    handleSizeChange,
     handleTypeChange,
     handleSelectAddress,
     handleReset,
@@ -81,12 +84,15 @@ export default function EditDogPage() {
         setGender={setGender}
         dogType={dogType}
         setDogType={setDogType}
+        size={size}
+        setSize={setSize}
         onInputChange={handleChange}
         onDateChange={handleDateChange}
         handleGenderChange={handleGenderChange}
         handleTypeChange={handleTypeChange}
         handleSelectAddress={handleSelectAddress}
         resetGoogleAddressRef={resetGoogleAddressRef}
+        handleSizeChange={handleSizeChange}
       />
     </Container>
   );

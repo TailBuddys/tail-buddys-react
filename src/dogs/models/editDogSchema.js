@@ -32,13 +32,15 @@ const editDogSchema = {
       "any.required": 'Dog "size" is required',
     }),
 
-  gender: Joi.boolean().required().messages({
-    "any.required": 'Dog "gender" is required',
-  }),
+  gender: Joi.string()
+    .valid(0, 1)
+    .messages({
+      "any.only": 'dog "gender" must be one of: Male, Female',
+    })
+    .required(),
 
   birthdate: Joi.date().required().messages({
-    "date.base": 'Dog "birthdate" must be a valid date',
-    "any.required": 'Dog "birthdate" is required',
+    "date.base": 'user "birthdate" must be a valid date',
   }),
 
   address: Joi.string().required().messages({

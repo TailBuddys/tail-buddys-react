@@ -27,7 +27,9 @@ export default function EditDogForm({
   errors,
   data,
   gender,
+  size,
   setGender,
+  setSize,
   dogType,
   setDogType,
   onInputChange,
@@ -36,20 +38,27 @@ export default function EditDogForm({
   handleTypeChange,
   handleSelectAddress,
   resetGoogleAddressRef,
+  handleSizeChange,
 }) {
   const { dogTypes, fetchDogTypes } = useDogs();
 
   useEffect(() => {
     if (data.gender !== undefined && data.gender !== null) {
-      setGender(data.gender);
+      setGender(data.gender ? 1 : 0);
     }
   }, [data.gender, setGender]);
 
   useEffect(() => {
-    if (data.dogType !== undefined && data.dogType !== null) {
-      setDogType(data.dogType);
+    if (data.size !== undefined && data.size !== null) {
+      setSize(data.size);
     }
-  }, [data.dogType, setDogType]);
+  }, [data.size, setSize]);
+
+  useEffect(() => {
+    if (data.type !== undefined && data.type !== null) {
+      setDogType(data.type);
+    }
+  }, [data.type, setDogType]);
 
   useEffect(() => {
     fetchDogTypes();
@@ -87,6 +96,8 @@ export default function EditDogForm({
         <Select
           name="type"
           labelId="type"
+          label="type"
+          id="demo-simple-select"
           value={dogType}
           error={errors.type}
           onChange={handleTypeChange}
@@ -105,13 +116,13 @@ export default function EditDogForm({
           labelId="size"
           id="demo-simple-select"
           label="size"
-          value={gender} // ליצור אפקט
+          value={size} // ליצור אפקט
           error={errors.size}
-          onChange={handleGenderChange}
+          onChange={handleSizeChange}
         >
           <MenuItem value={0}>Small</MenuItem>
           <MenuItem value={1}>Medium</MenuItem>
-          <MenuItem value={1}>Large</MenuItem>
+          <MenuItem value={2}>Large</MenuItem>
         </Select>
       </FormControl>
       {/* <CheckBox
@@ -126,6 +137,7 @@ export default function EditDogForm({
         value="end"
         control={
           <Checkbox
+            //checked={data.vaccinated}//
             sx={{
               color: "grey",
               opacity: 0.4,
@@ -144,23 +156,23 @@ export default function EditDogForm({
       <GoogleAddressComponent
         onReset={(callback) => (resetGoogleAddressRef.current = callback)} // ✅ pass reset setter
         onSelectAddress={handleSelectAddress}
-        address={data}
+        address={data.address}
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
-          name="birthDate"
+          name="birthdate"
           label="birth Date"
-          error={errors.birthDate}
+          error={errors.birthdate}
           onChange={onDateChange}
-          value={data.birthDate ? dayjs(data.birthDate) : null}
+          value={data.birthdate ? dayjs(data.birthdate) : null}
           data={data}
           sm={6}
           slotProps={{
             textField: {
               inputProps: { readOnly: true },
               fullWidth: true,
-              error: Boolean(errors.birthDate),
-              helperText: errors.birthDate,
+              error: Boolean(errors.birthdate),
+              helperText: errors.birthdate,
             },
           }}
         />

@@ -4,6 +4,7 @@ const GoogleAddressComponent = ({
   placeholder = "Enter an address...",
   onSelectAddress,
   onReset,
+  initialAddress,
 }) => {
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null); // ✅ Store the autocomplete instance
@@ -66,6 +67,7 @@ const GoogleAddressComponent = ({
   }, [onReset]);
   return (
     <input
+      value={initialAddress}
       ref={inputRef}
       type="text"
       placeholder={placeholder}

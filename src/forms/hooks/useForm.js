@@ -5,6 +5,7 @@ export default function useForm(initialForm, schema, handleSubmit) {
   const [data, setData] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [gender, setGender] = useState(data.gender ?? "");
+  const [size, setSize] = useState(data.size ?? "");
   const [dogType, setDogType] = useState(data.type ?? "");
   const resetGoogleAddressRef = useRef(null);
 
@@ -75,6 +76,12 @@ export default function useForm(initialForm, schema, handleSubmit) {
     handleChange(event);
   };
 
+  const handleSizeChange = (event) => {
+    // הועבר לפה גלובלי לכלב ליוזר ולפארק
+    setSize(event.target.value);
+    handleChange(event);
+  };
+
   const handleTypeChange = (event) => {
     // הועבר לפה גלובלי לכלב ליוזר ולפארק
     // אמנם משומש רק בדף של עריכת כלב, אבל מבחינת מוסכמות יותר נכון שישב פה כדי שהקוד יהיה יותר דינאמי לעתיד
@@ -141,6 +148,7 @@ export default function useForm(initialForm, schema, handleSubmit) {
     gender,
     dogType,
     resetGoogleAddressRef,
+    size,
     handleChange,
     handleDateChange,
     handleGenderChange,
@@ -148,10 +156,12 @@ export default function useForm(initialForm, schema, handleSubmit) {
     handleAddressChange,
     handleSelectAddress,
     handleReset,
+    handleSizeChange,
     validateForm,
     onSubmit,
     setData,
     setGender,
     setDogType,
+    setSize,
   };
 }

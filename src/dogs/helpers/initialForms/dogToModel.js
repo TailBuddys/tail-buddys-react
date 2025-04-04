@@ -4,7 +4,7 @@ const DogDataToModel = (DogData) => {
     description: DogData.description,
     type: DogData.type,
     size: DogData.size,
-    geneder: DogData.geneder,
+    gender: DogData.gender,
     birthdate: DogData.birthdate,
     address: DogData.address,
     vaccinated: DogData.vaccinated,

@@ -3,7 +3,7 @@ const normalizedExistingDog = (dog) => ({
   description: dog.description,
   type: dog.type,
   size: dog.size,
-  geneder: dog.geneder,
+  gender: dog.gender,
   birthdate: dog.birthdate,
   address: dog.address,
   lon: dog.lon,
