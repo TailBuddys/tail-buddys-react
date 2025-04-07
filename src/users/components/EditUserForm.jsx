@@ -72,6 +72,7 @@ export default function EditUserForm({
             })
           }
           value={data.birthDate ? dayjs(data.birthDate) : null}
+          disableFuture
           data={data}
           sm={6}
           slotProps={{

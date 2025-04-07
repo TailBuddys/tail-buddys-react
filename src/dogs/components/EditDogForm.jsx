@@ -140,6 +140,7 @@ export default function EditDogForm({
             })
           }
           value={data.birthDate ? dayjs(data.birthDate) : null}
+          disableFuture
           data={data}
           sm={6}
           slotProps={{

@@ -7,7 +7,9 @@ const DogDataToModel = (DogData) => {
     gender: DogData.gender === null ? "" : DogData.gender ? 1 : 0, // 0  for male, 1 for female
     birthDate: DogData.birthDate,
     address: DogData.address,
-    vaccinated: DogData.vaccinated ? 1 : 0, // 0  for no, 1 for yes
+    lon: DogData.lon,
+    lat: DogData.lat,
+    vaccinated: DogData.vaccinated ? true : false, // 0  for no, 1 for yes
   };
 };
 

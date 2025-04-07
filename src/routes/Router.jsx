@@ -11,8 +11,8 @@ import CreateDogPage from "../dogs/pages/CreateDogPage";
 import UserProfilePage from "../users/pages/UserProfilePage";
 import MainPage from "../pages/MainPage";
 import EditDogPage from "../dogs/pages/EditDogPage";
-import DogProfilePage from "../dogs/pages/DogProfilePage";
 import UploadDogImagesPage from "../dogs/pages/UploadDogImagesPage";
+import DogProfilePage from "../dogs/pages/DogProfilePage";
 
 export default function Router() {
   return (
