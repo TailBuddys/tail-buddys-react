@@ -95,8 +95,6 @@ export default function useDogs() {
 
   const handleUpdateDog = useCallback(
     async (dogFromClient) => {
-      setIsLoading(true);
-
       try {
         const normalizedDog = await updateDog(
           loginDog,
@@ -167,6 +165,7 @@ export default function useDogs() {
 
   const fetchDogTypes = useCallback(async () => {
     setIsLoading(true);
+
     try {
       const types = await getDogTypes();
       setDogTypes(types);

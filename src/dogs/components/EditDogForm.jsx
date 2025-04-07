@@ -26,39 +26,11 @@ export default function EditDogForm({
   title,
   errors,
   data,
-  gender,
-  size,
-  setGender,
-  setSize,
-  dogType,
-  setDogType,
   onInputChange,
-  onDateChange,
-  handleGenderChange,
-  handleTypeChange,
   handleSelectAddress,
   resetGoogleAddressRef,
-  handleSizeChange,
 }) {
   const { dogTypes, fetchDogTypes } = useDogs();
-
-  useEffect(() => {
-    if (data.gender !== undefined && data.gender !== null) {
-      setGender(data.gender ? 1 : 0);
-    }
-  }, [data.gender, setGender]);
-
-  useEffect(() => {
-    if (data.size !== undefined && data.size !== null) {
-      setSize(data.size);
-    }
-  }, [data.size, setSize]);
-
-  useEffect(() => {
-    if (data.type !== undefined && data.type !== null) {
-      setDogType(data.type);
-    }
-  }, [data.type, setDogType]);
 
   useEffect(() => {
     fetchDogTypes();
@@ -78,7 +50,7 @@ export default function EditDogForm({
       <Input
         name="name"
         label="name"
-        error={errors.first}
+        error={errors.name}
         onChange={onInputChange}
         data={data}
         sm={6}
@@ -86,7 +58,7 @@ export default function EditDogForm({
       <Input
         name="description"
         label="description"
-        error={errors.last}
+        error={errors.description}
         onChange={onInputChange}
         data={data}
         sm={6}
@@ -98,9 +70,9 @@ export default function EditDogForm({
           labelId="type"
           label="type"
           id="demo-simple-select"
-          value={dogType}
+          value={data.type}
           error={errors.type}
-          onChange={handleTypeChange}
+          onChange={onInputChange}
         >
           {dogTypes.map(({ value, displayName }) => (
             <MenuItem key={value} value={value}>
@@ -116,28 +88,24 @@ export default function EditDogForm({
           labelId="size"
           id="demo-simple-select"
           label="size"
-          value={size} // ליצור אפקט
+          value={data.size} // ליצור אפקט
           error={errors.size}
-          onChange={handleSizeChange}
+          onChange={onInputChange}
         >
           <MenuItem value={0}>Small</MenuItem>
           <MenuItem value={1}>Medium</MenuItem>
           <MenuItem value={2}>Large</MenuItem>
         </Select>
       </FormControl>
-      {/* <CheckBox
-        name="vaccinated"
-        label="vaccinated"
-        error={errors.email}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-      /> */}
       <FormControlLabel
         value="end"
         control={
           <Checkbox
-            //checked={data.vaccinated}//
+            name="vaccinated"
+            value={data.vaccinated}
+            checked={data.vaccinated}
+            error={errors.vaccinated}
+            onChange={onInputChange}
             sx={{
               color: "grey",
               opacity: 0.4,
@@ -155,24 +123,31 @@ export default function EditDogForm({
       />
       <GoogleAddressComponent
         onReset={(callback) => (resetGoogleAddressRef.current = callback)} // ✅ pass reset setter
-        onSelectAddress={handleSelectAddress}
-        address={data.address}
+        onSelectAddress={handleSelectAddress} // לדחוף את לון ולאט כמו ששלחנו ערכים בתאריך
+        data={data}
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
-          name="birthdate"
+          name="birthDate"
           label="birth Date"
-          error={errors.birthdate}
-          onChange={onDateChange}
-          value={data.birthdate ? dayjs(data.birthdate) : null}
+          error={errors.birthDate}
+          onChange={(value) =>
+            onInputChange({
+              target: {
+                name: "birthDate",
+                value: value,
+              },
+            })
+          }
+          value={data.birthDate ? dayjs(data.birthDate) : null}
           data={data}
           sm={6}
           slotProps={{
             textField: {
               inputProps: { readOnly: true },
               fullWidth: true,
-              error: Boolean(errors.birthdate),
-              helperText: errors.birthdate,
+              error: Boolean(errors.birthDate),
+              helperText: errors.birthDate,
             },
           }}
         />
@@ -183,10 +158,10 @@ export default function EditDogForm({
           name="gender"
           labelId="gender"
           id="demo-simple-select"
-          label="Gender"
-          value={gender}
+          label="gender"
+          value={data.gender}
           error={errors.gender}
-          onChange={handleGenderChange}
+          onChange={onInputChange}
         >
           <MenuItem value={0}>Male</MenuItem>
           <MenuItem value={1}>Female</MenuItem>

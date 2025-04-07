@@ -39,8 +39,8 @@ const editDogSchema = {
     })
     .required(),
 
-  birthdate: Joi.date().required().messages({
-    "date.base": 'user "birthdate" must be a valid date',
+  birthDate: Joi.date().required().messages({
+    "date.base": 'user "birth Date" must be a valid date',
   }),
 
   address: Joi.string().required().messages({

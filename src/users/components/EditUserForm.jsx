@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
@@ -14,18 +14,8 @@ export default function EditUserForm({
   title,
   errors,
   data,
-  gender,
-  setGender,
   onInputChange,
-  onDateChange,
-  handleGenderChange,
 }) {
-  useEffect(() => {
-    if (data.gender !== undefined && data.gender !== null) {
-      setGender(data.gender);
-    }
-  }, [data.gender, setGender]);
-
   return (
     <Form
       onSubmit={onSubmit}
@@ -73,7 +63,14 @@ export default function EditUserForm({
           name="birthDate"
           label="birth Date"
           error={errors.birthDate}
-          onChange={onDateChange}
+          onChange={(value) =>
+            onInputChange({
+              target: {
+                name: "birthDate",
+                value: value,
+              },
+            })
+          }
           value={data.birthDate ? dayjs(data.birthDate) : null}
           data={data}
           sm={6}
@@ -95,9 +92,9 @@ export default function EditUserForm({
           labelId="gender"
           id="demo-simple-select"
           label="Gender"
-          value={gender}
+          value={data.gender}
           error={errors.gender}
-          onChange={handleGenderChange}
+          onChange={onInputChange}
         >
           <MenuItem value={0}>Male</MenuItem>
           <MenuItem value={1}>Female</MenuItem>

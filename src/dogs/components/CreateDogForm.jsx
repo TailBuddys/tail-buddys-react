@@ -37,6 +37,7 @@ export default function CreateDogForm({
       <GoogleAddressComponent
         onReset={(callback) => (resetGoogleAddressRef.current = callback)}
         onSelectAddress={handleSelectAddress}
+        data={data}
       />
     </Form>
   );

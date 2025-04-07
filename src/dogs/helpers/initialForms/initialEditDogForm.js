@@ -4,7 +4,7 @@ const initialEditDogForm = {
   type: "",
   size: "",
   gender: "",
-  birthdate: "",
+  birthDate: "",
   vaccinated: "",
   address: "",
   lon: 0,

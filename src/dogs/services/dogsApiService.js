@@ -69,6 +69,7 @@ const getUnmatchedDogs = async (id, filters = {}) => {
 const updateDog = async (id, normalizedExistingDog) => {
   try {
     const { data } = await axios.put(`${apiUrl}/${id}`, normalizedExistingDog);
+
     return data;
   } catch (error) {
     throw new Error(error.message.data);

@@ -13,16 +13,8 @@ import GoogleLoginButton from "../components/GoogleLoginButton";
 export default function SignupPage() {
   const { handleSignup } = useUsers();
 
-  const {
-    data,
-    errors,
-    handleChange,
-    handleReset,
-    validateForm,
-    onSubmit,
-    handleDateChange,
-    handleGenderChange,
-  } = useForm(initialSignupForm, signupSchema, handleSignup);
+  const { data, errors, handleChange, handleReset, validateForm, onSubmit } =
+    useForm(initialSignupForm, signupSchema, handleSignup);
 
   const { user } = useUser();
 
@@ -45,8 +37,6 @@ export default function SignupPage() {
         errors={errors}
         data={data}
         onInputChange={handleChange}
-        onDateChange={handleDateChange}
-        handleGenderChange={handleGenderChange}
       />
       <GoogleLoginButton to={ROUTES.ROOT} />
     </Container>

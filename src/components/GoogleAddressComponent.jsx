@@ -1,13 +1,16 @@
 import React, { useEffect, useRef } from "react";
 
 const GoogleAddressComponent = ({
-  placeholder = "Enter an address...",
   onSelectAddress,
   onReset,
   initialAddress,
+  data,
 }) => {
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null); // ✅ Store the autocomplete instance
+
+  const placeholder =
+    data.address === "" ? "Enter an address..." : data.address;
 
   useEffect(() => {
     if (!window.google || !window.google.maps || !inputRef.current) return;

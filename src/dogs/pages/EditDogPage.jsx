@@ -19,25 +19,15 @@ export default function EditDogPage() {
   const {
     data,
     setData,
-    gender,
-    setGender,
-    size,
-    setSize,
-    dogType,
-    setDogType,
     errors,
     resetGoogleAddressRef,
     handleChange,
-    handleDateChange,
-    handleGenderChange,
-    handleSizeChange,
-    handleTypeChange,
     handleSelectAddress,
     handleReset,
     validateForm,
     onSubmit,
   } = useForm(initialEditDogForm, editDogSchema, (newDog) => {
-    handleUpdateDog(dogRef.current, newDog);
+    handleUpdateDog(newDog);
   });
   const { alertActivation } = useAlert();
 
@@ -80,19 +70,9 @@ export default function EditDogPage() {
         title={"edit dog form"}
         errors={errors}
         data={data}
-        gender={gender}
-        setGender={setGender}
-        dogType={dogType}
-        setDogType={setDogType}
-        size={size}
-        setSize={setSize}
         onInputChange={handleChange}
-        onDateChange={handleDateChange}
-        handleGenderChange={handleGenderChange}
-        handleTypeChange={handleTypeChange}
         handleSelectAddress={handleSelectAddress}
         resetGoogleAddressRef={resetGoogleAddressRef}
-        handleSizeChange={handleSizeChange}
       />
     </Container>
   );

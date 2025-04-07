@@ -14,8 +14,6 @@ export default function SignupForm({
   errors,
   data,
   onInputChange,
-  onDateChange,
-  handleGenderChange,
 }) {
   return (
     <Form
@@ -73,7 +71,14 @@ export default function SignupForm({
           name="birthDate"
           label="birth Date"
           error={errors.birthDate}
-          onChange={onDateChange}
+          onChange={(value) =>
+            onInputChange({
+              target: {
+                name: "birthDate",
+                value: value,
+              },
+            })
+          }
           value={data.birthDate ? dayjs(data.birthDate) : null}
           data={data}
           sm={6}
@@ -97,7 +102,7 @@ export default function SignupForm({
           value={data.gender}
           label="Gender"
           error={errors.gender}
-          onChange={handleGenderChange}
+          onChange={onInputChange}
         >
           <MenuItem value={0}>Male</MenuItem>
           <MenuItem value={1}>Female</MenuItem>
