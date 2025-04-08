@@ -24,7 +24,7 @@ function CardComponent({ data }) {
           </Grid2>
         </Grid2>
       </Card>
-      <CardActionBar />
+      {data.distance && <CardActionBar />}
     </Box>
   );
 }
