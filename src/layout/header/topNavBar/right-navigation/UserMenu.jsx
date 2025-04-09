@@ -29,6 +29,13 @@ const UserMenu = ({ isOpen, anchorEl, onClose }) => {
         vertical: "top",
         horizontal: "right",
       }}
+      slotProps={{
+        paper: {
+          sx: {
+            mt: "40px",
+          },
+        },
+      }}
     >
       <Box>
         {!user && (

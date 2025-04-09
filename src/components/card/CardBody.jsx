@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DogDetailsComponent from "../../dogs/pages/DogDetailsComponent";
 import { useTheme as useMuiTheme } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -19,11 +19,6 @@ function CardBody({ data }) {
   const screenSize = useMediaQuery(theme.breakpoints.up("md"));
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [anchorEL, setAnchor] = useState(null);
-  const anchorRef = useRef();
-
-  useEffect(() => {
-    setAnchor(anchorRef.current);
-  }, []);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -60,7 +55,10 @@ function CardBody({ data }) {
                     <>
                       <IconButton
                         sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
-                        onClick={() => setMenuOpen(true)}
+                        onClick={(event) => {
+                          setAnchor(event.currentTarget);
+                          setMenuOpen(true);
+                        }}
                       >
                         <MoreVertIcon />
                       </IconButton>

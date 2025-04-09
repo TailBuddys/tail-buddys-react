@@ -71,7 +71,9 @@ export default function DogDetailsComponent({ dogData }) {
                 <Typography>
                   {dogData.name} , {calculateAge(dogData.birthDate)}
                 </Typography>
-                <Typography>{dogTypes[dogData.type].displayName}</Typography>
+                {dogTypes[0] !== undefined && (
+                  <Typography>{dogTypes[dogData.type].displayName}</Typography>
+                )}
                 {dogData.distance && (
                   <Typography>{dogData.distance} meters away</Typography>
                 )}

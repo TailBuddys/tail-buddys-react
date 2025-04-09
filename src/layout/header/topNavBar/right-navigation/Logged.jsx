@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
@@ -19,13 +19,8 @@ const Logged = ({ userData }) => {
   const [isUserOpen, setUserOpen] = useState(false);
   const [isDogOpen, setDogOpen] = useState(false);
   const [anchorEL, setAnchor] = useState(null);
-  const anchorRef = useRef();
   const { loginDog } = useUser();
   const { userDogs } = useDog();
-
-  useEffect(() => {
-    setAnchor(anchorRef.current);
-  }, []);
 
   useEffect(() => {
     setUserOpen(false);
@@ -35,51 +30,80 @@ const Logged = ({ userData }) => {
   return (
     <>
       {loginDog && userDogs ? (
-        <Tooltip title="Dog Menu" TransitionComponent={Zoom} arrow>
-          <IconButton
-            sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
-            onClick={() => setDogOpen(true)}
+        <>
+          <Tooltip
+            title="Dog Menu"
+            slots={{
+              transition: Zoom,
+            }}
+            arrow
           >
-            {userDogs.find((dog) => dog.id === Number(loginDog))?.imageUrl !==
-            null ? (
-              <Avatar
-                sx={{ width: 32, height: 32 }}
-                alt={"dog avatar"}
-                src={
-                  userDogs.find((dog) => dog.id === Number(loginDog))?.imageUrl
-                }
-              />
-            ) : (
-              <Avatar>
-                <PetsIcon />
-              </Avatar>
-            )}
-          </IconButton>
+            <IconButton
+              sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
+              onClick={(event) => {
+                setAnchor(event.currentTarget);
+                setDogOpen(true);
+              }}
+            >
+              {userDogs.find((dog) => dog.id === Number(loginDog))?.imageUrl !==
+              null ? (
+                <Avatar
+                  sx={{ width: 32, height: 32 }}
+                  alt={"dog avatar"}
+                  src={
+                    userDogs.find((dog) => dog.id === Number(loginDog))
+                      ?.imageUrl
+                  }
+                />
+              ) : (
+                <Avatar>
+                  <PetsIcon />
+                </Avatar>
+              )}
+            </IconButton>
+          </Tooltip>
           <DogMenu
             anchorEl={anchorEL}
             isOpen={isDogOpen}
             onClose={() => setDogOpen(false)}
           />
-        </Tooltip>
+        </>
       ) : (
         <NavBarLink to={ROUTES.CREATE_DOG} sx={{ marginLeft: 15 }}>
-          <Avatar alt="add new dog" src="\assets\images\addDogIcon.png" />
+          <Tooltip
+            title="Create New Dog"
+            slots={{
+              transition: Zoom,
+            }}
+            arrow
+          >
+            <Avatar alt="add new dog" src="\assets\images\addDogIcon.png" />
+          </Tooltip>
         </NavBarLink>
       )}
 
-      <Tooltip title="User Menu" TransitionComponent={Zoom} arrow>
+      <Tooltip
+        title="User Menu"
+        slots={{
+          transition: Zoom,
+        }}
+        arrow
+      >
         <IconButton
           sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
-          onClick={() => setUserOpen(true)}
+          onClick={(event) => {
+            setAnchor(event.currentTarget);
+            setUserOpen(true);
+          }}
         >
           <Avatar alt="person & dog" src="\assets\images\userDogIcon.png" />
         </IconButton>
-        <UserMenu
-          anchorEl={anchorEL}
-          isOpen={isUserOpen}
-          onClose={() => setUserOpen(false)}
-        />
       </Tooltip>
+      <UserMenu
+        anchorEl={anchorEL}
+        isOpen={isUserOpen}
+        onClose={() => setUserOpen(false)}
+      />
     </>
   );
 };

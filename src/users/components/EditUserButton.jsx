@@ -10,7 +10,9 @@ export default function EditUserButton() {
   return (
     <Tooltip
       title="Edit User"
-      TransitionComponent={Zoom}
+      slots={{
+        transition: Zoom,
+      }}
       placement="left"
       arrow
     >

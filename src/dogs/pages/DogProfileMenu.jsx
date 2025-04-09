@@ -19,6 +19,13 @@ function DogProfileMenu({ isOpen, anchorEl, onClose }) {
         vertical: "top",
         horizontal: "right",
       }}
+      slotProps={{
+        paper: {
+          sx: {
+            mt: "25px",
+          },
+        },
+      }}
     >
       <Box>
         <>

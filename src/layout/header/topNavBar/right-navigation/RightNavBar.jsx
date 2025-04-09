@@ -1,9 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Logged from "./Logged";
 import NotLogged from "./NotLogged";
 import useUsers from "../../../../users/hooks/useUsers";
 import { useUser } from "../../../../users/providers/UserProvider";
+import { Zoom } from "@mui/material";
 import SwitchButton from "../../../../components/SwitchButton";
 
 export default function RightNavBar() {
@@ -23,17 +24,35 @@ export default function RightNavBar() {
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       {user &&
         (loginDog ? (
-          <SwitchButton
-            disabled={!loginDog}
-            checked={seeParksOrDogs !== "dogs"}
-            onChange={handleSwitchParksDogs}
-          />
+          <Tooltip
+            title="Switch Parks Or Dogs"
+            slots={{
+              transition: Zoom,
+            }}
+            arrow
+          >
+            <SwitchButton
+              disabled={!loginDog}
+              checked={seeParksOrDogs !== "dogs"}
+              onChange={handleSwitchParksDogs}
+            />
+          </Tooltip>
         ) : (
-          <SwitchButton
-            disabled={!loginDog}
-            checked={seeParksOrDogs !== "dogs"}
-            onChange={null}
-          />
+          <Tooltip
+            title="Creat Dog To Switch"
+            slots={{
+              transition: Zoom,
+            }}
+            arrow
+          >
+            <span>
+              <SwitchButton
+                disabled={!loginDog}
+                checked={seeParksOrDogs !== "dogs"}
+                onChange={null}
+              />
+            </span>
+          </Tooltip>
         ))}
       {user && <Logged userData={userData} />}
       {!user && <NotLogged />}

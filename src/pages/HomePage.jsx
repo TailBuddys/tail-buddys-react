@@ -9,6 +9,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { notifications } = useWebSocket(getDogFromLocalStorage());
   // const connection = useWebSocket();
+
   return (
     <>
       <PageHeader

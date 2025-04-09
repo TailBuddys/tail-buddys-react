@@ -57,7 +57,9 @@ const Form = ({
         </Grid>
         <Tooltip
           title="Clear Fields"
-          TransitionComponent={Zoom}
+          slots={{
+            transition: Zoom,
+          }}
           arrow
           followCursor
         >

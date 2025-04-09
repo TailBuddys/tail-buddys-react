@@ -3,8 +3,10 @@ import React from "react";
 import CardGalleryComponent from "./CardGalleryComponent";
 import CardBody from "./CardBody";
 import CardActionBar from "./CardActionBar";
+import { useUser } from "../../users/providers/UserProvider";
 
 function CardComponent({ data }) {
+  const { loginDog } = useUser();
   return (
     <Box
       sx={{
@@ -14,7 +16,7 @@ function CardComponent({ data }) {
         alignItems: "center",
       }}
     >
-      <Card sx={{ width: 800, height: 500, m: 2 }}>
+      <Card sx={{ width: 800, height: 500, m: 2, borderRadius: 5 }}>
         <Grid2 container size={12}>
           <Grid2 size={6}>
             <CardGalleryComponent data={data} />
@@ -24,7 +26,7 @@ function CardComponent({ data }) {
           </Grid2>
         </Grid2>
       </Card>
-      {data.distance && <CardActionBar />}
+      {data.distance && loginDog ? <CardActionBar /> : null}
     </Box>
   );
 }

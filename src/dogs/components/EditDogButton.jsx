@@ -8,7 +8,14 @@ export default function EditDogButton() {
   const navigate = useNavigate();
 
   return (
-    <Tooltip title="Edit Dog" TransitionComponent={Zoom} placement="left" arrow>
+    <Tooltip
+      title="Edit Dog"
+      slots={{
+        transition: Zoom,
+      }}
+      placement="left"
+      arrow
+    >
       <Fab
         color="primary"
         aria-label="add"

@@ -26,6 +26,13 @@ const DogMenu = ({ isOpen, anchorEl, onClose }) => {
         vertical: "top",
         horizontal: "right",
       }}
+      slotProps={{
+        paper: {
+          sx: {
+            mt: "40px",
+          },
+        },
+      }}
     >
       <Box>
         {loginDog && (
