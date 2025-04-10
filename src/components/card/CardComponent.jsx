@@ -1,4 +1,4 @@
-import { Box, Card, Grid2 } from "@mui/material";
+import { Box, Card, Divider, Grid2 } from "@mui/material";
 import React from "react";
 import CardGalleryComponent from "./CardGalleryComponent";
 import CardBody from "./CardBody";
@@ -21,7 +21,8 @@ function CardComponent({ data }) {
           <Grid2 size={6}>
             <CardGalleryComponent data={data} />
           </Grid2>
-          <Grid2 size={6}>
+          <Divider orientation="vertical" variant="middle" flexItem />
+          <Grid2 size={5.98}>
             <CardBody data={data} />
           </Grid2>
         </Grid2>

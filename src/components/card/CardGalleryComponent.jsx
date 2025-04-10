@@ -12,25 +12,32 @@ function CardGalleryComponent({ data }) {
       infiniteLoop
       transitionTime="300"
       renderIndicator={(onClickHandler, isSelected, index, label) => (
-        <li
-          style={{
-            background: isSelected ? "#8a431b" : "#a88c66",
-            width: 10,
-            height: 10,
-            borderRadius: "50%",
-            display: "inline-block",
-            margin: "0 5px",
-            cursor: "pointer",
-            boxShadow: "0 1.5px 3px rgba(0, 0, 0, 0.3)",
-          }}
+        <button
+          key={index}
           onClick={onClickHandler}
           onKeyDown={onClickHandler}
-          value={index}
-          key={index}
-          role="button"
-          tabIndex={0}
+          style={{
+            background: "none",
+            border: "none",
+            padding: 0,
+            margin: "0 5px",
+            cursor: "pointer",
+          }}
           aria-label={`Slide ${index + 1} ${isSelected ? "(Selected)" : ""}`}
-        />
+        >
+          <img
+            src="assets/images/imageSelector.png"
+            alt={`Indicator ${index}`}
+            style={{
+              width: isSelected ? "18px" : "15px",
+              height: isSelected ? "18px" : "15px",
+              opacity: isSelected ? 1 : 0.6,
+              transition: "all 0.3s ease",
+              filter: isSelected ? "none" : "grayscale(70%)",
+              pointerEvents: "none",
+            }}
+          />
+        </button>
       )}
       renderArrowPrev={(onClickHandler, hasPrev, label) =>
         hasPrev && (
@@ -67,8 +74,26 @@ function CardGalleryComponent({ data }) {
     >
       {(data.images ?? []).length > 0 ? (
         data.images.map((item, index) => (
-          <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
-            <CardMedia component="img" height="*" src={item} />
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            <CardMedia
+              component="img"
+              src={item}
+              sx={{
+                width: "100%",
+                height: "100%",
+                maxHeight: "500px",
+                objectFit: "contain",
+                display: "block",
+              }}
+            />
           </Box>
         ))
       ) : (
