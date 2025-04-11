@@ -10,6 +10,7 @@ const DogDataToModel = (DogData) => {
     lon: DogData.lon,
     lat: DogData.lat,
     vaccinated: DogData.vaccinated ? true : false, // 0  for no, 1 for yes
+    images: DogData.images,
   };
 };
 

@@ -7,6 +7,7 @@ import { useUser } from "../../users/providers/UserProvider";
 
 function CardComponent({ data }) {
   const { loginDog } = useUser();
+
   return (
     <Box
       sx={{

@@ -28,6 +28,7 @@ export default function useDogs() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState();
+
   const { loginDog, setToken, setUser, setLoginDog } = useUser();
   const { snackbarActivation } = useSnackbar();
 

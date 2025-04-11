@@ -1,7 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import useAxios from "../../hooks/useAxios";
 import { useSnackbar } from "../../providers/SnackbarProvider";
-import { uploadImage } from "../services/ImagesApiService";
+import {
+  uploadImage,
+  deletImage,
+  reorderImages,
+} from "../services/ImagesApiService";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 
@@ -12,7 +16,11 @@ export default function useImages(initialForm) {
   const [error, setError] = useState();
   const { snackbarActivation } = useSnackbar();
   const initialImageRoot = "/assets/images/addImageIcon.png";
-  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+  const [imageData, setImageData] = useState();
+  const allowedTypes = useMemo(
+    () => ["image/jpeg", "image/png", "image/jpg"],
+    []
+  );
   const [imagePreview, setImagePreview] = useState({
     image1: initialImageRoot,
     image2: initialImageRoot,
@@ -68,14 +76,85 @@ export default function useImages(initialForm) {
     setImages((prev) => ({ ...prev, [`file${imageNum}`]: null }));
   };
 
+  const handleUploadOneImage = useCallback(
+    async (imageFromClient, entityId, entityType) => {
+      if (imageFromClient) {
+        if (!allowedTypes.includes(imageFromClient.type)) {
+          alert("Invalid file type. Please upload a JPG or PNG image."); // יהפוך לאלרט שלנו
+          return;
+        }
+      }
+      setIsLoading(true);
+      try {
+        if (imageFromClient !== null) {
+          const response = await uploadImage(
+            imageFromClient,
+            entityId,
+            entityType
+          );
+          setImageData(response);
+        }
+      } catch (error) {
+        setError(error.message);
+        snackbarActivation("error", error.message, "filled");
+      }
+      setIsLoading(false);
+    },
+    [snackbarActivation, allowedTypes]
+  );
+
+  const handleDeleteImage = useCallback(
+    async (imageId, entityId, entityType) => {
+      setIsLoading(true);
+      try {
+        if (imageId !== null) {
+          const response = await deletImage(imageId, entityId, entityType);
+          setImageData(response);
+        }
+      } catch (error) {
+        setError(error.message);
+        snackbarActivation("error", error.message, "filled");
+      }
+      setIsLoading(false);
+    },
+    [snackbarActivation]
+  );
+
+  const handleReorderImages = useCallback(
+    async (imageId1, imageId2, entityId, entityType) => {
+      setIsLoading(true);
+      try {
+        if (imageId1 !== null && imageId2 !== null) {
+          const response = await reorderImages(
+            imageId1,
+            imageId2,
+            entityId,
+            entityType
+          );
+          setImageData(response);
+        }
+      } catch (error) {
+        setError(error.message);
+        snackbarActivation("error", error.message, "filled");
+      }
+      setIsLoading(false);
+    },
+    [snackbarActivation]
+  );
+
   return {
     isLoading,
     error,
     images,
     imagePreview,
+    imageData,
+    setImageData,
     setImages,
     handleUploadImages,
     handleDeleteView,
+    handleUploadOneImage,
     handleFileChange,
+    handleDeleteImage,
+    handleReorderImages,
   };
 }

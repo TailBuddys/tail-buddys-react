@@ -1,4 +1,11 @@
-import { Button, Card, CardMedia, IconButton, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  IconButton,
+  styled,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const UploadImagesComponent = ({
@@ -25,60 +32,52 @@ const UploadImagesComponent = ({
       role={undefined}
       variant="contained"
       tabIndex={-1}
-      sx={{ padding: 0 }}
+      sx={{ padding: 0, position: "relative", margin: 1 }}
     >
-      <Card>
+      <Card sx={{ width: 250, height: 250 }}>
         <CardMedia
-          sx={{ backgroundColor: "#868178" }}
           component="img"
           height="250"
-          width="250"
           image={imagePreview}
-          alt="image of the client"
+          alt={`Uploaded image ${imageNum}`}
         />
         <VisuallyHiddenInput
           type="file"
           onChange={(event) => onImageChange(event, imageNum)}
         />
+        <IconButton
+          color="error"
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            backgroundColor: "rgba(0,0,0,0.3)",
+            "&:hover": {
+              backgroundColor: "rgba(0,0,0,0.7)",
+            },
+          }}
+          onClick={() => onRemoveImage(imageNum)}
+        >
+          <DeleteIcon />
+        </IconButton>
+        <Box
+          sx={{
+            position: "relative",
+            bottom: 40,
+            left: 10,
+            backgroundColor: "rgba(0,0,0,0.3)",
+            color: "white",
+            borderRadius: "50%",
+            width: 30,
+            height: 30,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {imageNum}
+        </Box>
       </Card>
-      <Card
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          height: 40,
-          width: 35,
-          opacity: 0.4,
-          borderRadius: "0px 4px 0px 4px",
-          fontSize: 25,
-        }}
-      >
-        {imageNum}
-      </Card>
-      <Card
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          height: 40,
-          width: 35,
-          opacity: 0.5,
-          borderRadius: "4px 0px 4px 0px",
-          fontSize: 25,
-        }}
-      />
-      <IconButton
-        color="error"
-        size="large"
-        sx={{
-          position: "absolute",
-          bottom: -7,
-          right: -8,
-        }}
-        onClick={() => onRemoveImage(imageNum)}
-      >
-        <DeleteIcon fontSize="inherit" />
-      </IconButton>
     </Button>
   );
 };

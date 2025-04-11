@@ -11,46 +11,18 @@ import initialEditDogForm from "../helpers/initialForms/initialEditDogForm";
 import useDogs from "../hooks/useDogs";
 import EditDogForm from "../components/EditDogForm";
 import { Box, Tab, Tabs } from "@mui/material";
-import PropTypes from "prop-types";
 import EditImagesPage from "../../images/components/EditImagesPage";
+import CustomTabPanel from "../../components/CustomTabPanel";
+import useImages from "../../images/hooks/useImages";
 
-//-----
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-//---
 export default function EditDogPage() {
   const { handleGetDogById, handleUpdateDog } = useDogs();
   const navigate = useNavigate();
   const dogRef = useRef(getDogFromLocalStorage());
-  const [selectedTab, setselectedTab] = useState("1");
+  const [selectedTab, setselectedTab] = useState(0);
 
   const HandlePickTab = (event, pickedTab) => {
+    // לבדוק
     setselectedTab(pickedTab);
   };
 
@@ -68,22 +40,17 @@ export default function EditDogPage() {
     handleUpdateDog(newDog);
   });
   const { alertActivation } = useAlert();
-  //-- דרך עקיפה זמנית
-  const [dogData, setDogData] = useState();
+  const {
+    imageData,
+    isLoading,
+    handleUploadOneImage,
+    handleDeleteImage,
+    handleReorderImages,
+  } = useImages();
 
   useEffect(() => {
-    const dog = getDogFromLocalStorage();
-    if (!dog) {
-      return navigate(ROUTES.ROOT);
-    }
-    const getData = async () => {
-      setDogData(await handleGetDogById(dog));
-    };
-    getData();
-  }, [handleGetDogById, navigate]);
-  //---
-  useEffect(() => {
     const dog = dogRef.current;
+
     if (dog) {
       handleGetDogById(dog).then((data) => {
         const modelDog = DogDataToModel(data);
@@ -92,11 +59,18 @@ export default function EditDogPage() {
     } else {
       navigate(ROUTES.ROOT);
     }
-  }, [handleGetDogById, setData, navigate]);
+  }, [handleGetDogById, setData, navigate, imageData, selectedTab]);
 
   const confirmEdit = () => {
     onSubmit(onSubmit);
   };
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
 
   return (
     <Container
@@ -119,27 +93,42 @@ export default function EditDogPage() {
           </Tabs>
         </Box>
         <CustomTabPanel value={selectedTab} index={0}>
-          <EditDogForm
-            onSubmit={() => {
-              alertActivation(
-                "info",
-                "Edit Confirmation",
-                "Are you sure you want to save changes?",
-                confirmEdit
-              );
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "center",
             }}
-            onReset={handleReset}
-            validateForm={validateForm}
-            title={"edit dog form"}
-            errors={errors}
-            data={data}
-            onInputChange={handleChange}
-            handleSelectAddress={handleSelectAddress}
-            resetGoogleAddressRef={resetGoogleAddressRef}
-          />
+          >
+            <EditDogForm
+              onSubmit={() => {
+                alertActivation(
+                  "info",
+                  "Edit Confirmation",
+                  "Are you sure you want to save changes?",
+                  confirmEdit
+                );
+              }}
+              onReset={handleReset}
+              validateForm={validateForm}
+              title={"edit dog form"}
+              errors={errors}
+              data={data}
+              onInputChange={handleChange}
+              handleSelectAddress={handleSelectAddress}
+              resetGoogleAddressRef={resetGoogleAddressRef}
+            />
+          </Container>
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={1}>
-          <EditImagesPage dogData={dogData} />
+          <EditImagesPage
+            isLoading={isLoading}
+            onUpload={handleUploadOneImage}
+            onDelete={handleDeleteImage}
+            onReorder={handleReorderImages}
+            data={data}
+            entityId={dogRef.current}
+            entityType={0}
+          />
         </CustomTabPanel>
       </Box>
     </Container>

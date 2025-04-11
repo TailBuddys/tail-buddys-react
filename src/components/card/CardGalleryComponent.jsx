@@ -85,7 +85,7 @@ function CardGalleryComponent({ data }) {
           >
             <CardMedia
               component="img"
-              src={item}
+              src={item.url}
               sx={{
                 width: "100%",
                 height: "100%",
