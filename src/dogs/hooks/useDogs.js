@@ -55,7 +55,9 @@ export default function useDogs() {
         snackbarActivation("error", error.message, "filled");
       }
       setIsLoading(false);
-      navigate(ROUTES.UPLOAD_DOG_IMAGE);
+      setTimeout(() => {
+        navigate(ROUTES.UPLOAD_DOG_IMAGE);
+      }, 200);
     },
     [snackbarActivation, setLoginDog, setToken, setUser, navigate]
   );
@@ -147,10 +149,12 @@ export default function useDogs() {
 
     try {
       const deletedDog = await deleteDog(loginDog);
+      await setTokenInLocalStorage(deletedDog.refreshToken);
       setToken(deletedDog.refreshToken);
       const currentUserDogs = await getUserDogs();
       if (currentUserDogs !== null && currentUserDogs.length > 0) {
-        setLoginDog(currentUserDogs[0].id);
+        await setLastDogInLocalStorage(String(currentUserDogs[0].id));
+        setLoginDog(String(currentUserDogs[0].id));
       } else {
         removeDogFromLocalStorage();
         setLoginDog(null);
@@ -159,9 +163,7 @@ export default function useDogs() {
     } catch (error) {
       setError(error.message);
     }
-    setTimeout(() => {
-      navigate(ROUTES.ROOT);
-    }, 1500);
+    navigate(ROUTES.ROOT);
   }, [snackbarActivation, setToken, navigate, loginDog, setLoginDog]);
 
   const fetchDogTypes = useCallback(async () => {

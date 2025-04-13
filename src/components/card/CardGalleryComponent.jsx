@@ -25,18 +25,20 @@ function CardGalleryComponent({ data }) {
           }}
           aria-label={`Slide ${index + 1} ${isSelected ? "(Selected)" : ""}`}
         >
-          <img
-            src="assets/images/imageSelector.png"
-            alt={`Indicator ${index}`}
-            style={{
-              width: isSelected ? "18px" : "15px",
-              height: isSelected ? "18px" : "15px",
-              opacity: isSelected ? 1 : 0.6,
-              transition: "all 0.3s ease",
-              filter: isSelected ? "none" : "grayscale(70%)",
-              pointerEvents: "none",
-            }}
-          />
+          {data.images.length > 1 ? (
+            <img
+              src="assets/images/imageSelector.png"
+              alt={`Indicator ${index}`}
+              style={{
+                width: isSelected ? "18px" : "15px",
+                height: isSelected ? "18px" : "15px",
+                opacity: isSelected ? 1 : 0.6,
+                transition: "all 0.3s ease",
+                filter: isSelected ? "none" : "grayscale(70%)",
+                pointerEvents: "none",
+              }}
+            />
+          ) : null}
         </button>
       )}
       renderArrowPrev={(onClickHandler, hasPrev, label) =>

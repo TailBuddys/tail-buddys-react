@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const dogBreeds = Array.from({ length: 81 }, (_, i) => i); // Creates an array [0, 1, ..., 80] for breed index
+const dogBreeds = Array.from({ length: 141 }, (_, i) => i); // Creates an array [0, 1, ..., 80] for breed index
 
 const editDogSchema = {
   name: Joi.string().min(2).max(20).required().messages({
@@ -32,7 +32,7 @@ const editDogSchema = {
       "any.required": 'Dog "size" is required',
     }),
 
-  gender: Joi.string()
+  gender: Joi.number()
     .valid(0, 1)
     .messages({
       "any.only": 'dog "gender" must be one of: Male, Female',
@@ -58,8 +58,8 @@ const editDogSchema = {
   vaccinated: Joi.boolean().required().messages({
     "any.required": 'Dog "vaccinated" status is required',
   }),
+  images: Joi.optional(),
 };
-
 export default editDogSchema;
 
 //------------------------------//

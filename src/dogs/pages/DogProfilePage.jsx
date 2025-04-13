@@ -31,7 +31,6 @@ function DogProfilePage() {
     return (
       <Box>
         <CardComponent data={dogData} />
-        {/* <EditDogButton />    <-- גם אופציה*/}
       </Box>
     );
   }

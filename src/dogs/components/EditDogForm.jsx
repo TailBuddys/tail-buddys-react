@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { pink } from "@mui/material/colors";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
 
@@ -127,7 +127,7 @@ export default function EditDogForm({
         data={data}
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
+        <MobileDatePicker
           name="birthDate"
           label="birth Date"
           error={errors.birthDate}
@@ -145,7 +145,9 @@ export default function EditDogForm({
           sm={6}
           slotProps={{
             textField: {
-              inputProps: { readOnly: true },
+              inputProps: {
+                readOnly: true,
+              },
               fullWidth: true,
               error: Boolean(errors.birthDate),
               helperText: errors.birthDate,

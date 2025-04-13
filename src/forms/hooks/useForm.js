@@ -11,6 +11,7 @@ export default function useForm(initialForm, schema, handleSubmit) {
       const obj = { [name]: value };
       const generateSchema = Joi.object({ [name]: schema[name] });
       const { error } = generateSchema.validate(obj);
+
       return error ? error.details[0].message : null;
     },
     [schema]
@@ -19,7 +20,9 @@ export default function useForm(initialForm, schema, handleSubmit) {
   const validateForm = useCallback(() => {
     const schemaForValidate = Joi.object(schema);
     const { error } = schemaForValidate.validate(data);
-    if (error) return false;
+    if (error) {
+      return false;
+    }
     return true;
   }, [schema, data]);
 
