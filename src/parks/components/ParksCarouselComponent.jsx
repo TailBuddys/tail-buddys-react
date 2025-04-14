@@ -1,10 +1,18 @@
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-import { Box, CardMedia, IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
+import CardComponent from "../../components/card/CardComponent";
+import ParkDataToModel from "../helpers/initialForms/parkToModel";
 
-function CardGalleryComponent({ data }) {
+function ParksCarouselComponent({ parksData, isLoading, error }) {
+  console.log("this is parks");
+  console.log(parksData);
+
+  if (isLoading) return <Spinner />;
+  if (error) return <Error />;
   return (
     <Carousel
       showThumbs={false}
@@ -30,7 +38,7 @@ function CardGalleryComponent({ data }) {
           }}
           aria-label={`Slide ${index + 1} ${isSelected ? "(Selected)" : ""}`}
         >
-          {data.images.length > 1 ? (
+          {parksData.length > 1 ? (
             <img
               src="/assets/images/imageSelector.png"
               alt={`Indicator ${index}`}
@@ -79,8 +87,8 @@ function CardGalleryComponent({ data }) {
         )
       }
     >
-      {(data.images ?? []).length > 0 ? (
-        data.images.map((item, index) => (
+      {parksData ? (
+        parksData.map((item, index) => (
           <Box
             key={index}
             sx={{
@@ -90,32 +98,14 @@ function CardGalleryComponent({ data }) {
               width: "100%",
             }}
           >
-            <CardMedia
-              component="img"
-              src={item.url}
-              sx={{
-                width: "100%",
-                height: "100%",
-                maxHeight: "500px",
-                objectFit: "contain",
-                display: "block",
-              }}
-            />
+            <CardComponent data={ParkDataToModel(item)} />
           </Box>
         ))
       ) : (
-        <CardMedia
-          component="img"
-          height="*"
-          src={
-            data.vaccinated !== undefined
-              ? "/assets/images/noDogImage.png"
-              : "/assets/images/noParkImage.png"
-          }
-        />
+        <Typography>oops.. theres no parks to present </Typography>
       )}
     </Carousel>
   );
 }
 
-export default CardGalleryComponent;
+export default ParksCarouselComponent;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import DogDetailsComponent from "../../dogs/pages/DogDetailsComponent";
 import { useTheme as useMuiTheme } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -12,10 +11,11 @@ import {
   TableRow,
   useMediaQuery,
 } from "@mui/material";
-import DogProfileMenu from "../../dogs/pages/DogProfileMenu";
-import ParkProfileMenu from "../../parks/pages/ParkProfileMenu";
-import ParkDetailsComponent from "../../parks/pages/ParkDetailsComponent";
 import { getUser } from "../../services/localStorageService";
+import ParkDetailsComponent from "../../parks/components/ParkDetailsComponent";
+import ParkProfileMenu from "../../parks/components/ParkProfileMenu";
+import DogProfileMenu from "../../dogs/components/DogProfileMenu";
+import DogDetailsComponent from "../../dogs/components/DogDetailsComponent";
 
 function CardBody({ data }) {
   const theme = useMuiTheme();

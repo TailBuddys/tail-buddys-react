@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import {
   createPark,
+  deletePark,
+  getAllParks,
   getParkById,
+  updatePark,
   // getAllParks,
   // updatePark,
   // deletePark,
@@ -23,7 +26,6 @@ export default function useParks() {
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [park, setPark] = useState(); // אולי שימוש עתידי.....
-  // const { loginDog, user } = useUser();
   const { snackbarActivation } = useSnackbar();
 
   useAxios();
@@ -57,59 +59,51 @@ export default function useParks() {
 
   const handleUpdatePark = useCallback(
     async (parkFromClient) => {
-      //     try {
-      //       const normalizedDog = await updateDog(
-      //         loginDog,
-      //         normalizedExistingDog(dogFromClient)
-      //       );
-      //       snackbarActivation(
-      //         "success",
-      //         `${normalizedDog.name} your details has been successfully updated`
-      //       );
-      //     } catch (error) {
-      //       setError(error.message);
-      //     }
-      //     navigate(ROUTES.ROOT);
-      //     setIsLoading(false);
+      try {
+        const normalizePark = await updatePark(
+          parkFromClient.id,
+          normalizedPark(parkFromClient)
+        );
+        snackbarActivation(
+          "success",
+          `${normalizePark.name} your details has been successfully updated`
+        );
+      } catch (error) {
+        setError(error.message);
+      }
+      // אולי נכווין למקום אחר
+      navigate(ROUTES.ROOT);
+      setIsLoading(false);
     },
     [snackbarActivation, navigate]
   );
 
-  // const handleGetAllDogs = useCallback(async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const dogsData = await getAllDogs();
-  //     setIsLoading(false);
-  //     return dogsData;
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  //   setIsLoading(false);
-  // }, []);
+  const handleGetAllParks = useCallback(async () => {
+    // להכניס פילטרציה
+    setIsLoading(true);
+    try {
+      const parksData = await getAllParks();
+      setIsLoading(false);
+      return parksData;
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }, []);
 
   const handleDeletePark = useCallback(
     async (id) => {
-      console.log("park id is");
-      console.log(id);
-
-      //   setIsLoading(true);
-      //   try {
-      //     const deletedDog = await deleteDog(loginDog);
-      //     await setTokenInLocalStorage(deletedDog.refreshToken);
-      //     setToken(deletedDog.refreshToken);
-      //     const currentUserDogs = await getUserDogs();
-      //     if (currentUserDogs !== null && currentUserDogs.length > 0) {
-      //       await setLastDogInLocalStorage(String(currentUserDogs[0].id));
-      //       setLoginDog(String(currentUserDogs[0].id));
-      //     } else {
-      //       removeDogFromLocalStorage();
-      //       setLoginDog(null);
-      //     }
-      //     snackbarActivation("success", `You deleted dog successfully`);
-      //   } catch (error) {
-      //     setError(error.message);
-      //   }
-      //   navigate(ROUTES.ROOT);
+      setIsLoading(true);
+      try {
+        const deletedPark = await deletePark(id);
+        snackbarActivation(
+          "success",
+          `You deleted ${deletedPark.name} successfully`
+        );
+      } catch (error) {
+        setError(error.message);
+      }
+      navigate(ROUTES.ROOT); // לנווט לקומפוננט, ניהול פארקים
     },
     [snackbarActivation, navigate]
   );
@@ -122,6 +116,7 @@ export default function useParks() {
     handleCreatePark,
     handleGetParkById,
     handleUpdatePark,
+    handleGetAllParks,
     handleDeletePark,
   };
 }

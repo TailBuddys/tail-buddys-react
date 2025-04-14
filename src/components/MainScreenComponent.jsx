@@ -1,14 +1,13 @@
 import { Box } from "@mui/material";
-import HomePage from "../pages/HomePage";
+// import HomePage from "../pages/HomePage";
+import DogsPage from "../dogs/pages/DogsPage";
+import ParksPage from "../parks/pages/ParksPage";
 
-const MainScreenComponent = () => {
+const MainScreenComponent = ({ parksOrDogs }) => {
   return (
-    <Box
-      sx={{
-        backgroundColor: "#91cbee",
-      }}
-    >
-      <HomePage />
+    <Box>
+      {/* <HomePage /> */}
+      {parksOrDogs === "dogs" ? <DogsPage /> : <ParksPage />}
     </Box>
   );
 };

@@ -71,7 +71,6 @@ export default function EditParkPage() {
       return navigate(ROUTES.ROOT);
     }
   }, [navigate]);
-  console.log(data);
 
   return (
     <Container

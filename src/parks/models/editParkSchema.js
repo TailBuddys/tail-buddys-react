@@ -26,6 +26,9 @@ const editParkSchema = {
   }),
 
   images: Joi.optional(),
+  id: Joi.optional(),
+  distance: Joi.optional(),
+  dogLikes: Joi.optional(),
 };
 export default editParkSchema;
 

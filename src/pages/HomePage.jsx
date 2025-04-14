@@ -36,13 +36,6 @@ const HomePage = () => {
                   ))}
                 </ul>
               </div>
-              <div>
-                <h2>Generic Card</h2>
-                {/* <CardComponent /> */}
-              </div>
-              {/* <GoogleAddressComponent
-                onSelect={(location) => console.log(location)}
-              /> */}
             </Container>
           </Box>
           <Button
