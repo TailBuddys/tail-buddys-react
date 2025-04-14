@@ -40,17 +40,23 @@ export default function useImages(initialForm) {
     async (imagesFromClient, entityId, entityType) => {
       setIsLoading(true);
       try {
-        Object.entries(imagesFromClient).forEach(([key, value]) => {
-          if (value !== null) {
-            uploadImage(value, entityId, entityType);
-          }
-        });
+        const imagesToUpload = Object.values(imagesFromClient).filter(
+          (image) => image !== null
+        );
+        for (const image of imagesToUpload) {
+          await uploadImage(image, entityId, entityType);
+        }
+        if (entityType === 1) {
+          navigate(ROUTES.ROOT);
+        } else {
+          navigate(ROUTES.EDIT_DOG);
+        }
       } catch (error) {
         setError(error.message);
         snackbarActivation("error", error.message, "filled");
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
-      navigate(ROUTES.EDIT_DOG);
     },
     [snackbarActivation, navigate]
   );

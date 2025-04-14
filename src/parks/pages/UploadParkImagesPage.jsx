@@ -2,14 +2,14 @@ import UploadImagesComponent from "../../images/components/UploadImagesComponent
 import useImages from "../../images/hooks/useImages";
 import UploadImagesForm from "../../images/components/UploadImagesForm";
 import { Container } from "@mui/material";
-import { useDog } from "../providers/DogProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 import { useEffect } from "react";
 import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
+import { getUser } from "../../services/localStorageService";
 
-const UploadDogImagesPage = () => {
+const UploadParkImagesPage = () => {
   const navigate = useNavigate();
   const {
     isLoading,
@@ -21,13 +21,14 @@ const UploadDogImagesPage = () => {
     handleDeleteView,
   } = useImages();
 
-  const { dog } = useDog();
-
   useEffect(() => {
-    if (dog?.images?.length > 0) {
-      navigate(ROUTES.EDIT_DOG);
+    const user = getUser();
+    if (!user || user.IsAdmin === "False") {
+      return navigate(ROUTES.ROOT);
     }
-  }, [dog, navigate]);
+  }, [navigate]);
+  const { id } = useParams();
+
   if (isLoading) return <Spinner />;
   if (error) return <Error />;
   return (
@@ -39,8 +40,8 @@ const UploadDogImagesPage = () => {
     >
       <UploadImagesForm
         onSubmit={handleUploadImages}
-        entityId={dog?.id}
-        entityType={0}
+        entityId={id}
+        entityType={1}
         images={images}
         title={"Upload Images"}
         styles={{ maxWidth: "800px" }}
@@ -59,4 +60,4 @@ const UploadDogImagesPage = () => {
   );
 };
 
-export default UploadDogImagesPage;
+export default UploadParkImagesPage;

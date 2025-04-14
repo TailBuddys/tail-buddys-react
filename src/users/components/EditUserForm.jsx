@@ -2,7 +2,7 @@ import React from "react";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -59,7 +59,7 @@ export default function EditUserForm({
         sm={6}
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
+        <MobileDatePicker
           name="birthDate"
           label="birth Date"
           error={errors.birthDate}

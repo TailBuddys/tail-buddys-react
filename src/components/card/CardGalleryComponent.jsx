@@ -27,7 +27,7 @@ function CardGalleryComponent({ data }) {
         >
           {data.images.length > 1 ? (
             <img
-              src="assets/images/imageSelector.png"
+              src="/assets/images/imageSelector.png"
               alt={`Indicator ${index}`}
               style={{
                 width: isSelected ? "18px" : "15px",

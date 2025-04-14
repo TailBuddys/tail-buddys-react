@@ -9,6 +9,10 @@ const ROUTES = {
   EDIT_DOG: "/edit-dog",
   DOG_PROFILE: "/dog-info",
   UPLOAD_DOG_IMAGE: "/upload-dog-img",
+  CREATE_PARK: "/create-park",
+  EDIT_PARK: "/edit-park",
+  PARK_PROFILE: "/park-info",
+  UPLOAD_PARK_IMAGE: "/upload-park-img",
 };
 
 export default ROUTES;

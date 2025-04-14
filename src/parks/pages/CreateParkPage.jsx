@@ -2,15 +2,16 @@ import React, { useEffect } from "react";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
-import CreateDogForm from "../components/CreateDogForm";
-import useDogs from "../hooks/useDogs";
 import useForm from "../../forms/hooks/useForm";
-import initialCreateDogForm from "../helpers/initialForms/initialCreateDogForm";
-import createDogSchema from "../models/createDogSchema";
-import { getUser } from "../../services/localStorageService";
 
-export default function CreateDogPage() {
-  const { handleCreateDog } = useDogs();
+import { getUser } from "../../services/localStorageService";
+import useParks from "../hooks/useParks";
+import createParkSchema from "../models/createParkSchema";
+import CreateParkForm from "../components/CreateParkForm";
+import initialParkForm from "../helpers/initialForms/initialParkForm";
+
+export default function CreateParkPage() {
+  const { handleCreatePark } = useParks();
   const navigate = useNavigate();
 
   const {
@@ -22,11 +23,11 @@ export default function CreateDogPage() {
     handleReset,
     validateForm,
     onSubmit,
-  } = useForm(initialCreateDogForm, createDogSchema, handleCreateDog);
+  } = useForm(initialParkForm, createParkSchema, handleCreatePark);
 
   useEffect(() => {
     const user = getUser();
-    if (!user) {
+    if (!user || user.IsAdmin === "False") {
       return navigate(ROUTES.ROOT);
     }
   }, [navigate]);
@@ -40,11 +41,11 @@ export default function CreateDogPage() {
         alignItems: "center",
       }}
     >
-      <CreateDogForm
+      <CreateParkForm
         onSubmit={onSubmit}
         onReset={handleReset}
         validateForm={validateForm}
-        title={"create dog form"}
+        title={"create park form"}
         errors={errors}
         data={data}
         onInputChange={handleChange}

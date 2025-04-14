@@ -13,12 +13,16 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import DogProfileMenu from "../../dogs/pages/DogProfileMenu";
+import ParkProfileMenu from "../../parks/pages/ParkProfileMenu";
+import ParkDetailsComponent from "../../parks/pages/ParkDetailsComponent";
+import { getUser } from "../../services/localStorageService";
 
 function CardBody({ data }) {
   const theme = useMuiTheme();
   const screenSize = useMediaQuery(theme.breakpoints.up("md"));
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [anchorEL, setAnchor] = useState(null);
+  const user = getUser();
 
   useEffect(() => {
     setMenuOpen(false);
@@ -99,15 +103,32 @@ function CardBody({ data }) {
                       <ArrowBackIosNewIcon />
                     </IconButton>
                   </>
-                  for parks
                   <>
-                    <IconButton
-                      sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
-                      onClick={() => setMenuOpen(true)}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
+                    {user && user.IsAdmin === "True" && (
+                      <>
+                        <IconButton
+                          sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}
+                          onClick={(event) => {
+                            setAnchor(event.currentTarget);
+                            setMenuOpen(true);
+                          }}
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                        <ParkProfileMenu
+                          data={data}
+                          anchorEl={anchorEL}
+                          isOpen={isMenuOpen}
+                          onClose={() => setMenuOpen(false)}
+                        />
+                      </>
+                    )}
                   </>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell sx={{ borderBottom: "none" }}>
+                  <ParkDetailsComponent parkData={data} />
                 </TableCell>
               </TableRow>
             </TableHead>
