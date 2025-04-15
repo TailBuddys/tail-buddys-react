@@ -3,15 +3,28 @@ import React from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-function CardActionBar() {
+function CardActionBar({ data }) {
   return (
     <Box>
-      <Fab color="error" onClick={() => {}}>
-        <ThumbDownAltIcon />
-      </Fab>
-      <Fab color="success" onClick={() => {}}>
-        <FavoriteIcon />
-      </Fab>
+      {data?.dogLikes ? (
+        <>
+          <Fab color="error" onClick={() => {}}>
+            <FavoriteIcon />
+          </Fab>
+          <Fab color="error" onClick={() => {}}>
+            <FavoriteIcon />
+          </Fab>
+        </>
+      ) : (
+        <>
+          <Fab color="error" onClick={() => {}}>
+            <ThumbDownAltIcon />
+          </Fab>
+          <Fab color="success" onClick={() => {}}>
+            <FavoriteIcon />
+          </Fab>
+        </>
+      )}
     </Box>
   );
 }

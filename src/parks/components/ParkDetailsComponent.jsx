@@ -1,5 +1,7 @@
 import React from "react";
 import {
+  Avatar,
+  AvatarGroup,
   Container,
   Table,
   TableCell,
@@ -20,7 +22,7 @@ export default function ParkDetailsComponent({ parkData }) {
                 <Typography>{parkData.name}</Typography>
                 {/* <Typography>{dogTypes[dogData.type]?.displayName}</Typography> */}
                 {parkData.distance && (
-                  <Typography>{parkData.distance} meters away</Typography>
+                  <Typography>{parkData.distance} Km away</Typography>
                 )}
               </TableCell>
             </TableRow>
@@ -31,8 +33,13 @@ export default function ParkDetailsComponent({ parkData }) {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>
-                <Typography>Dog Likes: {parkData.dogLikes}</Typography>
+              <TableCell sx={{ display: "flex", justifyContent: "start" }}>
+                <Typography>Dog Likes:</Typography>
+                <AvatarGroup max={6}>
+                  {parkData.dogLikes.map((dog, index) => (
+                    <Avatar key={index} alt={dog.name} src={dog.imageUrl} />
+                  ))}
+                </AvatarGroup>
               </TableCell>
             </TableRow>
           </TableHead>

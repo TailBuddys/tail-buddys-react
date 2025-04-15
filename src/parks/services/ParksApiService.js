@@ -36,13 +36,19 @@ const getParkById = async (id) => {
   }
 };
 
-const getAllParks = async (filters = {}) => {
+const getAllParks = async (id = null, filters = {}) => {
   // התאמות בבאק לקבל פילטרים
   try {
     const queryParams = buildQueryParams(filters);
-    const url = `${apiUrl}?${queryParams}`;
-    const { data } = await axios.get(url);
-    return data;
+    if (id !== null) {
+      const url = `${apiUrl}/dog/${id}?${queryParams}`;
+      const { data } = await axios.get(url);
+      return data;
+    } else {
+      const url = `${apiUrl}?${queryParams}`;
+      const { data } = await axios.get(url);
+      return data;
+    }
   } catch (error) {
     throw new Error(error.message.data);
   }

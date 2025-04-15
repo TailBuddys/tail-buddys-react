@@ -51,7 +51,7 @@ export default function DogProvider({ children }) {
       }
     }
 
-    if (loginDog) {
+    if (loginDog && user) {
       const fetchDogs = async () => {
         try {
           const fetchedDog = await handleGetDogById();

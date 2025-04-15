@@ -50,12 +50,12 @@ export default function UserProvider({ children }) {
   }, [token, user]);
 
   useEffect(() => {
-    if (!loginDog) {
+    if (!loginDog || !token) {
       setSeeParksOrDogs("parks");
-    } else {
+    } else if (seeParksOrDogs === "dogs") {
       setSeeParksOrDogs("dogs");
     }
-  }, [loginDog]);
+  }, [loginDog, token, seeParksOrDogs]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

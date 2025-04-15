@@ -72,8 +72,8 @@ export default function useUsers() {
     removeTokenFromLocalStorage();
     setUser(null);
     snackbarActivation("success", "LOGGEDOUT Succesfuly", "filled");
-    navigate(ROUTES.ROOT);
-  }, [setUser, snackbarActivation, navigate]);
+    window.location.reload();
+  }, [setUser, snackbarActivation]);
 
   const handleSignup = useCallback(
     async (userFromClient) => {

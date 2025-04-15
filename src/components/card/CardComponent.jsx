@@ -28,7 +28,7 @@ function CardComponent({ data }) {
           </Grid2>
         </Grid2>
       </Card>
-      {data.distance && loginDog ? <CardActionBar /> : null}
+      {data.distance && loginDog ? <CardActionBar data={data} /> : null}
     </Box>
   );
 }

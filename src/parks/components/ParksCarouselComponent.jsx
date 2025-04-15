@@ -1,15 +1,52 @@
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
 import CardComponent from "../../components/card/CardComponent";
 import ParkDataToModel from "../helpers/initialForms/parkToModel";
 
-function ParksCarouselComponent({ parksData, isLoading, error }) {
-  console.log("this is parks");
-  console.log(parksData);
+function ParksCarouselComponent({
+  parksData,
+  isLoading,
+  error,
+  setPresentedPark,
+  presentedPark,
+}) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    if (presentedPark && parksData) {
+      const newIndex = parksData.findIndex(
+        (park) => park.id === presentedPark.id
+      );
+      if (newIndex !== -1) {
+        setCurrentSlide(newIndex);
+      }
+    }
+  }, [presentedPark, parksData]);
+
+  const handlePrevClick = (onClickHandler) => {
+    onClickHandler();
+    const newIndex =
+      currentSlide === 0 ? parksData.length - 1 : currentSlide - 1;
+    setCurrentSlide(newIndex);
+    setPresentedPark(parksData[newIndex]);
+  };
+
+  const handleNextClick = (onClickHandler) => {
+    onClickHandler();
+    const newIndex =
+      currentSlide === parksData.length - 1 ? 0 : currentSlide + 1;
+    setCurrentSlide(newIndex);
+    setPresentedPark(parksData[newIndex]);
+  };
+
+  const handleSlideChange = (index) => {
+    setCurrentSlide(index);
+    setPresentedPark(parksData[index]);
+  };
 
   if (isLoading) return <Spinner />;
   if (error) return <Error />;
@@ -19,6 +56,7 @@ function ParksCarouselComponent({ parksData, isLoading, error }) {
       showStatus={false}
       infiniteLoop
       transitionTime="300"
+      selectedItem={currentSlide}
       renderIndicator={(
         onClickHandler,
         isSelected,
@@ -27,7 +65,10 @@ function ParksCarouselComponent({ parksData, isLoading, error }) {
       ) => (
         <button
           key={index}
-          onClick={onClickHandler}
+          onClick={(e) => {
+            onClickHandler(e);
+            handleSlideChange(index);
+          }}
           onKeyDown={onClickHandler}
           style={{
             background: "none",
@@ -57,7 +98,7 @@ function ParksCarouselComponent({ parksData, isLoading, error }) {
       renderArrowPrev={(onClickHandler, hasPrev, label) =>
         hasPrev && (
           <IconButton
-            onClick={onClickHandler}
+            onClick={() => handlePrevClick(onClickHandler)}
             title={label}
             sx={{
               position: "absolute",
@@ -73,7 +114,7 @@ function ParksCarouselComponent({ parksData, isLoading, error }) {
       renderArrowNext={(onClickHandler, hasNext, label) =>
         hasNext && (
           <IconButton
-            onClick={onClickHandler}
+            onClick={() => handleNextClick(onClickHandler)}
             title={label}
             sx={{
               position: "absolute",
@@ -87,7 +128,7 @@ function ParksCarouselComponent({ parksData, isLoading, error }) {
         )
       }
     >
-      {parksData ? (
+      {parksData?.length > 0 ? (
         parksData.map((item, index) => (
           <Box
             key={index}

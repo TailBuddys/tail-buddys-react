@@ -78,13 +78,19 @@ export default function useParks() {
     [snackbarActivation, navigate]
   );
 
-  const handleGetAllParks = useCallback(async () => {
+  const handleGetAllParks = useCallback(async (id) => {
     // להכניס פילטרציה
     setIsLoading(true);
     try {
-      const parksData = await getAllParks();
-      setIsLoading(false);
-      return parksData;
+      if (id !== null) {
+        const parksData = await getAllParks(id);
+        setIsLoading(false);
+        return parksData;
+      } else {
+        const parksData = await getAllParks();
+        setIsLoading(false);
+        return parksData;
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -103,9 +109,9 @@ export default function useParks() {
       } catch (error) {
         setError(error.message);
       }
-      navigate(ROUTES.ROOT); // לנווט לקומפוננט, ניהול פארקים
+      window.location.reload();
     },
-    [snackbarActivation, navigate]
+    [snackbarActivation]
   );
 
   return {

@@ -60,7 +60,6 @@ export default function DogDetailsComponent({ dogData }) {
     const sizeMap = { 0: "Small", 1: "Medium", 2: "Large" };
     return sizeMap[size] || "Unknown";
   };
-
   return (
     <Container>
       <TableContainer>
