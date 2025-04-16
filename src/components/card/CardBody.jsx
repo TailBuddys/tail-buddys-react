@@ -17,7 +17,7 @@ import ParkProfileMenu from "../../parks/components/ParkProfileMenu";
 import DogProfileMenu from "../../dogs/components/DogProfileMenu";
 import DogDetailsComponent from "../../dogs/components/DogDetailsComponent";
 
-function CardBody({ data }) {
+function CardBody({ data, loginDog, handleLikeUnlikePark }) {
   const theme = useMuiTheme();
   const screenSize = useMediaQuery(theme.breakpoints.up("md"));
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -128,7 +128,11 @@ function CardBody({ data }) {
               </TableRow>
               <TableRow>
                 <TableCell sx={{ borderBottom: "none" }}>
-                  <ParkDetailsComponent parkData={data} />
+                  <ParkDetailsComponent
+                    parkData={data}
+                    loginDog={loginDog}
+                    handleLikeUnlikePark={handleLikeUnlikePark}
+                  />
                 </TableCell>
               </TableRow>
             </TableHead>

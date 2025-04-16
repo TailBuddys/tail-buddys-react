@@ -5,17 +5,8 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 function CardActionBar({ data }) {
   return (
-    <Box>
-      {data?.dogLikes ? (
-        <>
-          <Fab color="error" onClick={() => {}}>
-            <FavoriteIcon />
-          </Fab>
-          <Fab color="error" onClick={() => {}}>
-            <FavoriteIcon />
-          </Fab>
-        </>
-      ) : (
+    <Box sx={{}}>
+      {!data?.dogLikes ? (
         <>
           <Fab color="error" onClick={() => {}}>
             <ThumbDownAltIcon />
@@ -24,7 +15,7 @@ function CardActionBar({ data }) {
             <FavoriteIcon />
           </Fab>
         </>
-      )}
+      ) : null}
     </Box>
   );
 }

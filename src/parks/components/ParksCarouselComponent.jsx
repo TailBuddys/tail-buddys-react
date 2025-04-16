@@ -6,6 +6,7 @@ import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
 import CardComponent from "../../components/card/CardComponent";
 import ParkDataToModel from "../helpers/initialForms/parkToModel";
+import useParks from "../hooks/useParks";
 
 function ParksCarouselComponent({
   parksData,
@@ -15,6 +16,7 @@ function ParksCarouselComponent({
   presentedPark,
 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { handleLikeUnlikePark } = useParks();
 
   useEffect(() => {
     if (presentedPark && parksData) {
@@ -57,6 +59,9 @@ function ParksCarouselComponent({
       infiniteLoop
       transitionTime="300"
       selectedItem={currentSlide}
+      style={{
+        marginBottom: "50px", ////////////////
+      }}
       renderIndicator={(
         onClickHandler,
         isSelected,
@@ -139,7 +144,10 @@ function ParksCarouselComponent({
               width: "100%",
             }}
           >
-            <CardComponent data={ParkDataToModel(item)} />
+            <CardComponent
+              data={ParkDataToModel(item)}
+              handleLikeUnlikePark={handleLikeUnlikePark}
+            />
           </Box>
         ))
       ) : (

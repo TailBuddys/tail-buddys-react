@@ -5,7 +5,7 @@ import CardBody from "./CardBody";
 import CardActionBar from "./CardActionBar";
 import { useUser } from "../../users/providers/UserProvider";
 
-function CardComponent({ data }) {
+function CardComponent({ data, handleLikeUnlikePark }) {
   const { loginDog } = useUser();
 
   return (
@@ -24,7 +24,11 @@ function CardComponent({ data }) {
           </Grid2>
           <Divider orientation="vertical" variant="middle" flexItem />
           <Grid2 size={5.98}>
-            <CardBody data={data} />
+            <CardBody
+              data={data}
+              loginDog={loginDog}
+              handleLikeUnlikePark={handleLikeUnlikePark}
+            />
           </Grid2>
         </Grid2>
       </Card>

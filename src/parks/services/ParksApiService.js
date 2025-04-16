@@ -75,7 +75,11 @@ const deletePark = async (parkId) => {
 
 const likeUnlikePark = async (parkId, dogId) => {
   try {
-    const { data } = await axios.post(`${apiUrl}/${parkId}`, dogId);
+    const { data } = await axios.post(`${apiUrl}/${parkId}`, dogId, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return data;
   } catch (error) {
     throw new Error(error.message.data);

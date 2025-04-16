@@ -9,10 +9,7 @@ import {
   getAllParks,
   getParkById,
   updatePark,
-  // getAllParks,
-  // updatePark,
-  // deletePark,
-  // likeUnlikePark,
+  likeUnlikePark,
 } from "../services/ParksApiService";
 // import {
 //   getUser,
@@ -114,6 +111,16 @@ export default function useParks() {
     [snackbarActivation]
   );
 
+  const handleLikeUnlikePark = useCallback(async (parkId, dogId) => {
+    setIsLoading(true);
+    try {
+      const updatedPark = await likeUnlikePark(parkId, dogId);
+      return updatedPark;
+    } catch (error) {
+      setError(error.message);
+    }
+  }, []);
+
   return {
     error,
     isLoading,
@@ -124,5 +131,6 @@ export default function useParks() {
     handleUpdatePark,
     handleGetAllParks,
     handleDeletePark,
+    handleLikeUnlikePark,
   };
 }

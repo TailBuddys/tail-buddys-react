@@ -9,6 +9,7 @@ import {
 } from "../services/usersApiService";
 import {
   getUser,
+  removeDogFromLocalStorage,
   removeTokenFromLocalStorage,
   setLastDogInLocalStorage,
   setTokenInLocalStorage,
@@ -71,9 +72,11 @@ export default function useUsers() {
   const handleLogout = useCallback(() => {
     removeTokenFromLocalStorage();
     setUser(null);
+    removeDogFromLocalStorage();
+    setLoginDog(null);
     snackbarActivation("success", "LOGGEDOUT Succesfuly", "filled");
     window.location.reload();
-  }, [setUser, snackbarActivation]);
+  }, [setUser, setLoginDog, snackbarActivation]);
 
   const handleSignup = useCallback(
     async (userFromClient) => {
