@@ -1,24 +1,88 @@
-import { Alert, AlertTitle, Backdrop, Box, Button, Stack } from "@mui/material";
-import React, { createContext, useCallback, useContext, useState } from "react";
+import {
+  Alert,
+  AlertTitle,
+  Backdrop,
+  Box,
+  Button,
+  Slider,
+  Stack,
+  Typography,
+} from "@mui/material";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import {
+  getDogsFiltersFromLocalStorage,
+  getParksFiltersFromLocalStorage,
+} from "../services/localStorageService";
+import { MultiSelect } from "primereact/multiselect";
+import useDogs from "../dogs/hooks/useDogs";
+
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 // import { useSnackbar } from "./SnackbarProvider";
 
 const AlertContext = createContext();
 
 export default function AlertProvider({ children }) {
-  const [open, setOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [popUpOpen, setPopUpOpen] = useState(false);
   const [color, setColor] = useState("info");
   const [title, setTitle] = useState("Info");
   const [message, setMessage] = useState("");
+  const [entityType, setEntityType] = useState("");
   const [operation, setOperation] = useState(null);
+  const [filtersData, setFiltersData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { fetchDogTypes } = useDogs();
   // const { snackbarActivation } = useSnackbar();
 
+  const [selectedBreeds, setSelectedBreeds] = useState([]);
+  const [breeds, setBreeds] = useState([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchDogTypes().then((dogTypes) => {
+      const formattedBreeds = dogTypes.map((breed) => ({
+        name: breed.displayName,
+        code: breed.value.toString(),
+      }));
+      setBreeds(formattedBreeds);
+    });
+    setIsLoading(false);
+  }, [fetchDogTypes]);
+
+  const [selectedSizes, setSelectedSizes] = useState(null);
+  const Sizes = [
+    { name: "Small", code: 0 },
+    { name: "Medium", code: 1 },
+    { name: "Large", code: 2 },
+  ];
+  const [selectedGenders, setSelectedGenders] = useState(null);
+  const genders = [
+    { name: "Male", code: true },
+    { name: "Female", code: false },
+  ];
+  const [vaccinatedDogs, setVaccinatedDogs] = useState(null);
+  const vaccinated = [
+    { name: "Yes", code: true },
+    { name: "No", code: false },
+  ];
+
   const handleClose = () => {
-    setOpen(false);
+    setAlertOpen(false);
+    setPopUpOpen(false);
   };
 
   const handleOk = () => {
     if (operation) operation();
+    handleClose();
+  };
+
+  const handleSaveFilters = () => {
     handleClose();
   };
 
@@ -29,7 +93,7 @@ export default function AlertProvider({ children }) {
 
   const alertActivation = useCallback(
     (color, title, message, operation = null) => {
-      setOpen(true);
+      setAlertOpen(true);
       setColor(color);
       setTitle(title);
       setMessage(message);
@@ -38,13 +102,26 @@ export default function AlertProvider({ children }) {
     []
   );
 
+  const popUpFilterSelection = useCallback((color, title, entityType) => {
+    // setIsLoading(true);
+    setPopUpOpen(true);
+    setColor(color);
+    setTitle(title);
+    setEntityType(entityType);
+    if (entityType === "parks") {
+      setFiltersData(getParksFiltersFromLocalStorage());
+    } else {
+      setFiltersData(getDogsFiltersFromLocalStorage());
+    }
+  }, []);
+
   return (
     <Box>
-      <AlertContext.Provider value={{ alertActivation }}>
+      <AlertContext.Provider value={{ alertActivation, popUpFilterSelection }}>
         {children}
       </AlertContext.Provider>
 
-      <Backdrop open={open} sx={{ zIndex: 1 }}>
+      <Backdrop open={alertOpen} sx={{ zIndex: 1 }}>
         <Stack sx={{ width: 350, position: "reletive", zIndex: 2 }} spacing={2}>
           <Alert severity={color} variant="filled">
             <AlertTitle>{title}</AlertTitle>
@@ -75,6 +152,173 @@ export default function AlertProvider({ children }) {
                 onClick={handleClose}
               >
                 {!operation ? "ok" : "cancel"}
+              </Button>
+            </Box>
+          </Alert>
+        </Stack>
+      </Backdrop>
+
+      <Backdrop open={popUpOpen} sx={{ zIndex: 3 }}>
+        <Stack
+          sx={{
+            width: 700,
+            position: "relative",
+            zIndex: 4,
+          }}
+          spacing={2}
+        >
+          <Alert
+            severity={color}
+            variant="filled"
+            sx={{
+              width: 700,
+              display: "flex",
+              justifyContent: "center",
+              // overflow: "auto", // Ensures scrollbar appears when content overflows
+              // maxHeight: "80vh", // Limits height and enables scrolling if needed
+              "& .MuiAlert-message": {
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              },
+            }}
+          >
+            <AlertTitle>{title}</AlertTitle>
+            Here you can optimize your {entityType} filters:
+            <br />
+            <br />
+            <Box sx={{ width: "90%", px: 2 }}>
+              <Typography>Distance:</Typography>
+              <Slider
+                color="secondary"
+                defaultValue={10}
+                valueLabelDisplay="auto"
+                shiftStep={5}
+                step={5}
+                marks
+                min={5}
+                max={100}
+                sx={{
+                  maxWidth: 600,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              />
+            </Box>
+            {entityType === "parks" ? (
+              <Box sx={{ width: "90%", px: 2 }}>
+                <Typography>Park Likes:</Typography>
+                <Slider
+                  color="secondary"
+                  defaultValue={0}
+                  valueLabelDisplay="auto"
+                  shiftStep={1}
+                  step={1}
+                  marks
+                  min={0}
+                  max={20}
+                  sx={{
+                    maxWidth: 600,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                />
+              </Box>
+            ) : (
+              <>
+                <Box sx={{ width: "90%", px: 2 }}>
+                  <Typography>Breeds Types:</Typography>
+                  <MultiSelect
+                    value={selectedBreeds}
+                    onChange={(e) => setSelectedBreeds(e.value)}
+                    options={breeds}
+                    optionLabel="name"
+                    filter
+                    selectedItemsLabel={`${selectedBreeds.length} selected items`} // בעיה לטפל----
+                    placeholder="Select Breed"
+                    loading={isLoading}
+                    display="chip"
+                    maxSelectedLabels={4}
+                    className="w-full md:w-20rem"
+                  />
+                  <Typography>Dog Sizes:</Typography>
+                  <MultiSelect
+                    value={selectedSizes}
+                    onChange={(e) => setSelectedSizes(e.value)}
+                    options={Sizes}
+                    optionLabel="name"
+                    filter
+                    placeholder="Select Sizse"
+                    display="chip"
+                    maxSelectedLabels={5}
+                    className="w-full md:w-20rem"
+                  />
+                </Box>
+                <Box sx={{ width: "90%", px: 2 }}>
+                  <Typography>Select Gender:</Typography>
+                  <MultiSelect
+                    value={selectedGenders}
+                    onChange={(e) => setSelectedGenders(e.value)}
+                    options={genders}
+                    optionLabel="name"
+                    filter
+                    placeholder="Select Genders"
+                    display="chip"
+                    maxSelectedLabels={5}
+                    className="w-full md:w-20rem"
+                  />
+                </Box>
+                <Box sx={{ width: "90%", px: 2 }}>
+                  <Typography>Vaccinated Dogs:</Typography>
+                  <MultiSelect
+                    value={vaccinatedDogs}
+                    onChange={(e) => setVaccinatedDogs(e.value)}
+                    options={vaccinated}
+                    optionLabel="name"
+                    filter
+                    placeholder="Select If Vaccinated"
+                    display="chip"
+                    maxSelectedLabels={5}
+                    className="w-full md:w-20rem"
+                  />
+                </Box>
+              </>
+            )}
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+                mt: 2,
+                width: "100%",
+                justifyContent: "center",
+              }}
+            >
+              <Button
+                variant="outlined"
+                color="inherit"
+                size="small"
+                onClick={handleSaveFilters}
+              >
+                Save Filters
+              </Button>
+              <Button
+                variant="outlined"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setFiltersData(null);
+                }}
+              >
+                Clean Filters
+              </Button>
+              <Button
+                variant="outlined"
+                color="inherit"
+                size="small"
+                onClick={handleClose}
+              >
+                Cancel
               </Button>
             </Box>
           </Alert>

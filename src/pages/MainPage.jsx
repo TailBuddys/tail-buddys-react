@@ -1,4 +1,5 @@
-import { Avatar, Grid2, Tooltip, Typography, Zoom } from "@mui/material";
+import { Avatar, Button, Grid2, Tooltip, Zoom } from "@mui/material";
+import TuneIcon from "@mui/icons-material/Tune";
 import React, { useEffect, useState } from "react";
 import MatchScreenComponent from "../matches/components/MatchScreenComponent";
 import MainScreenComponent from "../components/MainScreenComponent";
@@ -9,6 +10,7 @@ import useParks from "../parks/hooks/useParks";
 import { useDog } from "../dogs/providers/DogProvider";
 import NavBarLink from "../routes/components/NavBarLink";
 import ROUTES from "../routes/routesModel";
+import { useAlert } from "../providers/AlertProvider";
 
 const MainPage = () => {
   const { seeParksOrDogs, user } = useUser();
@@ -16,6 +18,7 @@ const MainPage = () => {
   const [presentedPark, setPresentedPark] = useState();
   const { handleGetAllParks, isLoading, error } = useParks();
   const [parksData, setParksData] = useState([]);
+  const { popUpFilterSelection } = useAlert();
 
   useEffect(() => {
     handleGetAllParks(dog?.id).then((parks) => {
@@ -60,10 +63,21 @@ const MainPage = () => {
               </Tooltip>
             </NavBarLink>
           )}
-
-          <Typography sx={{ display: "flex", justifyContent: "end" }}>
-            פילטרים
-          </Typography>
+          <Tooltip
+            title="Set filters"
+            slots={{
+              transition: Zoom,
+            }}
+            arrow
+          >
+            <Button
+              onClick={() => {
+                popUpFilterSelection("info", "Parks filters", "dogs");
+              }}
+            >
+              <TuneIcon />
+            </Button>
+          </Tooltip>
         </Grid2>
         <Grid2 size={12}>
           <MainScreenComponent

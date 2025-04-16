@@ -19,6 +19,7 @@
     "dayjs": "^1.11.13",
     "joi": "^17.13.3",
     "jwt-decode": "^4.0.0",
+    "primereact": "^10.9.4",
     "react": "^19.0.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",

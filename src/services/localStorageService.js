@@ -25,6 +25,28 @@ const setLastDogInLocalStorage = (lastDog) => {
 const removeDogFromLocalStorage = () => localStorage.removeItem(LAST_DOG);
 const getDogFromLocalStorage = () => localStorage.getItem(LAST_DOG);
 
+const PARKS_FILTERS = "parks Filters";
+const setParksFiltersInLocalStorage = (filters) => {
+  localStorage.setItem(PARKS_FILTERS, JSON.stringify(filters));
+};
+const getParksFiltersFromLocalStorage = () => {
+  const data = localStorage.getItem(PARKS_FILTERS);
+  return data ? JSON.parse(data) : null;
+};
+const removeParksFiltersFromLocalStorage = () =>
+  localStorage.removeItem(PARKS_FILTERS);
+
+const DOGS_FILTERS = "dogs Filters";
+const setDogsFiltersInLocalStorage = (filters) => {
+  localStorage.setItem(DOGS_FILTERS, JSON.stringify(filters));
+};
+const getDogsFiltersFromLocalStorage = () => {
+  const data = localStorage.getItem(DOGS_FILTERS);
+  return data ? JSON.parse(data) : null;
+};
+const removeDogsFiltersFromLocalStorage = () =>
+  localStorage.removeItem(DOGS_FILTERS);
+
 export {
   setTokenInLocalStorage,
   removeTokenFromLocalStorage,
@@ -33,4 +55,10 @@ export {
   setLastDogInLocalStorage,
   removeDogFromLocalStorage,
   getDogFromLocalStorage,
+  setParksFiltersInLocalStorage,
+  getParksFiltersFromLocalStorage,
+  removeParksFiltersFromLocalStorage,
+  setDogsFiltersInLocalStorage,
+  getDogsFiltersFromLocalStorage,
+  removeDogsFiltersFromLocalStorage,
 };

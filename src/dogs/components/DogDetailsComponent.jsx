@@ -18,6 +18,7 @@ export default function DogDetailsComponent({ dogData }) {
   useEffect(() => {
     fetchDogTypes();
   }, [fetchDogTypes]);
+  console.log(dogTypes);
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";

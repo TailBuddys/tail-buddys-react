@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import useParks from "../hooks/useParks";
+import React from "react";
 import ParksCarouselComponent from "../components/ParksCarouselComponent";
 
 function ParksPage({
@@ -9,15 +8,6 @@ function ParksPage({
   setPresentedPark,
   presentedPark,
 }) {
-  // const { handleGetAllParks, isLoading, error } = useParks();
-  // const [parksData, setParksData] = useState([]);
-
-  // useEffect(() => {
-  //   handleGetAllParks().then((parks) => {
-  //     setParksData(parks);
-  //   });
-  // }, [handleGetAllParks]);
-
   return (
     <ParksCarouselComponent
       parksData={parksData}

@@ -172,6 +172,7 @@ export default function useDogs() {
     try {
       const types = await getDogTypes();
       setDogTypes(types);
+      return types;
     } catch (err) {
       setError(err.message);
     }
