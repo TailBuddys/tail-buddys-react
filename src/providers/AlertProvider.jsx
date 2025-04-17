@@ -18,6 +18,10 @@ import React, {
 import {
   getDogsFiltersFromLocalStorage,
   getParksFiltersFromLocalStorage,
+  removeDogsFiltersFromLocalStorage,
+  removeParksFiltersFromLocalStorage,
+  setDogsFiltersInLocalStorage,
+  setParksFiltersInLocalStorage,
 } from "../services/localStorageService";
 import { MultiSelect } from "primereact/multiselect";
 import useDogs from "../dogs/hooks/useDogs";
@@ -42,6 +46,8 @@ export default function AlertProvider({ children }) {
 
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [breeds, setBreeds] = useState([]);
+  const [distance, setDistance] = useState(10);
+  const [parkLikes, setParkLikes] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
@@ -72,9 +78,29 @@ export default function AlertProvider({ children }) {
     { name: "No", code: false },
   ];
 
+  const defaultDogFilters = {
+    distance: 10,
+    breeds: [],
+    sizes: [],
+    genders: [],
+    vaccinated: [],
+  };
+
+  const defaultParkFilters = {
+    distance: 10,
+    parkLikes: 0,
+  };
+
   const handleClose = () => {
     setAlertOpen(false);
     setPopUpOpen(false);
+    setFiltersData(null);
+    setDistance(10);
+    setParkLikes(0);
+    setSelectedBreeds([]);
+    setSelectedSizes(null);
+    setSelectedGenders(null);
+    setVaccinatedDogs(null);
   };
 
   const handleOk = () => {
@@ -83,6 +109,20 @@ export default function AlertProvider({ children }) {
   };
 
   const handleSaveFilters = () => {
+    if (entityType === "parks") {
+      setParksFiltersInLocalStorage({
+        distance,
+        parkLikes,
+      });
+    } else {
+      setDogsFiltersInLocalStorage({
+        distance,
+        breeds: selectedBreeds,
+        sizes: selectedSizes,
+        genders: selectedGenders,
+        vaccinated: vaccinatedDogs,
+      });
+    }
     handleClose();
   };
 
@@ -114,6 +154,21 @@ export default function AlertProvider({ children }) {
       setFiltersData(getDogsFiltersFromLocalStorage());
     }
   }, []);
+
+  useEffect(() => {
+    if (!filtersData) return;
+
+    if (entityType === "parks") {
+      setDistance(filtersData.distance ?? defaultParkFilters.distance);
+      setParkLikes(filtersData.parkLikes ?? defaultParkFilters.parkLikes);
+    } else {
+      setDistance(filtersData.distance ?? defaultDogFilters.distance);
+      setSelectedBreeds(filtersData.breeds ?? defaultDogFilters.breeds);
+      setSelectedSizes(filtersData.sizes ?? defaultDogFilters.sizes);
+      setSelectedGenders(filtersData.genders ?? defaultDogFilters.genders);
+      setVaccinatedDogs(filtersData.vaccinated ?? defaultDogFilters.vaccinated);
+    }
+  }, [filtersData]);
 
   return (
     <Box>
@@ -193,6 +248,8 @@ export default function AlertProvider({ children }) {
               <Slider
                 color="secondary"
                 defaultValue={10}
+                value={distance}
+                onChange={(e, value) => setDistance(value)}
                 valueLabelDisplay="auto"
                 shiftStep={5}
                 step={5}
@@ -212,6 +269,8 @@ export default function AlertProvider({ children }) {
                 <Slider
                   color="secondary"
                   defaultValue={0}
+                  value={parkLikes}
+                  onChange={(e, value) => setParkLikes(value)}
                   valueLabelDisplay="auto"
                   shiftStep={1}
                   step={1}
@@ -229,19 +288,45 @@ export default function AlertProvider({ children }) {
               <>
                 <Box sx={{ width: "90%", px: 2 }}>
                   <Typography>Breeds Types:</Typography>
-                  <MultiSelect
-                    value={selectedBreeds}
-                    onChange={(e) => setSelectedBreeds(e.value)}
-                    options={breeds}
-                    optionLabel="name"
-                    filter
-                    selectedItemsLabel={`${selectedBreeds.length} selected items`} // בעיה לטפל----
-                    placeholder="Select Breed"
-                    loading={isLoading}
-                    display="chip"
-                    maxSelectedLabels={4}
-                    className="w-full md:w-20rem"
-                  />
+                  <Box
+                    sx={{
+                      maxWidth: "600px",
+                      overflowX: "auto",
+                      position: "relative",
+
+                      "& .p-multiselect-label-container": {
+                        display: "flex",
+                        flexWrap: "nowrap",
+                        overflowX: "auto",
+                        maxWidth: "100%",
+                        whiteSpace: "nowrap",
+                        scrollbarWidth: "thin",
+                        "&::-webkit-scrollbar": {
+                          height: "4px",
+                        },
+                      },
+
+                      "& .p-chip": {
+                        flexShrink: 0,
+                      },
+                    }}
+                  >
+                    <MultiSelect
+                      value={selectedBreeds}
+                      onChange={(e) => setSelectedBreeds(e.value)}
+                      options={breeds}
+                      optionLabel="name"
+                      filter
+                      placeholder="Select Breed"
+                      loading={isLoading}
+                      display="chip"
+                      className="w-full md:w-20rem"
+                      style={{
+                        minWidth: "300px",
+                        maxWidth: "600px",
+                      }}
+                    />
+                  </Box>
                   <Typography>Dog Sizes:</Typography>
                   <MultiSelect
                     value={selectedSizes}
@@ -249,9 +334,9 @@ export default function AlertProvider({ children }) {
                     options={Sizes}
                     optionLabel="name"
                     filter
-                    placeholder="Select Sizse"
+                    placeholder="Select Sizes"
                     display="chip"
-                    maxSelectedLabels={5}
+                    maxSelectedLabels={3}
                     className="w-full md:w-20rem"
                   />
                 </Box>
@@ -265,7 +350,7 @@ export default function AlertProvider({ children }) {
                     filter
                     placeholder="Select Genders"
                     display="chip"
-                    maxSelectedLabels={5}
+                    maxSelectedLabels={2}
                     className="w-full md:w-20rem"
                   />
                 </Box>
@@ -279,7 +364,7 @@ export default function AlertProvider({ children }) {
                     filter
                     placeholder="Select If Vaccinated"
                     display="chip"
-                    maxSelectedLabels={5}
+                    maxSelectedLabels={2}
                     className="w-full md:w-20rem"
                   />
                 </Box>
@@ -307,7 +392,13 @@ export default function AlertProvider({ children }) {
                 color="inherit"
                 size="small"
                 onClick={() => {
-                  setFiltersData(null);
+                  if (entityType === "parks") {
+                    removeParksFiltersFromLocalStorage();
+                    setFiltersData(defaultParkFilters);
+                  } else {
+                    removeDogsFiltersFromLocalStorage();
+                    setFiltersData(defaultDogFilters);
+                  }
                 }}
               >
                 Clean Filters
