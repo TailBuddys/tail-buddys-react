@@ -1,4 +1,5 @@
 import axios from "axios";
+import normalizedDogFilters from "../helpers/normalization/normalizedDogFilters";
 
 const apiUrl = "https://localhost:7121/dog";
 
@@ -56,9 +57,10 @@ const getAllDogs = async () => {
 
 const getUnmatchedDogs = async (id, filters = {}) => {
   try {
-    const queryParams = buildQueryParams(filters);
-    const url = `${apiUrl}/match/${id}?${queryParams}`;
+    const notmalizedFilters = normalizedDogFilters(filters);
+    const queryParams = buildQueryParams(notmalizedFilters);
 
+    const url = `${apiUrl}/match/${id}?${queryParams}`;
     const { data } = await axios.get(url);
     return data;
   } catch (error) {

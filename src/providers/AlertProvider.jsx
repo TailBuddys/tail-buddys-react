@@ -25,6 +25,7 @@ import {
 } from "../services/localStorageService";
 import { MultiSelect } from "primereact/multiselect";
 import useDogs from "../dogs/hooks/useDogs";
+import { useUser } from "../users/providers/UserProvider";
 
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 // import { useSnackbar } from "./SnackbarProvider";
@@ -42,12 +43,13 @@ export default function AlertProvider({ children }) {
   const [filtersData, setFiltersData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { fetchDogTypes } = useDogs();
+  const { loginDog } = useUser();
   // const { snackbarActivation } = useSnackbar();
 
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [breeds, setBreeds] = useState([]);
   const [distance, setDistance] = useState(10);
-  const [parkLikes, setParkLikes] = useState(0);
+  const [dogLikes, setDogLikes] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
@@ -61,46 +63,33 @@ export default function AlertProvider({ children }) {
     setIsLoading(false);
   }, [fetchDogTypes]);
 
-  const [selectedSizes, setSelectedSizes] = useState(null);
+  const [size, setSize] = useState(null);
   const Sizes = [
     { name: "Small", code: 0 },
     { name: "Medium", code: 1 },
     { name: "Large", code: 2 },
   ];
-  const [selectedGenders, setSelectedGenders] = useState(null);
-  const genders = [
+  const [gender, setGender] = useState(null);
+  const Genders = [
     { name: "Male", code: true },
     { name: "Female", code: false },
   ];
-  const [vaccinatedDogs, setVaccinatedDogs] = useState(null);
-  const vaccinated = [
+  const [vaccinated, setVaccinated] = useState(null);
+  const VaccinatedStates = [
     { name: "Yes", code: true },
     { name: "No", code: false },
   ];
-
-  const defaultDogFilters = {
-    distance: 10,
-    breeds: [],
-    sizes: [],
-    genders: [],
-    vaccinated: [],
-  };
-
-  const defaultParkFilters = {
-    distance: 10,
-    parkLikes: 0,
-  };
 
   const handleClose = () => {
     setAlertOpen(false);
     setPopUpOpen(false);
     setFiltersData(null);
     setDistance(10);
-    setParkLikes(0);
+    setDogLikes(0);
     setSelectedBreeds([]);
-    setSelectedSizes(null);
-    setSelectedGenders(null);
-    setVaccinatedDogs(null);
+    setSize(null);
+    setGender(null);
+    setVaccinated(null);
   };
 
   const handleOk = () => {
@@ -112,17 +101,18 @@ export default function AlertProvider({ children }) {
     if (entityType === "parks") {
       setParksFiltersInLocalStorage({
         distance,
-        parkLikes,
+        dogLikes,
       });
     } else {
       setDogsFiltersInLocalStorage({
         distance,
         breeds: selectedBreeds,
-        sizes: selectedSizes,
-        genders: selectedGenders,
-        vaccinated: vaccinatedDogs,
+        size: size,
+        gender: gender,
+        vaccinated: vaccinated,
       });
     }
+    if (operation) operation();
     handleClose();
   };
 
@@ -142,33 +132,36 @@ export default function AlertProvider({ children }) {
     []
   );
 
-  const popUpFilterSelection = useCallback((color, title, entityType) => {
-    // setIsLoading(true);
-    setPopUpOpen(true);
-    setColor(color);
-    setTitle(title);
-    setEntityType(entityType);
-    if (entityType === "parks") {
-      setFiltersData(getParksFiltersFromLocalStorage());
-    } else {
-      setFiltersData(getDogsFiltersFromLocalStorage());
-    }
-  }, []);
+  const popUpFilterSelection = useCallback(
+    (color, title, entityType, operation = null) => {
+      setPopUpOpen(true);
+      setColor(color);
+      setTitle(title);
+      setEntityType(entityType);
+      if (entityType === "parks") {
+        setFiltersData(getParksFiltersFromLocalStorage());
+      } else {
+        setFiltersData(getDogsFiltersFromLocalStorage());
+      }
+      setOperation(() => operation);
+    },
+    []
+  );
 
   useEffect(() => {
     if (!filtersData) return;
 
     if (entityType === "parks") {
-      setDistance(filtersData.distance ?? defaultParkFilters.distance);
-      setParkLikes(filtersData.parkLikes ?? defaultParkFilters.parkLikes);
+      setDistance(filtersData.distance ?? 10);
+      setDogLikes(filtersData.dogLikes ?? 0);
     } else {
-      setDistance(filtersData.distance ?? defaultDogFilters.distance);
-      setSelectedBreeds(filtersData.breeds ?? defaultDogFilters.breeds);
-      setSelectedSizes(filtersData.sizes ?? defaultDogFilters.sizes);
-      setSelectedGenders(filtersData.genders ?? defaultDogFilters.genders);
-      setVaccinatedDogs(filtersData.vaccinated ?? defaultDogFilters.vaccinated);
+      setDistance(filtersData.distance ?? 100);
+      setSelectedBreeds(filtersData.breeds ?? []);
+      setSize(filtersData.size ?? []);
+      setGender(filtersData.gender ?? []);
+      setVaccinated(filtersData.vaccinated ?? []);
     }
-  }, [filtersData]);
+  }, [filtersData, entityType]);
 
   return (
     <Box>
@@ -213,12 +206,12 @@ export default function AlertProvider({ children }) {
         </Stack>
       </Backdrop>
 
-      <Backdrop open={popUpOpen} sx={{ zIndex: 3 }}>
+      <Backdrop open={popUpOpen} sx={{ zIndex: 1000 }}>
         <Stack
           sx={{
             width: 700,
             position: "relative",
-            zIndex: 4,
+            zIndex: 1001,
           }}
           spacing={2}
         >
@@ -243,34 +236,36 @@ export default function AlertProvider({ children }) {
             Here you can optimize your {entityType} filters:
             <br />
             <br />
-            <Box sx={{ width: "90%", px: 2 }}>
-              <Typography>Distance:</Typography>
-              <Slider
-                color="secondary"
-                defaultValue={10}
-                value={distance}
-                onChange={(e, value) => setDistance(value)}
-                valueLabelDisplay="auto"
-                shiftStep={5}
-                step={5}
-                marks
-                min={5}
-                max={100}
-                sx={{
-                  maxWidth: 600,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              />
-            </Box>
+            {loginDog && (
+              <Box sx={{ width: "90%", px: 2 }}>
+                <Typography>Distance:</Typography>
+                <Slider
+                  color="secondary"
+                  defaultValue={10}
+                  value={distance}
+                  onChange={(e, value) => setDistance(value)}
+                  valueLabelDisplay="auto"
+                  shiftStep={5}
+                  step={5}
+                  marks
+                  min={5}
+                  max={100}
+                  sx={{
+                    maxWidth: 600,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                />
+              </Box>
+            )}
             {entityType === "parks" ? (
               <Box sx={{ width: "90%", px: 2 }}>
                 <Typography>Park Likes:</Typography>
                 <Slider
                   color="secondary"
                   defaultValue={0}
-                  value={parkLikes}
-                  onChange={(e, value) => setParkLikes(value)}
+                  value={dogLikes}
+                  onChange={(e, value) => setDogLikes(value)}
                   valueLabelDisplay="auto"
                   shiftStep={1}
                   step={1}
@@ -329,8 +324,8 @@ export default function AlertProvider({ children }) {
                   </Box>
                   <Typography>Dog Sizes:</Typography>
                   <MultiSelect
-                    value={selectedSizes}
-                    onChange={(e) => setSelectedSizes(e.value)}
+                    value={size}
+                    onChange={(e) => setSize(e.value)}
                     options={Sizes}
                     optionLabel="name"
                     filter
@@ -343,9 +338,9 @@ export default function AlertProvider({ children }) {
                 <Box sx={{ width: "90%", px: 2 }}>
                   <Typography>Select Gender:</Typography>
                   <MultiSelect
-                    value={selectedGenders}
-                    onChange={(e) => setSelectedGenders(e.value)}
-                    options={genders}
+                    value={gender}
+                    onChange={(e) => setGender(e.value)}
+                    options={Genders}
                     optionLabel="name"
                     filter
                     placeholder="Select Genders"
@@ -357,9 +352,9 @@ export default function AlertProvider({ children }) {
                 <Box sx={{ width: "90%", px: 2 }}>
                   <Typography>Vaccinated Dogs:</Typography>
                   <MultiSelect
-                    value={vaccinatedDogs}
-                    onChange={(e) => setVaccinatedDogs(e.value)}
-                    options={vaccinated}
+                    value={vaccinated}
+                    onChange={(e) => setVaccinated(e.value)}
+                    options={VaccinatedStates}
                     optionLabel="name"
                     filter
                     placeholder="Select If Vaccinated"
@@ -394,10 +389,14 @@ export default function AlertProvider({ children }) {
                 onClick={() => {
                   if (entityType === "parks") {
                     removeParksFiltersFromLocalStorage();
-                    setFiltersData(defaultParkFilters);
+                    setFiltersData({});
+                    if (operation) operation();
+                    handleClose();
                   } else {
                     removeDogsFiltersFromLocalStorage();
-                    setFiltersData(defaultDogFilters);
+                    setFiltersData({});
+                    if (operation) operation();
+                    handleClose();
                   }
                 }}
               >

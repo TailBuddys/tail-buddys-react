@@ -15,6 +15,7 @@ import {
   updateDog,
 } from "../services/dogsApiService";
 import {
+  getDogsFiltersFromLocalStorage,
   getUser,
   removeDogFromLocalStorage,
   setLastDogInLocalStorage,
@@ -129,20 +130,18 @@ export default function useDogs() {
   }, []);
 
   // צריך לשמור את הפילטרים בצורה ראויה
-  const handleGetUnmatchedDogs = useCallback(
-    async (filters) => {
-      setIsLoading(true);
-      try {
-        const dogsData = await getUnmatchedDogs(loginDog, filters);
-        setIsLoading(false);
-        return dogsData;
-      } catch (err) {
-        setError(err.message);
-      }
+  const handleGetUnmatchedDogs = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const dogsFilter = getDogsFiltersFromLocalStorage();
+      const dogsData = await getUnmatchedDogs(loginDog, dogsFilter ?? {});
       setIsLoading(false);
-    },
-    [loginDog]
-  );
+      return dogsData;
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }, [loginDog]);
 
   const handleDeleteDog = useCallback(async () => {
     setIsLoading(true);

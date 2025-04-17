@@ -17,11 +17,12 @@ import {
 // } from "../../services/localStorageService";
 // import { useUser } from "../../users/providers/UserProvider";
 import normalizedPark from "../helpers/normalization/normalizedPark";
+import { getParksFiltersFromLocalStorage } from "../../services/localStorageService";
 
 export default function useParks() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isParkLoading, setIsParkLoading] = useState(false);
   const navigate = useNavigate();
-  const [error, setError] = useState();
+  const [parkError, setParkError] = useState();
   const [park, setPark] = useState(); // אולי שימוש עתידי.....
   const { snackbarActivation } = useSnackbar();
 
@@ -29,28 +30,28 @@ export default function useParks() {
 
   const handleCreatePark = useCallback(
     async (parkFromClient) => {
-      setIsLoading(true);
+      setIsParkLoading(true);
       try {
         const normalizedGivenPark = normalizedPark(parkFromClient);
         const createdPark = await createPark(normalizedGivenPark);
         navigate(`${ROUTES.UPLOAD_PARK_IMAGE}/${createdPark.id}`);
       } catch (error) {
-        setError(error.message);
+        setParkError(error.message);
         snackbarActivation("error", error.message, "filled");
       }
-      setIsLoading(false);
+      setIsParkLoading(false);
     },
     [snackbarActivation, navigate]
   );
 
   const handleGetParkById = useCallback(async (id) => {
-    setIsLoading(true);
+    setIsParkLoading(true);
     try {
       const Park = await getParkById(id);
-      setIsLoading(false);
+      setIsParkLoading(false);
       return Park;
     } catch (error) {
-      setError(error.message);
+      setParkError(error.message);
     }
   }, []);
 
@@ -66,37 +67,38 @@ export default function useParks() {
           `${normalizePark.name} your details has been successfully updated`
         );
       } catch (error) {
-        setError(error.message);
+        setParkError(error.message);
       }
       // אולי נכווין למקום אחר
       navigate(ROUTES.ROOT);
-      setIsLoading(false);
+      setIsParkLoading(false);
     },
     [snackbarActivation, navigate]
   );
 
   const handleGetAllParks = useCallback(async (id) => {
     // להכניס פילטרציה
-    setIsLoading(true);
+    setIsParkLoading(true);
     try {
+      const filters = getParksFiltersFromLocalStorage();
       if (id !== null) {
-        const parksData = await getAllParks(id);
-        setIsLoading(false);
+        const parksData = await getAllParks(id, filters ?? {});
+        setIsParkLoading(false);
         return parksData;
       } else {
-        const parksData = await getAllParks();
-        setIsLoading(false);
+        const parksData = await getAllParks(filters ?? {});
+        setIsParkLoading(false);
         return parksData;
       }
     } catch (err) {
-      setError(err.message);
+      setParkError(err.message);
     }
-    setIsLoading(false);
+    setIsParkLoading(false);
   }, []);
 
   const handleDeletePark = useCallback(
     async (id) => {
-      setIsLoading(true);
+      setIsParkLoading(true);
       try {
         const deletedPark = await deletePark(id);
         snackbarActivation(
@@ -104,7 +106,7 @@ export default function useParks() {
           `You deleted ${deletedPark.name} successfully`
         );
       } catch (error) {
-        setError(error.message);
+        setParkError(error.message);
       }
       window.location.reload();
     },
@@ -112,18 +114,18 @@ export default function useParks() {
   );
 
   const handleLikeUnlikePark = useCallback(async (parkId, dogId) => {
-    setIsLoading(true);
+    setIsParkLoading(true);
     try {
       const updatedPark = await likeUnlikePark(parkId, dogId);
       return updatedPark;
     } catch (error) {
-      setError(error.message);
+      setParkError(error.message);
     }
   }, []);
 
   return {
-    error,
-    isLoading,
+    parkError,
+    isParkLoading,
     park,
     setPark,
     handleCreatePark,

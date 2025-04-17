@@ -1,7 +1,9 @@
 const DogDataToModel = (DogData) => {
   return {
+    id: DogData.id,
     name: DogData.name,
     description: DogData.description,
+    distance: DogData.distance,
     type: DogData.type ?? "",
     size: DogData.size ?? "",
     gender: DogData.gender === null ? "" : DogData.gender ? 1 : 0, // 0  for male, 1 for female

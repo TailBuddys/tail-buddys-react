@@ -18,7 +18,6 @@ export default function DogDetailsComponent({ dogData }) {
   useEffect(() => {
     fetchDogTypes();
   }, [fetchDogTypes]);
-  console.log(dogTypes);
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -73,7 +72,7 @@ export default function DogDetailsComponent({ dogData }) {
                 </Typography>
                 <Typography>{dogTypes[dogData.type]?.displayName}</Typography>
                 {dogData.distance && (
-                  <Typography>{dogData.distance} meters away</Typography>
+                  <Typography>{dogData.distance} Km away</Typography>
                 )}
               </TableCell>
             </TableRow>

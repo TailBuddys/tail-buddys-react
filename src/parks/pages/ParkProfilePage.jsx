@@ -7,7 +7,8 @@ import { Box } from "@mui/material";
 import useParks from "../hooks/useParks";
 
 function ParkProfilePage() {
-  const { handleGetParkById, park, setPark, error, isLoading } = useParks();
+  const { handleGetParkById, park, setPark, parkError, isParkLoading } =
+    useParks();
   const { id } = useParams();
 
   useEffect(() => {
@@ -17,8 +18,8 @@ function ParkProfilePage() {
     getData();
   }, [id, handleGetParkById, setPark]);
 
-  if (error) return <Error errorMessage={error} />;
-  if (isLoading) return <Spinner />;
+  if (parkError) return <Error errorMessage={parkError} />;
+  if (isParkLoading) return <Spinner />;
   if (park) {
     return (
       <Box>

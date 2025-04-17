@@ -5,7 +5,12 @@ import CardBody from "./CardBody";
 import CardActionBar from "./CardActionBar";
 import { useUser } from "../../users/providers/UserProvider";
 
-function CardComponent({ data, handleLikeUnlikePark }) {
+function CardComponent({
+  data,
+  handleLikeUnlikePark,
+  handleLikeUnlikeDog,
+  handleSwipeDog,
+}) {
   const { loginDog } = useUser();
 
   return (
@@ -32,7 +37,13 @@ function CardComponent({ data, handleLikeUnlikePark }) {
           </Grid2>
         </Grid2>
       </Card>
-      {data.distance && loginDog ? <CardActionBar data={data} /> : null}
+      {data.distance && loginDog ? (
+        <CardActionBar
+          data={data}
+          handleSwipeDog={handleSwipeDog}
+          handleLikeUnlikeDog={handleLikeUnlikeDog}
+        />
+      ) : null}
     </Box>
   );
 }

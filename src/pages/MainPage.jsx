@@ -11,15 +11,21 @@ import { useDog } from "../dogs/providers/DogProvider";
 import NavBarLink from "../routes/components/NavBarLink";
 import ROUTES from "../routes/routesModel";
 import { useAlert } from "../providers/AlertProvider";
+import useDogs from "../dogs/hooks/useDogs";
+import Spinner from "../components/Spinner";
+import Error from "../components/Error";
 
 const MainPage = () => {
   const { seeParksOrDogs, user } = useUser();
   const { dog } = useDog();
   const [presentedPark, setPresentedPark] = useState();
-  const { handleGetAllParks, isLoading, error } = useParks();
+  const { handleGetAllParks, isParkLoading, parkError } = useParks();
+  const { handleGetUnmatchedDogs, isLoading, error } = useDogs();
   const [parksData, setParksData] = useState([]);
+  const [dogsData, setDogsData] = useState([]);
   const { popUpFilterSelection } = useAlert();
 
+  // for parks
   useEffect(() => {
     handleGetAllParks(dog?.id).then((parks) => {
       setParksData(parks);
@@ -27,6 +33,29 @@ const MainPage = () => {
     });
   }, [handleGetAllParks, dog]);
 
+  const onParkFilterConfirmation = () => {
+    handleGetAllParks(dog?.id).then((parks) => {
+      setParksData(parks);
+      setPresentedPark(parks[0]);
+    });
+  };
+  // for dogs
+  useEffect(() => {
+    if (dog) {
+      handleGetUnmatchedDogs(dog?.id).then((dogs) => {
+        setDogsData(dogs);
+      });
+    }
+  }, [handleGetUnmatchedDogs, dog]);
+
+  const onDogFilterConfirmation = () => {
+    handleGetUnmatchedDogs(dog?.id).then((dogs) => {
+      setDogsData(dogs);
+    });
+  };
+
+  if (isLoading) return <Spinner />;
+  if (error) return <Error />;
   return seeParksOrDogs === "dogs" ? (
     <Grid2 container>
       <Grid2 container size={10}>
@@ -34,7 +63,24 @@ const MainPage = () => {
           <MatchScreenComponent />
         </Grid2>
         <Grid2 size={12}>
-          <MainScreenComponent parksOrDogs={seeParksOrDogs} />
+          <Button
+            onClick={() => {
+              popUpFilterSelection(
+                "info",
+                "Dogs filters",
+                "dogs",
+                onDogFilterConfirmation
+              );
+            }}
+          >
+            <TuneIcon />
+          </Button>
+          <MainScreenComponent
+            parksOrDogs={seeParksOrDogs}
+            isLoading={isParkLoading}
+            error={parkError}
+            dogsData={dogsData}
+          />
         </Grid2>
       </Grid2>
       <Grid2 container size={2}>
@@ -72,7 +118,12 @@ const MainPage = () => {
           >
             <Button
               onClick={() => {
-                popUpFilterSelection("info", "Parks filters", "dogs");
+                popUpFilterSelection(
+                  "info",
+                  "Parks filters",
+                  "parks",
+                  onParkFilterConfirmation
+                );
               }}
             >
               <TuneIcon />

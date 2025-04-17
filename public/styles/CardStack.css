@@ -1,0 +1,42 @@
+.card-stack-container {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.card {
+  position: absolute;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+.card.like {
+  animation: swipeRight 0.3s forwards;
+}
+
+.card.dislike {
+  animation: swipeLeft 0.3s forwards;
+}
+
+@keyframes swipeRight {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200px) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes swipeLeft {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-200px) rotate(-20deg);
+    opacity: 0;
+  }
+}

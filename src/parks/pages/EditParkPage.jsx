@@ -17,7 +17,8 @@ import { getUser } from "../../services/localStorageService";
 
 export default function EditParkPage() {
   const navigate = useNavigate();
-  const { handleUpdatePark, handleGetParkById, isLoading, error } = useParks();
+  const { handleUpdatePark, handleGetParkById, isParkLoading, parkError } =
+    useParks();
   const { id } = useParams();
   const [selectedTab, setselectedTab] = useState(0);
 
@@ -121,8 +122,8 @@ export default function EditParkPage() {
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={1}>
           <EditImagesPage
-            isLoading={isLoading}
-            error={error}
+            isLoading={isParkLoading}
+            error={parkError}
             onUpload={handleUploadOneImage}
             onDelete={handleDeleteImage}
             onReorder={handleReorderImages}
