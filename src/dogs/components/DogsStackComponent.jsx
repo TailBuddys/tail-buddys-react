@@ -2,8 +2,15 @@ import { Box } from "@mui/material";
 import React, { useState } from "react";
 import CardComponent from "../../components/card/CardComponent";
 import DogDataToModel from "../helpers/initialForms/dogToModel";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
 
-const DogsStackComponent = ({ dogsData }) => {
+const DogsStackComponent = ({
+  dogsData,
+  isLoading,
+  error,
+  handleLikeUnlikeDog,
+}) => {
   const [currentCards, setCurrentCards] = useState(dogsData);
   const [swipeDirection, setSwipeDirection] = useState(null);
 
@@ -20,6 +27,8 @@ const DogsStackComponent = ({ dogsData }) => {
     return <div className="no-cards">No more cards</div>; // לשנות
   }
 
+  if (isLoading) return <Spinner />;
+  if (error) return <Error />;
   return (
     <Box
       className="card-stack-container"
@@ -35,7 +44,7 @@ const DogsStackComponent = ({ dogsData }) => {
           <Box key={dog.id} className={cardClass} sx={{ zIndex: zIndex }}>
             <CardComponent
               data={DogDataToModel(dog)}
-              //   handleLikeUnlikeDog={}
+              handleLikeUnlikeDog={handleLikeUnlikeDog}
               handleSwipeDog={handleSwipe}
             />
           </Box>

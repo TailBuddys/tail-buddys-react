@@ -13,6 +13,7 @@ const MainScreenComponent = ({
   setPresentedPark,
   presentedPark,
   parksOrDogs,
+  handleLikeUnlikeDog,
 }) => {
   if (isLoading) return <Spinner />;
   if (error) return <Error />;
@@ -20,7 +21,12 @@ const MainScreenComponent = ({
     <Box>
       {/* <HomePage /> */}
       {parksOrDogs === "dogs" ? (
-        <DogsPage isLoading={isLoading} error={error} dogsData={dogsData} />
+        <DogsPage
+          isLoading={isLoading}
+          error={error}
+          dogsData={dogsData}
+          handleLikeUnlikeDog={handleLikeUnlikeDog}
+        />
       ) : (
         <ParksPage
           isLoading={isLoading}

@@ -3,7 +3,12 @@ import React from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-function CardActionBar({ data, handleSwipeDog, handleLikeUnlikeDog }) {
+function CardActionBar({
+  data,
+  handleSwipeDog,
+  handleLikeUnlikeDog,
+  loginDog,
+}) {
   return (
     <Box sx={{}}>
       {!data?.dogLikes ? (
@@ -12,6 +17,7 @@ function CardActionBar({ data, handleSwipeDog, handleLikeUnlikeDog }) {
             color="error"
             onClick={() => {
               handleSwipeDog("dislike");
+              handleLikeUnlikeDog(loginDog, data.id, false);
             }}
           >
             <ThumbDownAltIcon />
@@ -20,6 +26,7 @@ function CardActionBar({ data, handleSwipeDog, handleLikeUnlikeDog }) {
             color="success"
             onClick={() => {
               handleSwipeDog("like");
+              handleLikeUnlikeDog(loginDog, data.id, true);
             }}
           >
             <FavoriteIcon />

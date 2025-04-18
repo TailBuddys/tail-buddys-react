@@ -14,6 +14,7 @@ import { useAlert } from "../providers/AlertProvider";
 import useDogs from "../dogs/hooks/useDogs";
 import Spinner from "../components/Spinner";
 import Error from "../components/Error";
+import useMatches from "../matches/hooks/useMatches";
 
 const MainPage = () => {
   const { seeParksOrDogs, user } = useUser();
@@ -24,6 +25,13 @@ const MainPage = () => {
   const [parksData, setParksData] = useState([]);
   const [dogsData, setDogsData] = useState([]);
   const { popUpFilterSelection } = useAlert();
+  const {
+    handleMatchInteraction,
+    handleGetAllMatches,
+    handleUpdateMatche,
+    matches,
+    setMatches,
+  } = useMatches();
 
   // for parks
   useEffect(() => {
@@ -54,13 +62,24 @@ const MainPage = () => {
     });
   };
 
+  useEffect(() => {
+    if (dog) {
+      handleGetAllMatches(dog?.id).then((matches) => {
+        setMatches(matches);
+      }); //?????????????????? לרנדר שוב
+    }
+  }, [handleGetAllMatches, setMatches, dog]);
+
   if (isLoading) return <Spinner />;
   if (error) return <Error />;
   return seeParksOrDogs === "dogs" ? (
     <Grid2 container>
       <Grid2 container size={10}>
         <Grid2 size={12}>
-          <MatchScreenComponent />
+          <MatchScreenComponent
+            handleUnmatch={handleUpdateMatche}
+            matches={matches}
+          />
         </Grid2>
         <Grid2 size={12}>
           <Button
@@ -80,6 +99,7 @@ const MainPage = () => {
             isLoading={isParkLoading}
             error={parkError}
             dogsData={dogsData}
+            handleLikeUnlikeDog={handleMatchInteraction}
           />
         </Grid2>
       </Grid2>

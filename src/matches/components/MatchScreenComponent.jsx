@@ -1,13 +1,30 @@
 import { Box, Typography } from "@mui/material";
+import MatchCompponent from "./MatchCompponent";
 
-const MatchScreenComponent = () => {
+const MatchScreenComponent = ({ handleUnmatch, matches }) => {
   return (
     <Box
       sx={{
-        backgroundColor: "#ffb3c1",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "end",
       }}
     >
-      <Typography>Matches</Typography>
+      {(matches ?? []).length > 0 ? (
+        matches.map((match, index) => (
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <MatchCompponent handleUnmatch={handleUnmatch} match={match} />
+          </Box>
+        ))
+      ) : (
+        <Typography>You have no matches yet 😭</Typography>
+      )}
     </Box>
   );
 };

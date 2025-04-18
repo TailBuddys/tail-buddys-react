@@ -42,6 +42,7 @@ function CardComponent({
           data={data}
           handleSwipeDog={handleSwipeDog}
           handleLikeUnlikeDog={handleLikeUnlikeDog}
+          loginDog={loginDog}
         />
       ) : null}
     </Box>

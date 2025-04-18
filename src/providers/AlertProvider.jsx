@@ -169,8 +169,11 @@ export default function AlertProvider({ children }) {
         {children}
       </AlertContext.Provider>
 
-      <Backdrop open={alertOpen} sx={{ zIndex: 1 }}>
-        <Stack sx={{ width: 350, position: "reletive", zIndex: 2 }} spacing={2}>
+      <Backdrop open={alertOpen} sx={{ zIndex: 1000 }}>
+        <Stack
+          sx={{ width: 350, position: "reletive", zIndex: 1001 }}
+          spacing={2}
+        >
           <Alert severity={color} variant="filled">
             <AlertTitle>{title}</AlertTitle>
             {message}
