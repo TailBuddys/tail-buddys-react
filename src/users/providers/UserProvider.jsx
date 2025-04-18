@@ -8,7 +8,9 @@ import React, {
 import {
   getDogFromLocalStorage,
   getTokenFromLocalStorage,
+  getToShowFromLocalStorage,
   getUser,
+  setToShowInLocalStorage,
 } from "../../services/localStorageService";
 
 const UserContext = createContext();
@@ -17,7 +19,9 @@ export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(getTokenFromLocalStorage());
   const [loginDog, setLoginDog] = useState(getDogFromLocalStorage());
-  const [seeParksOrDogs, setSeeParksOrDogs] = useState(null);
+  const [seeParksOrDogs, setSeeParksOrDogs] = useState(
+    () => getToShowFromLocalStorage() || (loginDog && token ? "dogs" : "parks")
+  );
 
   const value = useMemo(
     () => ({
@@ -50,12 +54,20 @@ export default function UserProvider({ children }) {
   }, [token, user]);
 
   useEffect(() => {
-    if (!loginDog || !token) {
-      setSeeParksOrDogs("parks");
-    } else if (seeParksOrDogs === "dogs") {
-      setSeeParksOrDogs("dogs");
+    if (seeParksOrDogs) {
+      setToShowInLocalStorage(seeParksOrDogs);
     }
-  }, [loginDog, token, seeParksOrDogs]);
+  }, [seeParksOrDogs]);
+
+  useEffect(() => {
+    if (getToShowFromLocalStorage() === null) {
+      if (!loginDog || !token) {
+        setSeeParksOrDogs("parks");
+      } else {
+        setSeeParksOrDogs("dogs");
+      }
+    }
+  }, [loginDog, token]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

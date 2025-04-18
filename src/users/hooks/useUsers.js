@@ -11,6 +11,7 @@ import {
   getUser,
   removeDogFromLocalStorage,
   removeTokenFromLocalStorage,
+  removeToShowFromLocalStorage,
   setLastDogInLocalStorage,
   setTokenInLocalStorage,
 } from "../../services/localStorageService";
@@ -74,9 +75,11 @@ export default function useUsers() {
     setUser(null);
     removeDogFromLocalStorage();
     setLoginDog(null);
+    removeToShowFromLocalStorage();
+    setSeeParksOrDogs(null);
     snackbarActivation("success", "LOGGEDOUT Succesfuly", "filled");
     window.location.reload();
-  }, [setUser, setLoginDog, snackbarActivation]);
+  }, [setUser, setLoginDog, setSeeParksOrDogs, snackbarActivation]);
 
   const handleSignup = useCallback(
     async (userFromClient) => {

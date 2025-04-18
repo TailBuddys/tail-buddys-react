@@ -59,6 +59,8 @@ const editDogSchema = {
     "any.required": 'Dog "vaccinated" status is required',
   }),
   images: Joi.optional(),
+  id: Joi.optional(),
+  distance: Joi.optional(),
 };
 export default editDogSchema;
 

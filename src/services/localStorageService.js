@@ -17,6 +17,16 @@ const getUser = () => {
   }
 };
 
+// for dog prefernce
+const WHAT_TO_SHOW = "seeParksOrDogs";
+const setToShowInLocalStorage = (choice) => {
+  localStorage.setItem(WHAT_TO_SHOW, choice);
+};
+const removeToShowFromLocalStorage = () =>
+  localStorage.removeItem(WHAT_TO_SHOW);
+
+const getToShowFromLocalStorage = () => localStorage.getItem(WHAT_TO_SHOW);
+
 // for dogs
 const LAST_DOG = "my dog";
 const setLastDogInLocalStorage = (lastDog) => {
@@ -52,6 +62,9 @@ export {
   removeTokenFromLocalStorage,
   getTokenFromLocalStorage,
   getUser,
+  setToShowInLocalStorage,
+  removeToShowFromLocalStorage,
+  getToShowFromLocalStorage,
   setLastDogInLocalStorage,
   removeDogFromLocalStorage,
   getDogFromLocalStorage,

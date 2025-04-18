@@ -1,15 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import ChatsListPage from "../pages/ChatsListPage";
 
-const ChatScreenComponent = () => {
-  return (
-    <Box
-      sx={{
-        backgroundColor: "#28a745",
-      }}
-    >
-      <Typography>Chats</Typography>
-    </Box>
-  );
+const ChatScreenComponent = ({ handleUnmatch, chats }) => {
+  return <ChatsListPage handleUnmatch={handleUnmatch} chats={chats} />;
 };
 
 export default ChatScreenComponent;

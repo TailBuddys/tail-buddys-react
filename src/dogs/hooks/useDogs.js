@@ -152,9 +152,12 @@ export default function useDogs() {
       setToken(deletedDog.refreshToken);
       const currentUserDogs = await getUserDogs();
       if (currentUserDogs !== null && currentUserDogs.length > 0) {
+        console.log("huhlaf");
+
         await setLastDogInLocalStorage(String(currentUserDogs[0].id));
         setLoginDog(String(currentUserDogs[0].id));
       } else {
+        console.log("mesir");
         removeDogFromLocalStorage();
         setLoginDog(null);
       }

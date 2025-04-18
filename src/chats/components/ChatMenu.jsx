@@ -4,7 +4,7 @@ import { Box, Button } from "@mui/material";
 import { useAlert } from "../../providers/AlertProvider";
 import { useUser } from "../../users/providers/UserProvider";
 
-function ChatMenu(isOpen, anchorEl, onClose, handleUnmatch, chat) {
+function ChatMenu({ isOpen, anchorEl, onClose, handleUnmatch, chat }) {
   const { alertActivation } = useAlert();
   const { loginDog } = useUser();
 
@@ -15,7 +15,11 @@ function ChatMenu(isOpen, anchorEl, onClose, handleUnmatch, chat) {
   return (
     <MuiMenu
       open={isOpen}
-      onClose={onClose}
+      onClose={(e) => {
+        e?.stopPropagation?.();
+        onClose();
+      }}
+      onClick={(e) => e.stopPropagation()}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: "top",
@@ -34,7 +38,7 @@ function ChatMenu(isOpen, anchorEl, onClose, handleUnmatch, chat) {
         },
       }}
     >
-      <Box>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <>
           <Button
             onClick={() => {

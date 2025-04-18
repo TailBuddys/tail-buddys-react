@@ -15,6 +15,7 @@ import useDogs from "../dogs/hooks/useDogs";
 import Spinner from "../components/Spinner";
 import Error from "../components/Error";
 import useMatches from "../matches/hooks/useMatches";
+import useChats from "../chats/hooks/useChats";
 
 const MainPage = () => {
   const { seeParksOrDogs, user } = useUser();
@@ -32,6 +33,7 @@ const MainPage = () => {
     matches,
     setMatches,
   } = useMatches();
+  const { chats } = useChats();
 
   // for parks
   useEffect(() => {
@@ -74,7 +76,7 @@ const MainPage = () => {
   if (error) return <Error />;
   return seeParksOrDogs === "dogs" ? (
     <Grid2 container>
-      <Grid2 container size={10}>
+      <Grid2 container size={8.5}>
         <Grid2 size={12}>
           <MatchScreenComponent
             handleUnmatch={handleUpdateMatche}
@@ -103,9 +105,12 @@ const MainPage = () => {
           />
         </Grid2>
       </Grid2>
-      <Grid2 container size={2}>
+      <Grid2 container size={3.5}>
         <Grid2 size={12}>
-          <ChatScreenComponent />
+          <ChatScreenComponent
+            handleUnmatch={handleUpdateMatche}
+            chats={chats}
+          />
         </Grid2>
       </Grid2>
     </Grid2>
