@@ -4,12 +4,23 @@ import { Box, Button } from "@mui/material";
 import { useAlert } from "../../providers/AlertProvider";
 import { useUser } from "../../users/providers/UserProvider";
 
-function MatchMenu({ isOpen, anchorEl, onClose, handleUnmatch, match }) {
+function MatchMenu({
+  isOpen,
+  anchorEl,
+  onClose,
+  handleUnmatch,
+  match,
+  handleCreateChat,
+}) {
   const { alertActivation } = useAlert();
   const { loginDog } = useUser();
 
   const confirmUnmatch = () => {
     handleUnmatch(match.id, loginDog, match.receiverDogId, false);
+  };
+
+  const createChat = () => {
+    handleCreateChat(loginDog, match.receiverDogId);
   };
 
   return (
@@ -34,7 +45,7 @@ function MatchMenu({ isOpen, anchorEl, onClose, handleUnmatch, match }) {
         },
       }}
     >
-      <Box>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <>
           {/* <MenuLink  למידה ונצטרך בהמשך
             text="Edit Dog"
@@ -42,6 +53,14 @@ function MatchMenu({ isOpen, anchorEl, onClose, handleUnmatch, match }) {
             onClick={onClose}
           /> */}
 
+          <Button
+            onClick={() => {
+              onClose();
+              createChat();
+            }}
+          >
+            Create chat with {match.receiverDogName}
+          </Button>
           <Button
             onClick={() => {
               onClose();

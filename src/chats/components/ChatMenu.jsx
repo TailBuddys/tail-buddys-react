@@ -2,14 +2,12 @@ import React from "react";
 import MuiMenu from "@mui/material/Menu";
 import { Box, Button } from "@mui/material";
 import { useAlert } from "../../providers/AlertProvider";
-import { useUser } from "../../users/providers/UserProvider";
 
-function ChatMenu({ isOpen, anchorEl, onClose, handleUnmatch, chat }) {
+function ChatMenu({ isOpen, anchorEl, onClose, chat, handleDeleteChat }) {
   const { alertActivation } = useAlert();
-  const { loginDog } = useUser();
 
-  const confirmUnmatch = () => {
-    // handleUnmatch(match.id, loginDog, match.receiverDogId, false);
+  const confirmDeleteChat = () => {
+    handleDeleteChat(chat.id);
   };
 
   return (
@@ -52,14 +50,14 @@ function ChatMenu({ isOpen, anchorEl, onClose, handleUnmatch, chat }) {
               onClose();
               alertActivation(
                 "error",
-                "Unmatch Confirmation",
-                `Are you sure you want unmatch relation with {the chat}?`,
-                confirmUnmatch
+                "Delete Confirmation",
+                `Are you sure you want delete chat with ${chat.dogName}?`,
+                confirmDeleteChat
               );
             }}
             sx={{ color: "red" }}
           >
-            Unmatch {}
+            Delete Chat
           </Button>
         </>
       </Box>

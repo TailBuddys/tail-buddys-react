@@ -4,26 +4,70 @@ import {
   IconButton,
   InputBase,
   Paper,
+  Tooltip,
   Typography,
-  useMediaQuery,
+  Zoom,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { useTheme as useMuiTheme } from "@mui/material/styles";
-import React, { useEffect, useState } from "react";
-import ChatMenu from "../components/ChatMenu";
+import React, { useEffect, useRef, useState } from "react";
+import useChats from "../hooks/useChats";
+import Spinner from "../../components/Spinner";
+import CheckIcon from "@mui/icons-material/Check";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import Error from "../../components/Error";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../routes/routesModel";
 
-function ChatPage({ handleUnmatch, chat, handleBackToList }) {
-  const theme = useMuiTheme();
-  const screenSize = useMediaQuery(theme.breakpoints.up("md"));
-  const [isMenuOpen, setMenuOpen] = useState(false);
-  const [anchorEL, setAnchor] = useState(null);
+function ChatPage({ chat, handleBackToList }) {
+  const {
+    isChatLoading,
+    chatError,
+    handleGetChatById,
+    handleAddMessageToChat,
+  } = useChats();
+  const [chatData, setChatData] = useState();
+  const [messageContent, setMessageContent] = useState("");
+  const navigate = useNavigate();
+  const messageRef = useRef();
+  let lastShownTime = null;
 
   useEffect(() => {
-    setMenuOpen(false);
-  }, [screenSize]);
+    if (chat) {
+      handleGetChatById(chat.id).then((chat) => {
+        setChatData(chat);
+      }); //?????????????????? לרנדר שוב
+    }
+  }, [handleGetChatById, chat]);
 
+  const SendMessage = () => {
+    handleAddMessageToChat(
+      chatData.id,
+      chatData.senderDog.id,
+      messageContent
+    ).then((message) => {
+      // chatData.messages.push(message);
+      setChatData((prev) => ({
+        ...prev,
+        messages: [...prev.messages, message],
+      }));
+    });
+
+    setMessageContent("");
+  };
+
+  useEffect(() => {
+    if (messageRef && messageRef.current) {
+      const { scrollHeight, clientHeight } = messageRef.current;
+      messageRef.current.scrollTo({
+        left: 0,
+        top: scrollHeight - clientHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [chatData]);
+
+  if (chatError) return <Error />;
   return (
     <Box
       sx={{
@@ -34,7 +78,6 @@ function ChatPage({ handleUnmatch, chat, handleBackToList }) {
         flexDirection: "column",
       }}
     >
-      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -52,50 +95,113 @@ function ChatPage({ handleUnmatch, chat, handleBackToList }) {
           >
             <ArrowBackIosNewIcon />
           </IconButton>
-          <Avatar sx={{ ml: 1, mr: 1 }} />
+          <Avatar
+            sx={{ ml: 1, mr: 1 }}
+            src={chat.dogImageUrl}
+            alt={chat.dogName}
+          />
           <Typography variant="subtitle1" sx={{ mr: 1 }}>
-            מושיקו{" "}
+            {chat.dogName}
           </Typography>
         </Box>
-        <IconButton
-          onClick={(event) => {
-            setAnchor(event.currentTarget);
-            setMenuOpen(true);
+        <Tooltip
+          title={`Go to ${chat.dogName} profile`}
+          slots={{
+            transition: Zoom,
           }}
+          arrow
         >
-          <MoreVertIcon />
-        </IconButton>
-      </Box>
-
-      {/* Chat messages */}
-      <Box
-        sx={{ flex: 1, overflowY: "auto", p: 1, backgroundColor: "#e5ddd5" }}
-      >
-        {chat.messages.map((msg) => (
-          <Box
-            key={msg.id}
-            sx={{
-              display: "flex",
-              justifyContent: msg.sender === "me" ? "flex-end" : "flex-start",
-              mb: 1,
+          <IconButton
+            onClick={() => {
+              navigate(ROUTES.DOG_PROFILE, { state: { chat } });
             }}
           >
-            <Paper
-              sx={{
-                px: 2,
-                py: 1,
-                maxWidth: "70%",
-                backgroundColor: msg.sender === "me" ? "#dcf8c6" : "#fff",
-                textAlign: "right",
-              }}
-            >
-              <Typography variant="body2">{msg.text}</Typography>
-            </Paper>
-          </Box>
-        ))}
+            <Avatar src="/assets/images/dogProfileIcon.png" />
+          </IconButton>
+        </Tooltip>
       </Box>
 
-      {/* Footer */}
+      {isChatLoading ? (
+        <Spinner />
+      ) : (
+        <Box
+          ref={messageRef}
+          sx={{ flex: 1, overflowY: "auto", p: 1, backgroundColor: "#e5ddd5" }}
+        >
+          {chatData?.messages.map((msg) => {
+            const shouldShowTime = msg.time !== lastShownTime;
+            if (shouldShowTime) {
+              lastShownTime = msg.time;
+            }
+            return (
+              <React.Fragment key={msg.id}>
+                {shouldShowTime && (
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: "rgba(0, 0, 0, 0.54)",
+                      display: "flex",
+                      justifyContent:
+                        msg.senderDogId === chat.dogId
+                          ? "flex-start"
+                          : "flex-end",
+                    }}
+                  >
+                    {msg.time}
+                  </Typography>
+                )}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent:
+                      msg.senderDogId === chat.dogId
+                        ? "flex-start"
+                        : "flex-end",
+                    mb: 1,
+                  }}
+                >
+                  <Paper
+                    sx={{
+                      pl: 2,
+                      pt: 1,
+                      pb: 0.5,
+                      maxWidth: "70%",
+                      backgroundColor:
+                        msg.senderDogId === chat.dogId ? "#fff" : "#dcf8c6",
+                      textAlign: "right",
+                      display: "flex",
+                      gap: 1,
+                    }}
+                  >
+                    <Typography variant="body2">{msg.content}</Typography>
+                    {msg.isRead === false ? (
+                      <CheckIcon
+                        sx={{
+                          fontSize: "small",
+                          alignSelf: "flex-end",
+                          mt: 1,
+                          mr: 0.5,
+                        }}
+                      />
+                    ) : (
+                      <DoneAllIcon
+                        sx={{
+                          color: "blue",
+                          fontSize: "small",
+                          alignSelf: "flex-end",
+                          mt: 1,
+                          mr: 0.5,
+                        }}
+                      />
+                    )}
+                  </Paper>
+                </Box>
+              </React.Fragment>
+            );
+          })}
+        </Box>
+      )}
+
       <Box
         sx={{
           display: "flex",
@@ -106,7 +212,16 @@ function ChatPage({ handleUnmatch, chat, handleBackToList }) {
         }}
       >
         <InputBase
+          value={messageContent}
           placeholder="הקלד הודעה"
+          onChange={(e) => {
+            setMessageContent(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && messageContent.trim() !== "") {
+              SendMessage();
+            }
+          }}
           sx={{
             ml: 1,
             flex: 1,
@@ -116,18 +231,16 @@ function ChatPage({ handleUnmatch, chat, handleBackToList }) {
             py: 0.5,
           }}
         />
-        <IconButton sx={{ ml: 1 }}>
+        <IconButton
+          sx={{ ml: 1 }}
+          onClick={() => {
+            SendMessage();
+          }}
+          disabled={messageContent.trim() === ""}
+        >
           <SendIcon />
         </IconButton>
       </Box>
-
-      <ChatMenu
-        anchorEl={anchorEL}
-        isOpen={isMenuOpen}
-        onClose={() => setMenuOpen(false)}
-        handleUnmatch={handleUnmatch}
-        chat={chat}
-      />
     </Box>
   );
 }

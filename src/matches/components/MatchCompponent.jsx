@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import MatchMenu from "./MatchMenu";
 
-const MatchCompponent = ({ handleUnmatch, match }) => {
+const MatchCompponent = ({ handleUnmatch, handleCreateChat, match }) => {
   const theme = useMuiTheme();
   const screenSize = useMediaQuery(theme.breakpoints.up("md"));
   const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +44,7 @@ const MatchCompponent = ({ handleUnmatch, match }) => {
         </IconButton>
       </Tooltip>
       <MatchMenu
+        handleCreateChat={handleCreateChat}
         handleUnmatch={handleUnmatch}
         match={match}
         anchorEl={anchorEL}
@@ -109,7 +110,7 @@ export default MatchCompponent;
 //               <CardContent>
 //                 <Typography variant="subtitle1">
 //                   {match.isLike ? "Like" : "Dislike"} from Dog{" "}
-//                   {match.senderDogId} to Dog {match.reciverDogId}
+//                   {match.senderDogId} to Dog {match.receiverDogId}
 //                 </Typography>
 //                 {match.isMatch && (
 //                   <Typography variant="body2" color="success.main">

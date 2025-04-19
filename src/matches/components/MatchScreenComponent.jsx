@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import MatchCompponent from "./MatchCompponent";
 
-const MatchScreenComponent = ({ handleUnmatch, matches }) => {
+const MatchScreenComponent = ({ handleUnmatch, handleCreateChat, matches }) => {
   return (
     <Box
       sx={{
@@ -19,11 +19,15 @@ const MatchScreenComponent = ({ handleUnmatch, matches }) => {
               justifyContent: "center",
             }}
           >
-            <MatchCompponent handleUnmatch={handleUnmatch} match={match} />
+            <MatchCompponent
+              handleUnmatch={handleUnmatch}
+              match={match}
+              handleCreateChat={handleCreateChat}
+            />
           </Box>
         ))
       ) : (
-        <Typography>You have no matches yet 😭</Typography>
+        <Typography>You have no new matches 😭</Typography>
       )}
     </Box>
   );

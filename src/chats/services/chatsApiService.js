@@ -11,9 +11,10 @@ const createChat = async (chatData) => {
   }
 };
 
-const getAllChats = async () => {
+const getAllChats = async (dogId) => {
   try {
-    const { data } = await axios.get(apiUrl);
+    const url = `${apiUrl}?dogId=${dogId}`;
+    const { data } = await axios.get(url);
     return data;
   } catch (error) {
     throw new Error(error.message.data);
@@ -49,15 +50,15 @@ const addMessageToChat = async (chatData) => {
   }
 };
 
-const getMessagesByChatId = async (chatId) => {
-  try {
-    const url = `${apiUrl}/message/${chatId}`;
-    const { data } = await axios.get(url);
-    return data;
-  } catch (error) {
-    throw new Error(error.message.data);
-  }
-};
+// const getMessagesByChatId = async (chatId) => {
+//   try {
+//     const url = `${apiUrl}/message/${chatId}`;
+//     const { data } = await axios.get(url);
+//     return data;
+//   } catch (error) {
+//     throw new Error(error.message.data);
+//   }
+// };
 
 const markMessageAsRead = async (messageId) => {
   try {
@@ -75,6 +76,6 @@ export {
   getChatById,
   deleteChat,
   addMessageToChat,
-  getMessagesByChatId,
+  // getMessagesByChatId,
   markMessageAsRead,
 };

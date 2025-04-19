@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardComponent from "../../components/card/CardComponent";
 import useDogs from "../hooks/useDogs";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getDogFromLocalStorage } from "../../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import Error from "../../components/Error";
@@ -12,18 +12,28 @@ import { Box } from "@mui/material";
 function DogProfilePage() {
   const { handleGetDogById, error, isLoading } = useDogs();
   const navigate = useNavigate();
+  const location = useLocation();
   const [dogData, setDogData] = useState();
 
+  const chat = location.state?.chat;
+
   useEffect(() => {
-    const dog = getDogFromLocalStorage();
-    if (!dog) {
-      return navigate(ROUTES.ROOT);
-    }
     const getData = async () => {
-      setDogData(await handleGetDogById(dog));
+      let dogId;
+
+      if (chat && chat.dogId) {
+        dogId = chat.dogId;
+      } else {
+        const localDogId = getDogFromLocalStorage();
+        if (!localDogId) return navigate(ROUTES.ROOT);
+        dogId = localDogId;
+      }
+
+      const fetchedDog = await handleGetDogById(dogId);
+      setDogData(fetchedDog);
     };
     getData();
-  }, [handleGetDogById, navigate]);
+  }, [handleGetDogById, navigate, chat]);
 
   if (error) return <Error errorMessage={error} />;
   if (isLoading) return <Spinner />;

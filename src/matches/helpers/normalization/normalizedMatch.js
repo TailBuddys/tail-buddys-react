@@ -1,6 +1,6 @@
-const normalizedMatch = (senderDog, reciverDog, isLike) => ({
+const normalizedMatch = (senderDog, receiverDog, isLike) => ({
   senderDogId: senderDog,
-  receiverDogId: reciverDog,
+  receiverDogId: receiverDog,
   isLike: isLike,
 });
 export default normalizedMatch;

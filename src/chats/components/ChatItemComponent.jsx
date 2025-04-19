@@ -10,7 +10,7 @@ import { useTheme as useMuiTheme } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ChatMenu from "./ChatMenu";
 
-function ChatItemComponent({ chat, handleUnmatch, chatClick }) {
+function ChatItemComponent({ chat, handleDeleteChat, chatClick }) {
   const theme = useMuiTheme();
   const screenSize = useMediaQuery(theme.breakpoints.up("md"));
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -33,7 +33,7 @@ function ChatItemComponent({ chat, handleUnmatch, chatClick }) {
         },
       }}
     >
-      <Avatar src={chat.avatar} alt={chat.name} />
+      <Avatar src={chat.dogImageUrl} alt={chat.dogName} />
       <Box
         sx={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}
       >
@@ -57,7 +57,7 @@ function ChatItemComponent({ chat, handleUnmatch, chatClick }) {
               pr: 1,
             }}
           >
-            {chat.name}
+            {chat.dogName}
           </Typography>
 
           <Box
@@ -80,25 +80,29 @@ function ChatItemComponent({ chat, handleUnmatch, chatClick }) {
               <MoreVertIcon fontSize="small" />
             </IconButton>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: "rgba(0, 0, 0, 0.7)",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  width: "100%",
-                  mr: 8,
-                }}
-              >
-                {chat.messages[chat.messages.length - 1]?.text}
-              </Typography>
-              <Typography
-                variant="caption"
-                sx={{ color: "rgba(0, 0, 0, 0.54)" }}
-              >
-                {chat.time}
-              </Typography>
+              {chat.lastMessage && (
+                <>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "rgba(0, 0, 0, 0.7)",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      width: "100%",
+                      mr: 8,
+                    }}
+                  >
+                    {chat.lastMessage}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{ color: "rgba(0, 0, 0, 0.54)" }}
+                  >
+                    {chat.time}
+                  </Typography>
+                </>
+              )}
             </Box>
           </Box>
         </Box>
@@ -117,7 +121,7 @@ function ChatItemComponent({ chat, handleUnmatch, chatClick }) {
           {chat.messages[chat.messages.length - 1]?.text}
         </Typography> */}
 
-        <Typography
+        {/* <Typography
           variant="caption"
           sx={{
             color: "rgba(0, 0, 0, 0.4)",
@@ -127,14 +131,14 @@ function ChatItemComponent({ chat, handleUnmatch, chatClick }) {
           }}
         >
           {chat.headline}
-        </Typography>
+        </Typography> */}
       </Box>
 
       <ChatMenu
         anchorEl={anchorEL}
         isOpen={isMenuOpen}
         onClose={() => setMenuOpen(false)}
-        handleUnmatch={handleUnmatch}
+        handleDeleteChat={handleDeleteChat}
         chat={chat}
       />
     </Box>

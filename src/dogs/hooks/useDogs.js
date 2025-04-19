@@ -86,16 +86,19 @@ export default function useDogs() {
     }
   }, []);
 
-  const handleGetDogById = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const Dog = await getDogById(loginDog);
-      setIsLoading(false);
-      return Dog;
-    } catch (error) {
-      setError(error.message);
-    }
-  }, [loginDog]);
+  const handleGetDogById = useCallback(
+    async (id = null) => {
+      setIsLoading(true);
+      try {
+        const Dog = await getDogById(id ?? loginDog);
+        setIsLoading(false);
+        return Dog;
+      } catch (error) {
+        setError(error.message);
+      }
+    },
+    [loginDog]
+  );
 
   const handleUpdateDog = useCallback(
     async (dogFromClient) => {

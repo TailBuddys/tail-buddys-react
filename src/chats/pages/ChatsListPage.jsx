@@ -3,8 +3,10 @@ import { Box, Container, Tab, Tabs } from "@mui/material";
 import CustomTabPanel from "../../components/CustomTabPanel";
 import ChatItemComponent from "../components/ChatItemComponent";
 import ChatPage from "./ChatPage";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
 
-function ChatsListPage({ handleUnmatch, chats }) {
+function ChatsListPage({ chats, isChatLoading, chatError, handleDeleteChat }) {
   const [selectedTab, setselectedTab] = useState(1);
   const [activeChat, setActiveChat] = useState(null);
 
@@ -28,60 +30,8 @@ function ChatsListPage({ handleUnmatch, chats }) {
     setActiveChat(null);
   };
 
-  //-------- מידע זמני -----------------
-  chats = [
-    {
-      avatar: "",
-      name: "מושיקו",
-      headline: "",
-      time: "19:21",
-      messages: [
-        { id: 1, text: "מה איתך נסיך", sender: "other" },
-        { id: 2, text: "אני עוד פה אחי שניה מתחבר", sender: "me" },
-        { id: 3, text: "יואלה עכשיו עלה ונכנס", sender: "other" },
-        { id: 4, text: "תזניק, אני במודקקה", sender: "me" },
-        { id: 5, text: "כפיים", sender: "other" },
-        { id: 6, text: "כושילירבאק", sender: "me" },
-        { id: 7, text: "איזה 10 ואיזה בטיח", sender: "me" },
-        { id: 8, text: "חחחח", sender: "me" },
-        { id: 9, text: "חחחחחח  גועל נפש", sender: "other" },
-        {
-          id: 10,
-          text: "טוב אני עושה איזה וייש בבית קצת ונכנס",
-          sender: "other",
-        },
-        { id: 11, text: "🤟", sender: "me" },
-        { id: 12, text: "כמה דקות בבית", sender: "other" },
-      ],
-    },
-    {
-      avatar: "",
-      name: "נוי",
-      headline: "",
-      time: "17:10",
-      messages: [
-        { id: 1, text: "מה איתך נסיך", sender: "other" },
-        { id: 2, text: "אני עוד פה אחי שניה מתחבר", sender: "me" },
-        { id: 3, text: "יואלה עכשיו עלה ונכנס", sender: "other" },
-        { id: 4, text: "תזניק, אני במודקקה", sender: "me" },
-        { id: 5, text: "כפיים", sender: "other" },
-        { id: 6, text: "כושילירבאק", sender: "me" },
-        { id: 7, text: "איזה 10 ואיזה בטיח", sender: "me" },
-        { id: 8, text: "חחחח", sender: "me" },
-        { id: 9, text: "חחחחחח  גועל נפש", sender: "other" },
-        {
-          id: 10,
-          text: "טוב אני עושה איזה וייש בבית קצת ונכנס",
-          sender: "other",
-        },
-        { id: 11, text: "🤟", sender: "me" },
-        { id: 12, text: "יאללה כמה זמן?", sender: "other" },
-      ],
-    },
-  ];
-
-  //-------- מידע זמני -----------------
-
+  if (isChatLoading) return <Spinner />;
+  if (chatError) return <Error />;
   return (
     <Container
       sx={{
@@ -119,7 +69,7 @@ function ChatsListPage({ handleUnmatch, chats }) {
                 <ChatItemComponent
                   key={index}
                   chat={chat}
-                  handleUnmatch={handleUnmatch}
+                  handleDeleteChat={handleDeleteChat}
                   chatClick={() => handleChatClick(chat)}
                 />
               ))}
@@ -127,7 +77,7 @@ function ChatsListPage({ handleUnmatch, chats }) {
           </>
         ) : (
           <ChatPage
-            handleUnmatch={handleUnmatch}
+            handleDeleteChat={handleDeleteChat}
             chat={activeChat}
             handleBackToList={handleBackToList}
           />

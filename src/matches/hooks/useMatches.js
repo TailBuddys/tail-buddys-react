@@ -16,10 +16,10 @@ export default function useMatches() {
   useAxios();
 
   const handleMatchInteraction = useCallback(
-    async (senderDogId, reciverDogId, isLike) => {
+    async (senderDogId, receiverDogId, isLike) => {
       setIsMatchLoading(true);
       try {
-        const normalMatch = normalizedMatch(senderDogId, reciverDogId, isLike);
+        const normalMatch = normalizedMatch(senderDogId, receiverDogId, isLike);
         const createdIntaraction = await createMatchInteraction(normalMatch);
         setIsMatchLoading(false);
         return createdIntaraction;
@@ -43,10 +43,10 @@ export default function useMatches() {
   }, []);
 
   const handleUpdateMatche = useCallback(
-    async (matchId, senderDog, reciverDog, isLike) => {
+    async (matchId, senderDog, receiverDog, isLike) => {
       setIsMatchLoading(true);
       try {
-        const normalMatch = normalizedMatch(senderDog, reciverDog, isLike);
+        const normalMatch = normalizedMatch(senderDog, receiverDog, isLike);
         const updatedMatch = await updateMatch(matchId, normalMatch);
         setIsMatchLoading(false);
         return updatedMatch;

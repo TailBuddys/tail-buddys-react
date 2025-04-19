@@ -47,15 +47,18 @@ function CardBody({ data, loginDog, handleLikeUnlikePark }) {
                     justifyContent: "space-between",
                   }}
                 >
-                  <>
-                    <IconButton
-                      sx={{ p: 0, display: "inline-flex", marginLeft: 1 }}
-                      onClick={() => window.history.back()} // או לדף בית
-                    >
-                      <ArrowBackIosNewIcon />
-                    </IconButton>
-                  </>
                   {!data.distance && (
+                    <>
+                      <IconButton
+                        sx={{ p: 0, display: "inline-flex", marginLeft: 1 }}
+                        onClick={() => window.history.back()} // או לדף בית
+                      >
+                        <ArrowBackIosNewIcon />
+                      </IconButton>
+                    </>
+                  )}
+
+                  {!data.distance && data.address && (
                     <>
                       <IconButton
                         sx={{ p: 0, display: "inline-flex", marginLeft: 2 }}

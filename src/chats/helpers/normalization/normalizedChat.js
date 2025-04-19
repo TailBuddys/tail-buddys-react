@@ -1,5 +1,5 @@
-const normalizedChat = (senderDog, reciverDog) => ({
-  senderDogId: senderDog,
-  reciverDogId: reciverDog,
+const normalizedChat = (senderDog, receiverDog) => ({
+  senderDogId: parseInt(senderDog),
+  receiverDogId: receiverDog,
 });
 export default normalizedChat;

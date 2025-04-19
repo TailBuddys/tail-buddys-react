@@ -6,11 +6,13 @@ import {
   deleteChat,
   getAllChats,
   getChatById,
-  getMessagesByChatId,
+  // getMessagesByChatId,
   markMessageAsRead,
 } from "../services/chatsApiService";
 import normalizedChat from "../helpers/normalization/normalizedChat";
 import normalizedChatMessage from "../helpers/normalization/normalizedChatMessage";
+import ChatsToModel from "../helpers/normalization/ChatsToModel";
+import OneChatToModel from "../helpers/normalization/OneChatToModel";
 
 export default function useChats() {
   const [isChatLoading, setIsChatLoading] = useState(false);
@@ -19,10 +21,10 @@ export default function useChats() {
 
   useAxios();
 
-  const handleCreateChat = useCallback(async (senderDogId, reciverDogId) => {
+  const handleCreateChat = useCallback(async (senderDogId, receiverDogId) => {
     setIsChatLoading(true);
     try {
-      const normalChat = normalizedChat(senderDogId, reciverDogId);
+      const normalChat = normalizedChat(senderDogId, receiverDogId);
       const newChat = await createChat(normalChat);
       setIsChatLoading(false);
       return newChat;
@@ -31,10 +33,10 @@ export default function useChats() {
     }
   }, []);
 
-  const handleGetAllChats = useCallback(async () => {
+  const handleGetAllChats = useCallback(async (dogId) => {
     setIsChatLoading(true);
     try {
-      const dogChats = await getAllChats();
+      const dogChats = ChatsToModel(await getAllChats(dogId));
       setIsChatLoading(false);
       setChats(dogChats);
       return dogChats;
@@ -46,7 +48,8 @@ export default function useChats() {
   const handleGetChatById = useCallback(async (chatId) => {
     setIsChatLoading(true);
     try {
-      const chat = await getChatById(chatId);
+      const chat = OneChatToModel(await getChatById(chatId));
+      // const chat = await getChatById(chatId);
       setIsChatLoading(false);
       return chat;
     } catch (error) {
@@ -84,16 +87,16 @@ export default function useChats() {
     []
   );
 
-  const handleGetMessagesByChatId = useCallback(async (chatId) => {
-    setIsChatLoading(true);
-    try {
-      const chatMessages = await getMessagesByChatId(chatId);
-      setIsChatLoading(false);
-      return chatMessages;
-    } catch (error) {
-      setChatError(error.message);
-    }
-  }, []);
+  // const handleGetMessagesByChatId = useCallback(async (chatId) => {
+  //   setIsChatLoading(true);
+  //   try {
+  //     const chatMessages = await getMessagesByChatId(chatId);
+  //     setIsChatLoading(false);
+  //     return chatMessages;
+  //   } catch (error) {
+  //     setChatError(error.message);
+  //   }
+  // }, []);
 
   const handleMarkMessageAsRead = useCallback(async (messageId) => {
     setIsChatLoading(true);
@@ -116,7 +119,7 @@ export default function useChats() {
     handleGetChatById,
     handleDeleteChat,
     handleAddMessageToChat,
-    handleGetMessagesByChatId,
+    // handleGetMessagesByChatId,
     handleMarkMessageAsRead,
   };
 }

@@ -33,7 +33,15 @@ const MainPage = () => {
     matches,
     setMatches,
   } = useMatches();
-  const { chats } = useChats();
+  const {
+    isChatLoading,
+    chatError,
+    chats,
+    setChats,
+    handleCreateChat,
+    handleGetAllChats,
+    handleDeleteChat,
+  } = useChats();
 
   // for parks
   useEffect(() => {
@@ -72,6 +80,14 @@ const MainPage = () => {
     }
   }, [handleGetAllMatches, setMatches, dog]);
 
+  useEffect(() => {
+    if (dog) {
+      handleGetAllChats(dog?.id).then((chats) => {
+        setChats(chats);
+      }); //?????????????????? לרנדר שוב
+    }
+  }, [handleGetAllChats, setChats, dog]);
+
   if (isLoading) return <Spinner />;
   if (error) return <Error />;
   return seeParksOrDogs === "dogs" ? (
@@ -80,6 +96,7 @@ const MainPage = () => {
         <Grid2 size={12}>
           <MatchScreenComponent
             handleUnmatch={handleUpdateMatche}
+            handleCreateChat={handleCreateChat}
             matches={matches}
           />
         </Grid2>
@@ -108,7 +125,9 @@ const MainPage = () => {
       <Grid2 container size={3.5}>
         <Grid2 size={12}>
           <ChatScreenComponent
-            handleUnmatch={handleUpdateMatche}
+            isChatLoading={isChatLoading}
+            chatError={chatError}
+            handleDeleteChat={handleDeleteChat}
             chats={chats}
           />
         </Grid2>
