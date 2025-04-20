@@ -16,10 +16,12 @@ import Spinner from "../components/Spinner";
 import Error from "../components/Error";
 import useMatches from "../matches/hooks/useMatches";
 import useChats from "../chats/hooks/useChats";
+import useWebSocket from "../ws/useWebSocket";
 
 const MainPage = () => {
   const { seeParksOrDogs, user } = useUser();
   const { dog } = useDog();
+  const { notifications } = useWebSocket(dog?.id);
   const [presentedPark, setPresentedPark] = useState();
   const { handleGetAllParks, isParkLoading, parkError } = useParks();
   const { handleGetUnmatchedDogs, isLoading, error } = useDogs();
@@ -78,7 +80,7 @@ const MainPage = () => {
         setMatches(matches);
       }); //?????????????????? לרנדר שוב
     }
-  }, [handleGetAllMatches, setMatches, dog]);
+  }, [handleGetAllMatches, setMatches, dog, notifications]);
 
   useEffect(() => {
     if (dog) {
@@ -98,6 +100,7 @@ const MainPage = () => {
             handleUnmatch={handleUpdateMatche}
             handleCreateChat={handleCreateChat}
             matches={matches}
+            notifications={notifications}
           />
         </Grid2>
         <Grid2 size={12}>

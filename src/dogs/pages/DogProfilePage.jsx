@@ -15,14 +15,19 @@ function DogProfilePage() {
   const location = useLocation();
   const [dogData, setDogData] = useState();
 
-  const chat = location.state?.chat;
+  const chatData = location.state?.chat;
+  const matchData = location.state?.match;
 
   useEffect(() => {
     const getData = async () => {
       let dogId;
 
-      if (chat && chat.dogId) {
-        dogId = chat.dogId;
+      if (chatData || matchData) {
+        if (chatData) {
+          dogId = chatData.dogId;
+        } else {
+          dogId = matchData.receiverDogId;
+        }
       } else {
         const localDogId = getDogFromLocalStorage();
         if (!localDogId) return navigate(ROUTES.ROOT);
@@ -33,7 +38,7 @@ function DogProfilePage() {
       setDogData(fetchedDog);
     };
     getData();
-  }, [handleGetDogById, navigate, chat]);
+  }, [handleGetDogById, navigate, chatData, matchData]);
 
   if (error) return <Error errorMessage={error} />;
   if (isLoading) return <Spinner />;

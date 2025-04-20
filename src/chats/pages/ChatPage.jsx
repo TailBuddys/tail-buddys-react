@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useChats from "../hooks/useChats";
 import Spinner from "../../components/Spinner";
 import CheckIcon from "@mui/icons-material/Check";
@@ -43,10 +43,11 @@ function ChatPage({ chat, handleBackToList }) {
   const SendMessage = () => {
     handleAddMessageToChat(
       chatData.id,
-      chatData.senderDog.id,
+      chatData.senderDog.id !== chat.dogId
+        ? chatData.senderDog.id
+        : chatData.receiverDog.id,
       messageContent
     ).then((message) => {
-      // chatData.messages.push(message);
       setChatData((prev) => ({
         ...prev,
         messages: [...prev.messages, message],
@@ -56,14 +57,21 @@ function ChatPage({ chat, handleBackToList }) {
     setMessageContent("");
   };
 
-  useEffect(() => {
-    if (messageRef && messageRef.current) {
-      const { scrollHeight, clientHeight } = messageRef.current;
-      messageRef.current.scrollTo({
-        left: 0,
-        top: scrollHeight - clientHeight,
-        behavior: "smooth",
-      });
+  // useEffect(() => {
+  //   if (messageRef && messageRef.current) {
+  //     const { scrollHeight, clientHeight } = messageRef.current;
+  //     messageRef.current.scrollTo({
+  //       left: 0,
+  //       top: scrollHeight - clientHeight,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // }, [chatData]);
+
+  useLayoutEffect(() => {
+    if (chatData?.messages?.length && messageRef.current) {
+      const container = messageRef.current;
+      container.scrollTop = container.scrollHeight;
     }
   }, [chatData]);
 
@@ -126,7 +134,16 @@ function ChatPage({ chat, handleBackToList }) {
       ) : (
         <Box
           ref={messageRef}
-          sx={{ flex: 1, overflowY: "auto", p: 1, backgroundColor: "#e5ddd5" }}
+          sx={{
+            flex: 1,
+            overflowY: "auto",
+            p: 1,
+            backgroundColor: "#e5ddd5",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+            scrollbarWidth: "none",
+          }}
         >
           {chatData?.messages.map((msg) => {
             const shouldShowTime = msg.time !== lastShownTime;
@@ -213,7 +230,7 @@ function ChatPage({ chat, handleBackToList }) {
       >
         <InputBase
           value={messageContent}
-          placeholder="הקלד הודעה"
+          placeholder="Type Message..."
           onChange={(e) => {
             setMessageContent(e.target.value);
           }}

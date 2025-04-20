@@ -10,11 +10,17 @@ function CardActionBar({
   loginDog,
 }) {
   return (
-    <Box sx={{}}>
+    <Box>
       {!data?.dogLikes ? (
         <>
           <Fab
             color="error"
+            sx={{
+              boxShadow: "none",
+              "&:hover": {
+                boxShadow: "none",
+              },
+            }}
             onClick={() => {
               handleSwipeDog("dislike");
               handleLikeUnlikeDog(loginDog, data.id, false);
@@ -24,6 +30,12 @@ function CardActionBar({
           </Fab>
           <Fab
             color="success"
+            sx={{
+              boxShadow: "none",
+              "&:hover": {
+                boxShadow: "none",
+              },
+            }}
             onClick={() => {
               handleSwipeDog("like");
               handleLikeUnlikeDog(loginDog, data.id, true);

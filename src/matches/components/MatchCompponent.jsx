@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useTheme as useMuiTheme } from "@mui/material/styles";
+import { styled, useTheme as useMuiTheme } from "@mui/material/styles";
 import {
   Avatar,
+  Badge,
   Box,
   IconButton,
   Tooltip,
@@ -10,7 +11,12 @@ import {
 } from "@mui/material";
 import MatchMenu from "./MatchMenu";
 
-const MatchCompponent = ({ handleUnmatch, handleCreateChat, match }) => {
+const MatchCompponent = ({
+  handleUnmatch,
+  handleCreateChat,
+  match,
+  notifications,
+}) => {
   const theme = useMuiTheme();
   const screenSize = useMediaQuery(theme.breakpoints.up("md"));
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +25,33 @@ const MatchCompponent = ({ handleUnmatch, handleCreateChat, match }) => {
   useEffect(() => {
     setIsOpen(false);
   }, [screenSize]);
+
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      backgroundColor: "red",
+      color: "red",
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      "&::after": {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%",
+        animation: "ripple 1.2s infinite ease-in-out",
+        border: "1px solid currentColor",
+        content: '""',
+      },
+    },
+    "@keyframes ripple": {
+      "0%": {
+        transform: "scale(.8)",
+        opacity: 1,
+      },
+      "100%": {
+        transform: "scale(2.4)",
+        opacity: 0,
+      },
+    },
+  }));
 
   return (
     <Box sx={{ padding: 1 }}>
@@ -36,11 +69,40 @@ const MatchCompponent = ({ handleUnmatch, handleCreateChat, match }) => {
             setIsOpen(true);
           }}
         >
-          <Avatar
-            sx={{ width: 56, height: 56 }}
-            alt={"dog avatar"}
-            src={match.receiverDogImage}
-          />
+          {notifications.includes(match.id) ? (
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              <Box sx={{ position: "relative", display: "inline-block" }}>
+                <Avatar
+                  sx={{ width: 56, height: 56 }}
+                  alt="dog avatar"
+                  src={match.receiverDogImage}
+                />
+                <Box
+                  component="img"
+                  src="/assets/images/itsAMatchIcon.png"
+                  alt="overlay"
+                  sx={{
+                    width: 70,
+                    height: 50,
+                    position: "absolute",
+                    bottom: -20,
+                    left: "45%",
+                    transform: "translateX(-50%)",
+                  }}
+                />
+              </Box>
+            </StyledBadge>
+          ) : (
+            <Avatar
+              sx={{ width: 56, height: 56 }}
+              alt={"dog avatar"}
+              src={match.receiverDogImage}
+            />
+          )}
         </IconButton>
       </Tooltip>
       <MatchMenu

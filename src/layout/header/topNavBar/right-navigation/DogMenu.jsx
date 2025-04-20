@@ -6,11 +6,20 @@ import MenuLink from "../../../../routes/components/MenuLink";
 import { useDog } from "../../../../dogs/providers/DogProvider";
 import { Avatar, Divider, IconButton, Typography } from "@mui/material";
 import useDogs from "../../../../dogs/hooks/useDogs";
+import { useEffect, useState } from "react";
 
 const DogMenu = ({ isOpen, anchorEl, onClose }) => {
   const { loginDog } = useUser();
   const { userDogs } = useDog();
   const { handleSwitchDog } = useDogs();
+  const [fullDog, setFullDog] = useState();
+
+  useEffect(() => {
+    const fullLoginDog = () => {
+      setFullDog(userDogs?.find((dog) => dog.id === Number(loginDog)));
+    };
+    fullLoginDog();
+  }, [loginDog, userDogs]);
 
   return (
     <MuiMenu
@@ -37,6 +46,10 @@ const DogMenu = ({ isOpen, anchorEl, onClose }) => {
       <Box>
         {loginDog && (
           <>
+            <Typography sx={{ textAlign: "center" }}>
+              {fullDog?.name}
+            </Typography>
+            <Divider variant="middle" />
             <MenuLink
               text="Dog Profile"
               navigateTo={ROUTES.DOG_PROFILE}
@@ -57,7 +70,7 @@ const DogMenu = ({ isOpen, anchorEl, onClose }) => {
       </Box>
       {userDogs ? (
         <Box>
-          <Divider />
+          {userDogs.length >= 2 && <Divider variant="middle" />}
           {userDogs
             ?.filter((dog) => dog.id !== Number(loginDog)) // Exclude loginDog
             .map((dog) => (

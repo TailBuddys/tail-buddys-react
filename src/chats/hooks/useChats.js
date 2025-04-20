@@ -49,7 +49,6 @@ export default function useChats() {
     setIsChatLoading(true);
     try {
       const chat = OneChatToModel(await getChatById(chatId));
-      // const chat = await getChatById(chatId);
       setIsChatLoading(false);
       return chat;
     } catch (error) {
@@ -70,7 +69,6 @@ export default function useChats() {
 
   const handleAddMessageToChat = useCallback(
     async (chatID, senderDogId, content) => {
-      setIsChatLoading(true);
       try {
         const normalChatMessage = normalizedChatMessage(
           chatID,
@@ -78,7 +76,6 @@ export default function useChats() {
           content
         );
         const newChatMessage = await addMessageToChat(normalChatMessage);
-        setIsChatLoading(false);
         return newChatMessage;
       } catch (error) {
         setChatError(error.message);

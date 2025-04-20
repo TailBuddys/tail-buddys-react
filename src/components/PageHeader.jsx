@@ -10,7 +10,7 @@ export default function PageHeader({ title, subtitle }) {
       <Typography variant="h5" component="h2">
         {subtitle}
       </Typography>
-      <Divider sx={{ my: 2 }} />
+      <Divider sx={{ my: 2 }} variant="middle" />
     </Box>
   );
 }

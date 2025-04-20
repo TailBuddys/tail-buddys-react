@@ -12,7 +12,7 @@ const useWebSocket = (dogId) => {
     const hubConnection = new signalR.HubConnectionBuilder()
       .withUrl("https://localhost:7121/NotificationHub", {
         // accessTokenFactory: () => getTokenFromLocalStorage(),
-        accessTokenFactory: () => `Bearer ${getTokenFromLocalStorage()}`,
+        accessTokenFactory: () => getTokenFromLocalStorage(),
       }) // Update with your backend URL
       .withAutomaticReconnect()
       .build();

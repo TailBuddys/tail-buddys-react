@@ -1,7 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import MatchCompponent from "./MatchCompponent";
 
-const MatchScreenComponent = ({ handleUnmatch, handleCreateChat, matches }) => {
+const MatchScreenComponent = ({
+  handleUnmatch,
+  handleCreateChat,
+  matches,
+  notifications,
+}) => {
   return (
     <Box
       sx={{
@@ -23,6 +28,7 @@ const MatchScreenComponent = ({ handleUnmatch, handleCreateChat, matches }) => {
               handleUnmatch={handleUnmatch}
               match={match}
               handleCreateChat={handleCreateChat}
+              notifications={notifications}
             />
           </Box>
         ))

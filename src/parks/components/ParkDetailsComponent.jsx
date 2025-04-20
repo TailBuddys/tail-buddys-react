@@ -23,7 +23,6 @@ export default function ParkDetailsComponent({
   const confirmLike = (parkId, dogId) => {
     handleLikeUnlikePark(parkId, dogId).then((data) => {
       setLikesData(data.dogLikes);
-      console.log(data.dogLikes);
     });
   };
 
