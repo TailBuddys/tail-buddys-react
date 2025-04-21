@@ -21,7 +21,8 @@ import useWebSocket from "../ws/useWebSocket";
 const MainPage = () => {
   const { seeParksOrDogs, user } = useUser();
   const { dog } = useDog();
-  const { notifications } = useWebSocket(dog?.id);
+  const { notifications, chatNotifications, joinChat, leaveChat } =
+    useWebSocket(dog?.id);
   const [presentedPark, setPresentedPark] = useState();
   const { handleGetAllParks, isParkLoading, parkError } = useParks();
   const { handleGetUnmatchedDogs, isLoading, error } = useDogs();
@@ -88,7 +89,7 @@ const MainPage = () => {
         setChats(chats);
       }); //?????????????????? לרנדר שוב
     }
-  }, [handleGetAllChats, setChats, dog]);
+  }, [handleGetAllChats, setChats, dog, chatNotifications]);
 
   if (isLoading) return <Spinner />;
   if (error) return <Error />;
@@ -132,6 +133,8 @@ const MainPage = () => {
             chatError={chatError}
             handleDeleteChat={handleDeleteChat}
             chats={chats}
+            joinChatRoom={joinChat}
+            leaveChatRoom={leaveChat}
           />
         </Grid2>
       </Grid2>

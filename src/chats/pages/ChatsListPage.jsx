@@ -6,7 +6,14 @@ import ChatPage from "./ChatPage";
 import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
 
-function ChatsListPage({ chats, isChatLoading, chatError, handleDeleteChat }) {
+function ChatsListPage({
+  chats,
+  isChatLoading,
+  chatError,
+  handleDeleteChat,
+  joinChatRoom,
+  leaveChatRoom,
+}) {
   const [selectedTab, setselectedTab] = useState(1);
   const [activeChat, setActiveChat] = useState(null);
 
@@ -80,6 +87,8 @@ function ChatsListPage({ chats, isChatLoading, chatError, handleDeleteChat }) {
             handleDeleteChat={handleDeleteChat}
             chat={activeChat}
             handleBackToList={handleBackToList}
+            joinChatRoom={joinChatRoom}
+            leaveChatRoom={leaveChatRoom}
           />
         )}
       </Box>

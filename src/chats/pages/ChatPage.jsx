@@ -19,7 +19,7 @@ import Error from "../../components/Error";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 
-function ChatPage({ chat, handleBackToList }) {
+function ChatPage({ chat, handleBackToList, joinChatRoom, leaveChatRoom }) {
   const {
     isChatLoading,
     chatError,
@@ -56,6 +56,15 @@ function ChatPage({ chat, handleBackToList }) {
 
     setMessageContent("");
   };
+
+  useEffect(() => {
+    if (!chat?.id && joinChatRoom && leaveChatRoom) return;
+    joinChatRoom(chat.id);
+
+    return () => {
+      leaveChatRoom(chat.id);
+    };
+  }, [chat?.id, joinChatRoom, leaveChatRoom]);
 
   // useEffect(() => {
   //   if (messageRef && messageRef.current) {

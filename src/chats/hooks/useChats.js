@@ -34,10 +34,8 @@ export default function useChats() {
   }, []);
 
   const handleGetAllChats = useCallback(async (dogId) => {
-    setIsChatLoading(true);
     try {
       const dogChats = ChatsToModel(await getAllChats(dogId));
-      setIsChatLoading(false);
       setChats(dogChats);
       return dogChats;
     } catch (error) {

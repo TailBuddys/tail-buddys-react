@@ -5,6 +5,8 @@ const ChatScreenComponent = ({
   isChatLoading,
   chatError,
   handleDeleteChat,
+  joinChatRoom,
+  leaveChatRoom,
 }) => {
   return (
     <ChatsListPage
@@ -12,6 +14,8 @@ const ChatScreenComponent = ({
       chatError={chatError}
       handleDeleteChat={handleDeleteChat}
       chats={chats}
+      joinChatRoom={joinChatRoom}
+      leaveChatRoom={leaveChatRoom}
     />
   );
 };
