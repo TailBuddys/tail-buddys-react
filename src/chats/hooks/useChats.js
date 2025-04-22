@@ -6,8 +6,6 @@ import {
   deleteChat,
   getAllChats,
   getChatById,
-  // getMessagesByChatId,
-  markMessageAsRead,
 } from "../services/chatsApiService";
 import normalizedChat from "../helpers/normalization/normalizedChat";
 import normalizedChatMessage from "../helpers/normalization/normalizedChatMessage";
@@ -44,10 +42,10 @@ export default function useChats() {
   }, []);
 
   const handleGetChatById = useCallback(async (chatId) => {
-    setIsChatLoading(true);
+    // setIsChatLoading(true);
     try {
       const chat = OneChatToModel(await getChatById(chatId));
-      setIsChatLoading(false);
+      // setIsChatLoading(false);
       return chat;
     } catch (error) {
       setChatError(error.message);
@@ -82,28 +80,6 @@ export default function useChats() {
     []
   );
 
-  // const handleGetMessagesByChatId = useCallback(async (chatId) => {
-  //   setIsChatLoading(true);
-  //   try {
-  //     const chatMessages = await getMessagesByChatId(chatId);
-  //     setIsChatLoading(false);
-  //     return chatMessages;
-  //   } catch (error) {
-  //     setChatError(error.message);
-  //   }
-  // }, []);
-
-  const handleMarkMessageAsRead = useCallback(async (messageId) => {
-    setIsChatLoading(true);
-    try {
-      const messageToMark = await markMessageAsRead(messageId);
-      setIsChatLoading(false);
-      return messageToMark;
-    } catch (error) {
-      setChatError(error.message);
-    }
-  }, []);
-
   return {
     isChatLoading,
     chatError,
@@ -114,7 +90,5 @@ export default function useChats() {
     handleGetChatById,
     handleDeleteChat,
     handleAddMessageToChat,
-    // handleGetMessagesByChatId,
-    handleMarkMessageAsRead,
   };
 }

@@ -135,6 +135,7 @@ const MainPage = () => {
             chats={chats}
             joinChatRoom={joinChat}
             leaveChatRoom={leaveChat}
+            chatNotifications={chatNotifications}
           />
         </Grid2>
       </Grid2>

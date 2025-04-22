@@ -7,6 +7,7 @@ const ChatScreenComponent = ({
   handleDeleteChat,
   joinChatRoom,
   leaveChatRoom,
+  chatNotifications,
 }) => {
   return (
     <ChatsListPage
@@ -16,6 +17,7 @@ const ChatScreenComponent = ({
       chats={chats}
       joinChatRoom={joinChatRoom}
       leaveChatRoom={leaveChatRoom}
+      chatNotifications={chatNotifications}
     />
   );
 };

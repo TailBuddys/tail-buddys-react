@@ -19,7 +19,13 @@ import Error from "../../components/Error";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 
-function ChatPage({ chat, handleBackToList, joinChatRoom, leaveChatRoom }) {
+function ChatPage({
+  chat,
+  handleBackToList,
+  joinChatRoom,
+  leaveChatRoom,
+  chatNotifications,
+}) {
   const {
     isChatLoading,
     chatError,
@@ -38,7 +44,7 @@ function ChatPage({ chat, handleBackToList, joinChatRoom, leaveChatRoom }) {
         setChatData(chat);
       }); //?????????????????? לרנדר שוב
     }
-  }, [handleGetChatById, chat]);
+  }, [handleGetChatById, chat, chatNotifications]);
 
   const SendMessage = () => {
     handleAddMessageToChat(
@@ -200,25 +206,29 @@ function ChatPage({ chat, handleBackToList, joinChatRoom, leaveChatRoom }) {
                     }}
                   >
                     <Typography variant="body2">{msg.content}</Typography>
-                    {msg.isRead === false ? (
-                      <CheckIcon
-                        sx={{
-                          fontSize: "small",
-                          alignSelf: "flex-end",
-                          mt: 1,
-                          mr: 0.5,
-                        }}
-                      />
-                    ) : (
-                      <DoneAllIcon
-                        sx={{
-                          color: "blue",
-                          fontSize: "small",
-                          alignSelf: "flex-end",
-                          mt: 1,
-                          mr: 0.5,
-                        }}
-                      />
+                    {msg.senderDogId !== chat.dogId && (
+                      <>
+                        {msg.isRead === false ? (
+                          <CheckIcon
+                            sx={{
+                              fontSize: "small",
+                              alignSelf: "flex-end",
+                              mt: 1,
+                              mr: 0.5,
+                            }}
+                          />
+                        ) : (
+                          <DoneAllIcon
+                            sx={{
+                              color: "blue",
+                              fontSize: "small",
+                              alignSelf: "flex-end",
+                              mt: 1,
+                              mr: 0.5,
+                            }}
+                          />
+                        )}
+                      </>
                     )}
                   </Paper>
                 </Box>

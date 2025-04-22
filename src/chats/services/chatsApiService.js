@@ -50,32 +50,4 @@ const addMessageToChat = async (chatData) => {
   }
 };
 
-// const getMessagesByChatId = async (chatId) => {
-//   try {
-//     const url = `${apiUrl}/message/${chatId}`;
-//     const { data } = await axios.get(url);
-//     return data;
-//   } catch (error) {
-//     throw new Error(error.message.data);
-//   }
-// };
-
-const markMessageAsRead = async (messageId) => {
-  try {
-    const url = `${apiUrl}/message/${messageId}`;
-    const { data } = await axios.patch(url);
-    return data;
-  } catch (error) {
-    throw new Error(error.message.data);
-  }
-};
-
-export {
-  createChat,
-  getAllChats,
-  getChatById,
-  deleteChat,
-  addMessageToChat,
-  // getMessagesByChatId,
-  markMessageAsRead,
-};
+export { createChat, getAllChats, getChatById, deleteChat, addMessageToChat };

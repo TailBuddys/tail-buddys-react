@@ -13,6 +13,7 @@ function ChatsListPage({
   handleDeleteChat,
   joinChatRoom,
   leaveChatRoom,
+  chatNotifications,
 }) {
   const [selectedTab, setselectedTab] = useState(1);
   const [activeChat, setActiveChat] = useState(null);
@@ -77,6 +78,7 @@ function ChatsListPage({
                   key={index}
                   chat={chat}
                   handleDeleteChat={handleDeleteChat}
+                  chatNotifications={chatNotifications}
                   chatClick={() => handleChatClick(chat)}
                 />
               ))}
@@ -89,6 +91,7 @@ function ChatsListPage({
             handleBackToList={handleBackToList}
             joinChatRoom={joinChatRoom}
             leaveChatRoom={leaveChatRoom}
+            chatNotifications={chatNotifications}
           />
         )}
       </Box>

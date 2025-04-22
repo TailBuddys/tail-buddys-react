@@ -7,7 +7,7 @@ const useWebSocket = (dogId) => {
   const [chatConnection, setChatConnection] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [chatNotifications, setChatNotifications] = useState([]);
-  const activeChats = useRef(new Set()); // Track active chats using ref
+  const activeChats = useRef(new Set()); // Track active chats using ref // ללמוד
 
   // Main connections setup
   useEffect(() => {
@@ -53,27 +53,80 @@ const useWebSocket = (dogId) => {
         .withAutomaticReconnect()
         .build();
 
+      // FIRST - Set up all event handlers
+      chatConn.on("ReceiveChatNotification", (chatObj) => {
+        console.log("this is @@@@@@@@@@@");
+        console.log(chatObj);
+        console.log("New Chat Notification:", chatObj);
+
+        setChatNotifications((prev) => {
+          const exists = prev.some((n) => n.chatId === chatObj.chatId);
+          return exists
+            ? prev.map((n) => (n.chatId === chatObj.chatId ? chatObj : n))
+            : [...prev, chatObj];
+        });
+      });
+
+      chatConn.on("Error", (message) => {
+        console.error("ChatHub Error:", message);
+      });
+
       try {
+        // SECOND - Start the connection
         await chatConn.start();
         console.log("Connected to ChatHub");
 
+        // THIRD - Now invoke methods
         await chatConn.invoke("JoinDogChatsGroup", parseInt(dogId));
         console.log(`Joined Chat Group for dogId: ${dogId}`);
-
-        chatConn.on("ReceiveChatNotification", ({ chatId }) => {
-          console.log("New Chat Notification:", chatId);
-          setChatNotifications((prev) => [...prev, chatId]);
-        });
-
-        chatConn.on("Error", (message) => {
-          console.error("ChatHub Error:", message);
-        });
 
         setChatConnection(chatConn);
       } catch (error) {
         console.error("ChatHub Connection Error:", error);
       }
     };
+    // const setupChatConnection = async () => {
+    //   const chatConn = new signalR.HubConnectionBuilder()
+    //     .withUrl("https://localhost:7121/ChatHub", {
+    //       accessTokenFactory: () => getTokenFromLocalStorage(),
+    //     })
+    //     .withAutomaticReconnect()
+    //     .build();
+
+    //   try {
+    //     await chatConn.start();
+    //     console.log("Connected to ChatHub");
+
+    //     await chatConn.invoke("JoinDogChatsGroup", parseInt(dogId));
+    //     console.log(`Joined Chat Group for dogId: ${dogId}`);
+
+    //     chatConn.on("ReceiveChatNotification", (chatObj) => {
+    //       console.log("this is @@@@@@@@@@@");
+    //       console.log(chatObj);
+
+    //       console.log("New Chat Notification:", chatObj);
+    //       setChatNotifications((prev) => {
+    //         const exists = prev.some((n) => n.chatId === chatObj.chatId);
+
+    //         if (exists) {
+    //           return prev.map((n) =>
+    //             n.chatId === chatObj.chatId ? chatObj : n
+    //           );
+    //         } else {
+    //           return [...prev, chatObj];
+    //         }
+    //       });
+    //     });
+
+    //     chatConn.on("Error", (message) => {
+    //       console.error("ChatHub Error:", message);
+    //     });
+
+    //     setChatConnection(chatConn);
+    //   } catch (error) {
+    //     console.error("ChatHub Connection Error:", error);
+    //   }
+    // };
 
     setupNotificationConnection();
     setupChatConnection();

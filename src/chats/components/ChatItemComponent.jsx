@@ -10,15 +10,31 @@ import { useTheme as useMuiTheme } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ChatMenu from "./ChatMenu";
 
-function ChatItemComponent({ chat, handleDeleteChat, chatClick }) {
+function ChatItemComponent({
+  chat,
+  handleDeleteChat,
+  chatClick,
+  chatNotifications,
+}) {
   const theme = useMuiTheme();
   const screenSize = useMediaQuery(theme.breakpoints.up("md"));
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [anchorEL, setAnchor] = useState(null);
+  const [unreadMessageCount, setUnreadMessageCount] = useState();
+
+  useEffect(() => {}, [screenSize]);
 
   useEffect(() => {
-    setMenuOpen(false);
-  }, [screenSize]);
+    if (chatNotifications.length > 0 && chat) {
+      const chatNotify = chatNotifications.find((c) => c.chatId === chat.id);
+      if (chatNotify) {
+        setUnreadMessageCount(chatNotify.unreadCount + 1);
+      }
+    }
+  }, [chatNotifications, chat]);
+
+  console.log(unreadMessageCount);
+
   return (
     <Box
       onClick={() => chatClick?.()}
@@ -95,6 +111,23 @@ function ChatItemComponent({ chat, handleDeleteChat, chatClick }) {
                   >
                     {chat.lastMessage}
                   </Typography>
+                  {unreadMessageCount ? (
+                    <Typography
+                      sx={{
+                        backgroundColor: "pink",
+                        borderRadius: 50,
+                        fontSize: "80%",
+                        width: "70px",
+                        height: "20px",
+                        mr: 2,
+                      }}
+                    >
+                      {unreadMessageCount}
+                    </Typography>
+                  ) : (
+                    <Typography></Typography>
+                  )}
+
                   <Typography
                     variant="caption"
                     sx={{ color: "rgba(0, 0, 0, 0.54)" }}
