@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import * as signalR from "@microsoft/signalr";
 import { getTokenFromLocalStorage } from "../services/localStorageService";
 
@@ -7,22 +7,21 @@ const useWebSocket = (dogId) => {
   const [chatConnection, setChatConnection] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [chatNotifications, setChatNotifications] = useState([]);
-  const [chatConnections, setChatConnections] = useState(new Map()); // לשאול
+  const activeChats = useRef(new Set()); // Track active chats using ref
 
+  // Main connections setup
   useEffect(() => {
     if (!dogId) return;
 
     // --- Notification Hub ---
-    const notifConnection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7121/NotificationHub", {
-        accessTokenFactory: () => getTokenFromLocalStorage(),
-      })
-      .withAutomaticReconnect()
-      .build();
+    const setupNotificationConnection = async () => {
+      const notifConnection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:7121/NotificationHub", {
+          accessTokenFactory: () => getTokenFromLocalStorage(),
+        })
+        .withAutomaticReconnect()
+        .build();
 
-    setNotificationConnection(notifConnection);
-
-    const startNotificationConnection = async () => {
       try {
         await notifConnection.start();
         console.log("Connected to NotificationHub");
@@ -38,22 +37,22 @@ const useWebSocket = (dogId) => {
         notifConnection.on("Error", (message) => {
           console.error("NotificationHub Error:", message);
         });
+
+        setNotificationConnection(notifConnection);
       } catch (error) {
         console.error("NotificationHub Connection Error:", error);
       }
     };
 
     // --- Chat Hub ---
-    const chatConn = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7121/ChatHub", {
-        accessTokenFactory: () => getTokenFromLocalStorage(),
-      })
-      .withAutomaticReconnect()
-      .build();
+    const setupChatConnection = async () => {
+      const chatConn = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:7121/ChatHub", {
+          accessTokenFactory: () => getTokenFromLocalStorage(),
+        })
+        .withAutomaticReconnect()
+        .build();
 
-    setChatConnection(chatConn);
-
-    const startChatConnection = async () => {
       try {
         await chatConn.start();
         console.log("Connected to ChatHub");
@@ -69,71 +68,70 @@ const useWebSocket = (dogId) => {
         chatConn.on("Error", (message) => {
           console.error("ChatHub Error:", message);
         });
+
+        setChatConnection(chatConn);
       } catch (error) {
         console.error("ChatHub Connection Error:", error);
       }
     };
 
-    startNotificationConnection();
-    startChatConnection();
+    setupNotificationConnection();
+    setupChatConnection();
 
     return () => {
-      notifConnection.stop();
-      chatConn.stop();
-      console.log("Disconnected from both hubs");
-
-      chatConnections.forEach((conn, chatId) => {
-        conn
+      if (notificationConnection) {
+        notificationConnection
           .stop()
-          .then(() => console.log(`🛑 Disconnected from chat ${chatId}`));
-      });
-      // setChatConnections(new Map());
+          .catch((err) =>
+            console.error("Error stopping notification connection:", err)
+          );
+      }
+      if (chatConnection) {
+        chatConnection
+          .stop()
+          .catch((err) =>
+            console.error("Error stopping chat connection:", err)
+          );
+      }
+      console.log("Disconnected from both hubs");
     };
-  }, [dogId, chatConnections]);
+  }, [dogId]);
 
   // --- Public API: Join specific chat group ---
   const joinChat = useCallback(
     async (chatId) => {
-      if (!chatId || chatConnections.has(chatId)) return;
-      const newConn = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7121/ChatHub", {
-          accessTokenFactory: () => getTokenFromLocalStorage(),
-        })
-        .withAutomaticReconnect()
-        .build();
+      if (!chatId || !chatConnection || activeChats.current.has(chatId)) return;
+
       try {
-        await newConn.start();
-        await newConn.invoke("JoinSpecificChatGroup", chatId, dogId);
+        await chatConnection.invoke("JoinSpecificChatGroup", chatId, dogId);
         console.log(`📥 Joined specific chat ${chatId}`);
-        // Optional: Listen to messages here if needed
-        newConn.on("ReceiveMessage", (message) => {
-          console.log(`💬 Message in chat ${chatId}:`, message);
-        });
-        setChatConnections((prev) => new Map(prev).set(chatId, newConn));
+
+        // Add to active chats
+        activeChats.current.add(chatId);
       } catch (err) {
         console.error("❌ Failed to join specific chat:", err);
       }
     },
-    [dogId, chatConnections]
+    [dogId, chatConnection]
   );
 
-  // --- Public API: Leave specific chat (stops its connection) ---
+  // --- Public API: Leave specific chat ---
   const leaveChat = useCallback(
     async (chatId) => {
-      const conn = chatConnections.get(chatId);
-      if (!conn) return;
+      if (!chatId || !chatConnection || !activeChats.current.has(chatId))
+        return;
+
       try {
-        await conn.invoke("LeaveSpecificChatGroup", chatId, dogId);
-        await conn.stop();
-        console.log(`📤 Left and disconnected from chat ${chatId}`);
-        const updated = new Map(chatConnections);
-        updated.delete(chatId);
-        setChatConnections(updated);
+        await chatConnection.invoke("LeaveSpecificChatGroup", chatId, dogId);
+        console.log(`📤 Left chat ${chatId}`);
+
+        // Remove from active chats
+        activeChats.current.delete(chatId);
       } catch (err) {
         console.error("❌ Failed to leave specific chat:", err);
       }
     },
-    [dogId, chatConnections]
+    [dogId, chatConnection]
   );
 
   return {
@@ -147,5 +145,3 @@ const useWebSocket = (dogId) => {
 };
 
 export default useWebSocket;
-
-//--------------------------------------------------------------------------------------------------------------------------------//
