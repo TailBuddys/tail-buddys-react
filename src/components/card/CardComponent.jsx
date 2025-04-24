@@ -77,6 +77,7 @@ function CardComponent({
             borderRadius: 5,
             backgroundColor: "var(--creame)",
             boxShadow: TopCard ? "0px 0px 20px" : "none",
+            opacity: TopCard ? 1 : 0,
           }}
         >
           <Grid2 container size={12}>
@@ -116,6 +117,7 @@ function CardComponent({
               left: "50%",
               transform: "translateX(-50%)",
               zIndex: 10,
+              opacity: TopCard ? 1 : 0,
             }}
           >
             <CardActionBar

@@ -12,8 +12,10 @@ export default function Footer() {
   return (
     <Paper elevation={3} className="footer-container">
       <div className="footer-slider">
-        <span className="footer-text">All rights reserved©</span>
-        <NavItem to={ROUTES.ABOUT} lable="About" />
+        <span className="footer-text">
+          All rights reserved to Noy Moshe and Daniel ha alufim!! ©
+        </span>
+        <NavItem to={ROUTES.ABOUT} lable="More About Us" />
       </div>
     </Paper>
   );

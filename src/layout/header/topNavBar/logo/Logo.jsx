@@ -1,9 +1,12 @@
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import React from "react";
 import NavBarLink from "../../../../routes/components/NavBarLink";
 import ROUTES from "../../../../routes/routesModel";
+import NavItem from "../../../../routes/components/NavItem";
 
 export default function Logo() {
+  const isMobile = useMediaQuery("(max-width:1025px)");
+
   return (
     <NavBarLink to={ROUTES.ROOT}>
       <Typography
@@ -17,6 +20,7 @@ export default function Logo() {
       >
         TailBuddys
       </Typography>
+      {isMobile && <NavItem to={ROUTES.ABOUT} lable="More About Us" />}
     </NavBarLink>
   );
 }
