@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker } from "@react-google-maps/api";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import Spinner from "./Spinner";
 import Error from "./Error";
 
@@ -14,6 +14,7 @@ export default function GoogleMapComponent({
 }) {
   const [mapCenter, setMapCenter] = useState();
   const [mapZoom, setMapZoom] = useState(12);
+  const isMobile = useMediaQuery("(max-width:426px)");
 
   useEffect(() => {
     if (dogData !== null && dogData !== undefined) {
@@ -30,7 +31,11 @@ export default function GoogleMapComponent({
   return (
     <Box>
       <GoogleMap
-        mapContainerStyle={{ width: "100%", height: "620px" }}
+        mapContainerStyle={{
+          width: "100%",
+          height: isMobile ? "45vh" : "88vh",
+          borderRadius: 10,
+        }}
         center={mapCenter}
         zoom={mapZoom}
       >
@@ -39,7 +44,9 @@ export default function GoogleMapComponent({
             position={mapCenter}
             icon={{
               url: "/assets/images/dogPin.png",
-              scaledSize: new window.google.maps.Size(35, 45),
+              scaledSize: isMobile
+                ? new window.google.maps.Size(30, 40)
+                : new window.google.maps.Size(35, 45),
             }}
             title="Your location"
           />
@@ -56,11 +63,15 @@ export default function GoogleMapComponent({
               presentedPark.lng === park.lng
                 ? {
                     url: "/assets/images/selectedParkPin.png",
-                    scaledSize: new window.google.maps.Size(35, 45),
+                    scaledSize: isMobile
+                      ? new window.google.maps.Size(30, 40)
+                      : new window.google.maps.Size(35, 45),
                   }
                 : {
                     url: "/assets/images/parkPin.png",
-                    scaledSize: new window.google.maps.Size(25, 35),
+                    scaledSize: isMobile
+                      ? new window.google.maps.Size(20, 30)
+                      : new window.google.maps.Size(25, 35),
                   }
             }
             zIndex={

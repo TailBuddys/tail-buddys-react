@@ -11,6 +11,7 @@ export default function Logo() {
         sx={{
           fontFamily: "fantasy",
           mr: 2,
+          color: "#231f19",
           display: { xs: "none", sm: "inline-flex" },
         }}
       >

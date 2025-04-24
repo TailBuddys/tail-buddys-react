@@ -7,6 +7,7 @@ import { useDog } from "../../../../dogs/providers/DogProvider";
 import { Avatar, Divider, IconButton, Typography } from "@mui/material";
 import useDogs from "../../../../dogs/hooks/useDogs";
 import { useEffect, useState } from "react";
+import "../../../../styles/general.css";
 
 const DogMenu = ({ isOpen, anchorEl, onClose }) => {
   const { loginDog } = useUser();
@@ -46,7 +47,10 @@ const DogMenu = ({ isOpen, anchorEl, onClose }) => {
       <Box>
         {loginDog && (
           <>
-            <Typography sx={{ textAlign: "center" }}>
+            <Typography
+              className="headers-typography"
+              sx={{ textAlign: "center" }}
+            >
               {fullDog?.name}
             </Typography>
             <Divider variant="middle" />
@@ -61,7 +65,7 @@ const DogMenu = ({ isOpen, anchorEl, onClose }) => {
               onClick={onClose}
             />
             <MenuLink
-              text="Create New Dog"
+              text="Create Dog"
               navigateTo={ROUTES.CREATE_DOG}
               onClick={onClose}
             />
@@ -72,10 +76,14 @@ const DogMenu = ({ isOpen, anchorEl, onClose }) => {
         <Box>
           {userDogs.length >= 2 && <Divider variant="middle" />}
           {userDogs
-            ?.filter((dog) => dog.id !== Number(loginDog)) // Exclude loginDog
+            ?.filter((dog) => dog.id !== Number(loginDog))
             .map((dog) => (
               <Box key={dog.id} sx={{ display: "flex" }}>
                 <IconButton
+                  sx={{
+                    borderRadius: 3,
+                    margin: 0.5,
+                  }}
                   onClick={() => {
                     handleSwitchDog(dog.id);
                   }}

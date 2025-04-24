@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import ROUTES from "./routesModel";
-// import AboutPage from "../pages/AboutPage";
+import AboutPage from "../pages/AboutPage";
 import ErrorPage from "../pages/ErrorPage";
 import SignupPage from "../users/pages/SignUpPage";
 import LogInPage from "../users/pages/LogInPage";
@@ -22,7 +22,7 @@ export default function Router() {
   return (
     <Routes>
       <Route path={ROUTES.ROOT} element={<MainPage />} />
-      {/* <Route path={ROUTES.ABOUT} element={<AboutPage />} /> */}
+      <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
       <Route path={ROUTES.LOGIN} element={<LogInPage />} />
       <Route path={ROUTES.EDIT_USER} element={<EditUserPage />} />

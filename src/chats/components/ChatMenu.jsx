@@ -3,11 +3,22 @@ import MuiMenu from "@mui/material/Menu";
 import { Box, Button } from "@mui/material";
 import { useAlert } from "../../providers/AlertProvider";
 
-function ChatMenu({ isOpen, anchorEl, onClose, chat, handleDeleteChat }) {
+function ChatMenu({
+  isOpen,
+  anchorEl,
+  onClose,
+  chat,
+  handleDeleteChat,
+  handleUpdateChat,
+}) {
   const { alertActivation } = useAlert();
 
   const confirmDeleteChat = () => {
     handleDeleteChat(chat.id);
+  };
+
+  const confirmUpdateChat = () => {
+    handleUpdateChat(chat.id, !chat.isArchive);
   };
 
   return (
@@ -38,13 +49,35 @@ function ChatMenu({ isOpen, anchorEl, onClose, chat, handleDeleteChat }) {
     >
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <>
-          <Button
-            onClick={() => {
-              onClose();
-            }}
-          >
-            Move {} to archive
-          </Button>
+          {chat?.isArchive ? (
+            <Button
+              onClick={() => {
+                onClose();
+                alertActivation(
+                  "info",
+                  "Update Confirmation",
+                  `Are you sure you move chat with ${chat.dogName} to Archive?`,
+                  confirmUpdateChat
+                );
+              }}
+            >
+              Remove from Archive
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                onClose();
+                alertActivation(
+                  "info",
+                  "Update Confirmation",
+                  `Are you sure you move chat with ${chat.dogName} to Active Chats?`,
+                  confirmUpdateChat
+                );
+              }}
+            >
+              Move to Archive
+            </Button>
+          )}
           <Button
             onClick={() => {
               onClose();

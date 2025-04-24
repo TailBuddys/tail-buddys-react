@@ -225,6 +225,7 @@ export default function AlertProvider({ children }) {
               width: 700,
               display: "flex",
               justifyContent: "center",
+              backgroundColor: "pink", /////////
               // overflow: "auto", // Ensures scrollbar appears when content overflows
               // maxHeight: "80vh", // Limits height and enables scrolling if needed
               "& .MuiAlert-message": {

@@ -15,6 +15,7 @@ function ChatItemComponent({
   handleDeleteChat,
   chatClick,
   chatNotifications,
+  handleUpdateChat,
 }) {
   const theme = useMuiTheme();
   const screenSize = useMediaQuery(theme.breakpoints.up("md"));
@@ -32,8 +33,6 @@ function ChatItemComponent({
       }
     }
   }, [chatNotifications, chat]);
-
-  console.log(unreadMessageCount);
 
   return (
     <Box
@@ -172,6 +171,7 @@ function ChatItemComponent({
         isOpen={isMenuOpen}
         onClose={() => setMenuOpen(false)}
         handleDeleteChat={handleDeleteChat}
+        handleUpdateChat={handleUpdateChat}
         chat={chat}
       />
     </Box>

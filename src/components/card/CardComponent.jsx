@@ -1,9 +1,44 @@
-import { Box, Card, Divider, Grid2 } from "@mui/material";
+import {
+  Box,
+  Card,
+  Collapse,
+  Divider,
+  Grid2,
+  IconButton,
+  styled,
+  useMediaQuery,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React from "react";
 import CardGalleryComponent from "./CardGalleryComponent";
 import CardBody from "./CardBody";
 import CardActionBar from "./CardActionBar";
 import { useUser } from "../../users/providers/UserProvider";
+import { useLocation } from "react-router-dom";
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme }) => ({
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+  variants: [
+    {
+      props: ({ expand }) => !expand,
+      style: {
+        transform: "rotate(0deg)",
+      },
+    },
+    {
+      props: ({ expand }) => !!expand,
+      style: {
+        transform: "rotate(180deg)",
+      },
+    },
+  ],
+}));
 
 function CardComponent({
   data,
@@ -12,7 +47,84 @@ function CardComponent({
   handleSwipeDog,
 }) {
   const { loginDog } = useUser();
+  const isMobile = useMediaQuery("(max-width:769px)");
+  const [expanded, setExpanded] = React.useState(false);
+  const location = useLocation();
+  const isDogInfoRoute = location.pathname === "/dog-info";
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  //for mobile
+  if (isMobile)
+    return (
+      <Box
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Card
+          className={isDogInfoRoute ? "card-responsive-size" : null}
+          sx={{
+            height: isMobile ? null : 500,
+            m: 2,
+            borderRadius: 5,
+          }}
+        >
+          <Grid2 container size={12}>
+            <CardGalleryComponent data={data} />
+            {isDogInfoRoute ? (
+              <CardBody
+                data={data}
+                loginDog={loginDog}
+                handleLikeUnlikePark={handleLikeUnlikePark}
+              />
+            ) : (
+              <>
+                <ExpandMore
+                  expand={expanded}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                  <CardBody
+                    data={data}
+                    loginDog={loginDog}
+                    handleLikeUnlikePark={handleLikeUnlikePark}
+                  />
+                </Collapse>
+              </>
+            )}
+          </Grid2>
+        </Card>
+        {data.distance && loginDog ? (
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: -15,
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 10,
+            }}
+          >
+            <CardActionBar
+              data={data}
+              handleSwipeDog={handleSwipeDog}
+              handleLikeUnlikeDog={handleLikeUnlikeDog}
+              loginDog={loginDog}
+            />
+          </Box>
+        ) : null}
+      </Box>
+    );
+  // for PC
   return (
     <Box
       sx={{
@@ -22,7 +134,10 @@ function CardComponent({
         alignItems: "center",
       }}
     >
-      <Card sx={{ width: 800, height: 500, m: 2, borderRadius: 5 }}>
+      <Card
+        className="card-responsive-size"
+        sx={{ width: 800, height: 500, m: 2, borderRadius: 5 }}
+      >
         <Grid2 container size={12}>
           <Grid2 size={6}>
             <CardGalleryComponent data={data} />
@@ -38,12 +153,22 @@ function CardComponent({
         </Grid2>
       </Card>
       {data.distance && loginDog ? (
-        <CardActionBar
-          data={data}
-          handleSwipeDog={handleSwipeDog}
-          handleLikeUnlikeDog={handleLikeUnlikeDog}
-          loginDog={loginDog}
-        />
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: -15,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 10,
+          }}
+        >
+          <CardActionBar
+            data={data}
+            handleSwipeDog={handleSwipeDog}
+            handleLikeUnlikeDog={handleLikeUnlikeDog}
+            loginDog={loginDog}
+          />
+        </Box>
       ) : null}
     </Box>
   );

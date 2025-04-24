@@ -16,6 +16,7 @@ import ParkDetailsComponent from "../../parks/components/ParkDetailsComponent";
 import ParkProfileMenu from "../../parks/components/ParkProfileMenu";
 import DogProfileMenu from "../../dogs/components/DogProfileMenu";
 import DogDetailsComponent from "../../dogs/components/DogDetailsComponent";
+import "../../styles/card.css";
 
 function CardBody({ data, loginDog, handleLikeUnlikePark }) {
   const theme = useMuiTheme();
@@ -41,6 +42,7 @@ function CardBody({ data, loginDog, handleLikeUnlikePark }) {
                 }}
               >
                 <TableCell
+                  className="card-responsive-container"
                   sx={{
                     display: "flex",
                     flexDirection: "row",
@@ -98,14 +100,16 @@ function CardBody({ data, loginDog, handleLikeUnlikePark }) {
                     justifyContent: "space-between",
                   }}
                 >
-                  <>
-                    <IconButton
-                      sx={{ p: 0, display: "inline-flex", marginLeft: 1 }}
-                      onClick={() => window.history.back()} // או לדף בית
-                    >
-                      <ArrowBackIosNewIcon />
-                    </IconButton>
-                  </>
+                  {!data.distance && data.address && (
+                    <>
+                      <IconButton
+                        sx={{ p: 0, display: "inline-flex", marginLeft: 1 }}
+                        onClick={() => window.history.back()} // או לדף בית
+                      >
+                        <ArrowBackIosNewIcon />
+                      </IconButton>
+                    </>
+                  )}
                   <>
                     {user && user.IsAdmin === "True" && (
                       <>

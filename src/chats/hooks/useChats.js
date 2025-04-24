@@ -6,11 +6,13 @@ import {
   deleteChat,
   getAllChats,
   getChatById,
+  updateChat,
 } from "../services/chatsApiService";
 import normalizedChat from "../helpers/normalization/normalizedChat";
 import normalizedChatMessage from "../helpers/normalization/normalizedChatMessage";
 import ChatsToModel from "../helpers/normalization/ChatsToModel";
 import OneChatToModel from "../helpers/normalization/OneChatToModel";
+import UpdatedChatToModel from "../helpers/normalization/UpdatedChatToModel";
 
 export default function useChats() {
   const [isChatLoading, setIsChatLoading] = useState(false);
@@ -80,6 +82,20 @@ export default function useChats() {
     []
   );
 
+  const handleUpdateChat = useCallback(async (chatId, isArchive) => {
+    try {
+      const updatedChatRaw = await updateChat(chatId, isArchive);
+      const updatedChat = UpdatedChatToModel(updatedChatRaw);
+      setChats((prevChats) =>
+        prevChats.map((chat) => (chat.id === chatId ? updatedChat : chat))
+      );
+
+      return updatedChat;
+    } catch (error) {
+      setChatError(error.message);
+    }
+  }, []);
+
   return {
     isChatLoading,
     chatError,
@@ -90,5 +106,6 @@ export default function useChats() {
     handleGetChatById,
     handleDeleteChat,
     handleAddMessageToChat,
+    handleUpdateChat,
   };
 }

@@ -84,7 +84,7 @@ function ParksCarouselComponent({
           }}
           aria-label={`Slide ${index + 1} ${isSelected ? "(Selected)" : ""}`}
         >
-          {parksData.length > 1 ? (
+          {/* {parksData.length > 1 ? (
             <img
               src="/assets/images/imageSelector.png"
               alt={`Indicator ${index}`}
@@ -97,7 +97,7 @@ function ParksCarouselComponent({
                 pointerEvents: "none",
               }}
             />
-          ) : null}
+          ) : null} */}
         </button>
       )}
       renderArrowPrev={(onClickHandler, hasPrev, label) =>

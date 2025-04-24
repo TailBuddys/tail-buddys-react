@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import {
   Avatar,
   AvatarGroup,
+  Box,
   Container,
   Fab,
+  Grid2,
   Table,
   TableCell,
   TableContainer,
@@ -32,12 +34,37 @@ export default function ParkDetailsComponent({
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>
-                <Typography>{parkData.name}</Typography>
-                {/* <Typography>{dogTypes[dogData.type]?.displayName}</Typography> */}
-                {parkData.distance && (
-                  <Typography>{parkData.distance} Km away</Typography>
-                )}
+              <TableCell sx={{ display: "flex" }}>
+                <Grid2 size={9}>
+                  <Typography>{parkData.name}</Typography>
+                  {parkData.distance && (
+                    <Typography>{parkData.distance} Km away</Typography>
+                  )}
+                </Grid2>
+                <Grid2 size={3}>
+                  {loginDog && (
+                    <Box>
+                      {likesData?.some((d) => d.id === parseInt(loginDog)) ? (
+                        <Fab
+                          color="error"
+                          onClick={() => {
+                            confirmLike(parkData.id, parseInt(loginDog));
+                          }}
+                        >
+                          <FavoriteIcon />
+                        </Fab>
+                      ) : (
+                        <Fab
+                          onClick={() => {
+                            confirmLike(parkData.id, parseInt(loginDog));
+                          }}
+                        >
+                          <FavoriteIcon />
+                        </Fab>
+                      )}
+                    </Box>
+                  )}
+                </Grid2>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -55,28 +82,6 @@ export default function ParkDetailsComponent({
                   ))}
                 </AvatarGroup>
               </TableCell>
-              {loginDog && (
-                <TableCell sx={{ display: "flex", justifyContent: "start" }}>
-                  {likesData?.some((d) => d.id === parseInt(loginDog)) ? (
-                    <Fab
-                      color="error"
-                      onClick={() => {
-                        confirmLike(parkData.id, parseInt(loginDog));
-                      }}
-                    >
-                      <FavoriteIcon />
-                    </Fab>
-                  ) : (
-                    <Fab
-                      onClick={() => {
-                        confirmLike(parkData.id, parseInt(loginDog));
-                      }}
-                    >
-                      <FavoriteIcon />
-                    </Fab>
-                  )}
-                </TableCell>
-              )}
             </TableRow>
           </TableHead>
         </Table>

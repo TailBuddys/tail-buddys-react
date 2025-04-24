@@ -39,11 +39,6 @@ function DogProfileMenu({ isOpen, anchorEl, onClose }) {
             navigateTo={ROUTES.EDIT_DOG}
             onClick={onClose}
           />
-          <MenuLink
-            text="Dog Preferences"
-            navigateTo={ROUTES.EDIT_DOG} // פילטר
-            onClick={onClose}
-          />
           <Button
             onClick={() => {
               onClose();

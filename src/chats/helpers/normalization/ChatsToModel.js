@@ -8,6 +8,7 @@ const ChatsToModel = (ChatsData) => {
     dogImageUrl: chat.dog.imageUrl,
     lastMessage: chat.lastMessage?.content || null,
     time: chat.lastMessage ? formatSmartTime(chat.lastMessage.createdAt) : null,
+    isArchive: chat.isArchive,
   }));
 };
 

@@ -14,6 +14,7 @@ function ChatsListPage({
   joinChatRoom,
   leaveChatRoom,
   chatNotifications,
+  handleUpdateChat,
 }) {
   const [selectedTab, setselectedTab] = useState(1);
   const [activeChat, setActiveChat] = useState(null);
@@ -70,23 +71,37 @@ function ChatsListPage({
               </Tabs>
             </Box>
             <CustomTabPanel value={selectedTab} index={0}>
-              {/* Archive content goes here */}
+              {chats
+                .filter((chat) => chat.isArchive) // archived only
+                .map((chat, index) => (
+                  <ChatItemComponent
+                    key={index}
+                    chat={chat}
+                    handleDeleteChat={handleDeleteChat}
+                    handleUpdateChat={handleUpdateChat}
+                    chatNotifications={chatNotifications}
+                    chatClick={() => handleChatClick(chat)}
+                  />
+                ))}
             </CustomTabPanel>
+
             <CustomTabPanel value={selectedTab} index={1}>
-              {chats.map((chat, index) => (
-                <ChatItemComponent
-                  key={index}
-                  chat={chat}
-                  handleDeleteChat={handleDeleteChat}
-                  chatNotifications={chatNotifications}
-                  chatClick={() => handleChatClick(chat)}
-                />
-              ))}
+              {chats
+                .filter((chat) => !chat.isArchive) // active only
+                .map((chat, index) => (
+                  <ChatItemComponent
+                    key={index}
+                    chat={chat}
+                    handleDeleteChat={handleDeleteChat}
+                    handleUpdateChat={handleUpdateChat}
+                    chatNotifications={chatNotifications}
+                    chatClick={() => handleChatClick(chat)}
+                  />
+                ))}
             </CustomTabPanel>
           </>
         ) : (
           <ChatPage
-            handleDeleteChat={handleDeleteChat}
             chat={activeChat}
             handleBackToList={handleBackToList}
             joinChatRoom={joinChatRoom}

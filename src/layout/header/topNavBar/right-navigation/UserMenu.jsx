@@ -66,7 +66,9 @@ const UserMenu = ({ isOpen, anchorEl, onClose }) => {
               navigateTo={ROUTES.EDIT_USER}
               onClick={onClose}
             />
-            <MenuItem onClick={onLogout}>Logout</MenuItem>
+            <MenuItem onClick={onLogout} sx={{ color: "#ff8080" }}>
+              Logout
+            </MenuItem>
           </>
         )}
       </Box>

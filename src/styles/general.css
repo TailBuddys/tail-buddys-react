@@ -1,0 +1,75 @@
+.MuiTypography-root.costume-typography {
+  color: #5b5959;
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 180%; /* 21.6px */
+}
+
+.MuiTypography-root.headers-typography {
+  color: #000;
+  font-family: Nunito;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.button-text {
+  color: #fff;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 171.429% */
+}
+
+.general-button {
+  border-radius: 8px;
+  background: #fa917c;
+}
+
+.footer-container {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  overflow: hidden;
+  background-color: white; /* Paper background */
+  box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1); /* Paper elevation */
+}
+
+.footer-slider {
+  position: absolute;
+  left: 100%;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: slide-left 30s linear infinite;
+}
+
+.footer-text {
+  font-family: Poppins;
+  font-size: 14px;
+  color: #5b5959;
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - 100vw));
+  }
+}
+
+.footer-container:hover .footer-slider {
+  animation-play-state: paused;
+}

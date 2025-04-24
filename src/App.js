@@ -7,6 +7,8 @@ import Layout from "./layout/Layout";
 import Router from "./routes/Router";
 import CustomThemeProvider from "./providers/CustomThemeProvider";
 import DogProvider from "./dogs/providers/DogProvider";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (

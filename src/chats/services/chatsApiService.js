@@ -50,4 +50,23 @@ const addMessageToChat = async (chatData) => {
   }
 };
 
-export { createChat, getAllChats, getChatById, deleteChat, addMessageToChat };
+const updateChat = async (chatId, isArchive) => {
+  try {
+    const { data } = await axios.put(
+      `${apiUrl}/${chatId}?isArchive=${isArchive}`
+    );
+    return data;
+  } catch (error) {
+    console.error("Failed to update chat:", error);
+    throw new Error(error.response?.data || error.message);
+  }
+};
+
+export {
+  createChat,
+  getAllChats,
+  getChatById,
+  deleteChat,
+  addMessageToChat,
+  updateChat,
+};

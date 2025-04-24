@@ -54,7 +54,7 @@ const MatchCompponent = ({
   }));
 
   return (
-    <Box sx={{ padding: 1 }}>
+    <Box sx={{ pt: 1, pb: 2 }}>
       <Tooltip
         title={`Match with ${match.receiverDogName}`}
         slots={{
@@ -76,11 +76,29 @@ const MatchCompponent = ({
               variant="dot"
             >
               <Box sx={{ position: "relative", display: "inline-block" }}>
-                <Avatar
-                  sx={{ width: 56, height: 56 }}
-                  alt="dog avatar"
-                  src={match.receiverDogImage}
-                />
+                <Box
+                  sx={{
+                    display: "inline-block",
+                    borderRadius: "50%",
+                    padding: "3px",
+                    background:
+                      "linear-gradient(135deg, var(--secondary), var(--primary))",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      borderRadius: "50%",
+                      backgroundColor: "var(--varodi)",
+                      padding: "2px",
+                    }}
+                  >
+                    <Avatar
+                      sx={{ width: 56, height: 56 }}
+                      alt="dog avatar"
+                      src={match.receiverDogImage}
+                    />
+                  </Box>
+                </Box>
                 <Box
                   component="img"
                   src="/assets/images/itsAMatchIcon.png"
@@ -89,7 +107,7 @@ const MatchCompponent = ({
                     width: 70,
                     height: 50,
                     position: "absolute",
-                    bottom: -20,
+                    bottom: -15,
                     left: "45%",
                     transform: "translateX(-50%)",
                   }}
@@ -97,11 +115,32 @@ const MatchCompponent = ({
               </Box>
             </StyledBadge>
           ) : (
-            <Avatar
-              sx={{ width: 56, height: 56 }}
-              alt={"dog avatar"}
-              src={match.receiverDogImage}
-            />
+            <Box
+              sx={{
+                display: "inline-block",
+                borderRadius: "50%",
+                padding: "3px",
+                background:
+                  "linear-gradient(135deg, var(--secondary), var(--primary))",
+              }}
+            >
+              <Box
+                sx={{
+                  borderRadius: "50%",
+                  backgroundColor: "var(--varodi)",
+                  padding: "2px",
+                }}
+              >
+                <Avatar
+                  sx={{
+                    width: 56,
+                    height: 56,
+                  }}
+                  alt={"dog avatar"}
+                  src={match.receiverDogImage}
+                />
+              </Box>
+            </Box>
           )}
         </IconButton>
       </Tooltip>

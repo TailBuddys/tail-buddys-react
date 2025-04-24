@@ -1,10 +1,11 @@
 /* ניסיון צבעים */
 :root {
   --text: #4f4538;
-  --background: #fff8ee;
+  --background: #ffffff;
   --primary: #e1b36d;
   --secondary: #8a431b;
-  --accent: #a88c66;
+  --accent: #af997b;
+  --varodi: #dbc1ae;
 }
 body {
   margin: 0;
