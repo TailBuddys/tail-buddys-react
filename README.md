@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# 🐶 Tail Buddys – Frontend (React)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Tail Buddys – A responsive and dynamic React-based UI for the ultimate dog-matching experience. Features include profile management, park discovery, real-time chat, Google-based login, and AI-driven bot interactions.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Folder Structure](#folder-structure)
+- [Admin Access](#admin-access)
+- [License](#license)
+- [Contributing](#contributing)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 🔐 Login/register via email or Google OAuth
+- 🐾 Add and manage dog profiles, including image galleries
+- 📍 Browse and like parks using Google Maps + Places Autocomplete
+- ❤️ Tinder-style dog matching interface
+- 💬 Real-time SignalR-based chat with typing indicators and bot replies
+- 🤖 AI-powered messages when chatting with bot dogs
+- 🔔 Notification banners for unread messages or new matches
+- 🖼 Upload and manage multiple images per dog or park
+- 🗂 LocalStorage-based state management for filters and session
+- 🛠 Admin dashboard for editing/deleting parks, users, and dogs
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+- React  
+- React Router  
+- Axios  
+- Material UI  
+- SignalR Client  
+- Google Maps JavaScript API  
+- Google Places Autocomplete  
+- Context API + Custom Hooks  
+- LocalStorage  
+- Form validation with custom logic  
+- Responsive design  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+```bash
+git clone https://github.com/TailBuddys/tail-buddys-react.git
+cd tail-buddys-react
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+## Execution
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Folder Structure
+```
+/pages – Main routes: Home, Match, Chat, Profile, Admin
 
-### `npm run eject`
+/components – Shared reusable UI components
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+/services – Axios-based API wrappers
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+/hooks – Custom logic for dogs, parks, and chat
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+/providers – Global contexts (auth, snackbar, alert)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+/forms – Controlled forms with validation
 
-## Learn More
+/images – UI and logic for uploading, sorting, deleting images
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Admin Access
+```
+Use these credentials to log in as an admin:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Username: admin@tail.buddy
+Password: Tail1234!
+Admin Capabilities
+Edit or delete parks
 
-### Code Splitting
+Delete users and dogs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Manage park metadata and image galleries
+```
