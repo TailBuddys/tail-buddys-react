@@ -40,132 +40,92 @@ function ChatItemComponent({
       sx={{
         display: "flex",
         padding: "12px 16px",
+        mb: "24px",
+        borderRadius: "10px",
         alignItems: "flex-start",
         gap: "12px",
         cursor: "pointer",
+        backgroundColor: "#c9b59d",
         "&:hover": {
-          backgroundColor: "#f5f5f5",
+          backgroundColor: "#e6d6c3",
         },
       }}
     >
       <Avatar src={chat.dogImageUrl} alt={chat.dogName} />
-      <Box
-        sx={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}
-      >
+      <Box sx={{ flex: 1, minWidth: 0, position: "relative" }}>
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontWeight: 600,
+            textAlign: "left",
+            mb: 0.5,
+          }}
+        >
+          {chat.dogName}
+        </Typography>
+
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            width: "100%",
+            alignItems: "center",
+            minWidth: 0,
           }}
         >
           <Typography
-            variant="subtitle1"
+            variant="body2"
             sx={{
-              fontWeight: 600,
-              textAlign: "left",
+              color: "rgba(0, 0, 0, 0.7)",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
               flex: 1,
-              pr: 1,
+              pr: 2,
             }}
           >
-            {chat.dogName}
+            {chat.lastMessage}
           </Typography>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-              gap: "4px",
-            }}
-          >
-            <IconButton
-              size="small"
-              sx={{ p: 0 }}
-              onClick={(event) => {
-                event.stopPropagation();
-                setAnchor(event.currentTarget);
-                setMenuOpen(true);
+          {unreadMessageCount ? (
+            <Typography
+              sx={{
+                backgroundColor: "#e88536",
+                borderRadius: 50,
+                fontSize: "80%",
+                fontWeight: 700,
+                width: "20px",
+                height: "20px",
+                mr: 2,
+                textAlign: "center",
               }}
             >
-              <MoreVertIcon fontSize="small" />
-            </IconButton>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              {chat.lastMessage && (
-                <>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: "rgba(0, 0, 0, 0.7)",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      width: "100%",
-                      mr: 8,
-                    }}
-                  >
-                    {chat.lastMessage}
-                  </Typography>
-                  {unreadMessageCount ? (
-                    <Typography
-                      sx={{
-                        backgroundColor: "pink",
-                        borderRadius: 50,
-                        fontSize: "80%",
-                        width: "70px",
-                        height: "20px",
-                        mr: 2,
-                      }}
-                    >
-                      {unreadMessageCount}
-                    </Typography>
-                  ) : (
-                    <Typography></Typography>
-                  )}
+              {unreadMessageCount}
+            </Typography>
+          ) : null}
 
-                  <Typography
-                    variant="caption"
-                    sx={{ color: "rgba(0, 0, 0, 0.54)" }}
-                  >
-                    {chat.time}
-                  </Typography>
-                </>
-              )}
-            </Box>
-          </Box>
+          <Typography
+            variant="caption"
+            sx={{ color: "var(--secondary)", fontWeight: 700 }}
+          >
+            {chat.time}
+          </Typography>
         </Box>
 
-        {/* <Typography
-          variant="body2"
+        <IconButton
+          size="small"
           sx={{
-            color: "rgba(0, 0, 0, 0.7)",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            width: "100%",
-            pb: 0,
+            position: "absolute",
+            top: 0,
+            right: 0,
+          }}
+          onClick={(event) => {
+            event.stopPropagation();
+            setAnchor(event.currentTarget);
+            setMenuOpen(true);
           }}
         >
-          {chat.messages[chat.messages.length - 1]?.text}
-        </Typography> */}
-
-        {/* <Typography
-          variant="caption"
-          sx={{
-            color: "rgba(0, 0, 0, 0.4)",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {chat.headline}
-        </Typography> */}
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
       </Box>
-
       <ChatMenu
         anchorEl={anchorEL}
         isOpen={isMenuOpen}

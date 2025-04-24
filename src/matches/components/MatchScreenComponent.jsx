@@ -51,6 +51,7 @@ const MatchScreenComponent = ({
         justifyContent: "end",
         backgroundColor: "var(--varodi)",
         width: "50vw",
+        height: "89px",
         borderRadius: 6,
         overflow: "hidden",
       }}
@@ -77,7 +78,19 @@ const MatchScreenComponent = ({
           </Slider>
         </Box>
       ) : (
-        <Typography>You have no new matches 😭</Typography>
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ textAlign: "center" }}>
+            You have no new matches 😭
+          </Typography>
+        </Box>
       )}
     </Box>
   );

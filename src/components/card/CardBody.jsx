@@ -16,7 +16,7 @@ import ParkDetailsComponent from "../../parks/components/ParkDetailsComponent";
 import ParkProfileMenu from "../../parks/components/ParkProfileMenu";
 import DogProfileMenu from "../../dogs/components/DogProfileMenu";
 import DogDetailsComponent from "../../dogs/components/DogDetailsComponent";
-import "../../styles/card.css";
+import "../../styles/general.css";
 
 function CardBody({ data, loginDog, handleLikeUnlikePark }) {
   const theme = useMuiTheme();

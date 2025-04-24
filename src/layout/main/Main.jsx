@@ -10,8 +10,7 @@ export default function Main({ children }) {
       sx={{
         minHeight: "88vh",
         padding: "5px",
-        // backgroundColor: isDark ? "#333333" : "var(--background)",
-        backgroundColor: "pink",
+        backgroundColor: isDark ? "#333333" : "var(--background)",
         color: isDark ? "white" : "black",
         textAlign: "center",
       }}

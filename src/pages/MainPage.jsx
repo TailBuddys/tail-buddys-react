@@ -9,7 +9,6 @@ import {
   useMediaQuery,
   Zoom,
 } from "@mui/material";
-import TuneIcon from "@mui/icons-material/Tune";
 import React, { useEffect, useState } from "react";
 import MatchScreenComponent from "../matches/components/MatchScreenComponent";
 import MainScreenComponent from "../components/MainScreenComponent";
@@ -27,11 +26,10 @@ import Error from "../components/Error";
 import useMatches from "../matches/hooks/useMatches";
 import useChats from "../chats/hooks/useChats";
 import useWebSocket from "../ws/useWebSocket";
-import { grey } from "@mui/material/colors";
 import { Global } from "@emotion/react";
 
 const MainPage = () => {
-  const isMobile = useMediaQuery("(max-width:426px)");
+  const isMobile = useMediaQuery("(max-width:1025px)");
   const { seeParksOrDogs, user } = useUser();
   const { dog } = useDog();
   const { notifications, chatNotifications, joinChat, leaveChat } =
@@ -93,7 +91,7 @@ const MainPage = () => {
     if (dog) {
       handleGetAllMatches(dog?.id).then((matches) => {
         setMatches(matches);
-      }); //?????????????????? לרנדר שוב
+      });
     }
   }, [handleGetAllMatches, setMatches, dog, notifications]);
 
@@ -101,11 +99,9 @@ const MainPage = () => {
     if (dog) {
       handleGetAllChats(dog?.id).then((chats) => {
         setChats(chats);
-      }); //?????????????????? לרנדר שוב
+      });
     }
   }, [handleGetAllChats, setChats, dog, chatNotifications]);
-
-  //-------ניסיוני---------------
 
   const drawerBleeding = 56;
 
@@ -114,7 +110,7 @@ const MainPage = () => {
       sx={{
         width: 30,
         height: 6,
-        backgroundColor: grey[300],
+        backgroundColor: "#a88c66",
         borderRadius: 3,
         position: "absolute",
         top: 8,
@@ -124,8 +120,6 @@ const MainPage = () => {
   );
 
   const [openDrawer, setOpenDrawer] = useState(false);
-
-  //-------ניסיוני---------------
 
   if (isLoading) return <Spinner />;
   if (error) return <Error />;
@@ -140,6 +134,7 @@ const MainPage = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              ml: "4vw",
             }}
           >
             <MatchScreenComponent
@@ -148,20 +143,28 @@ const MainPage = () => {
               matches={matches}
               notifications={notifications}
             />
+            <Tooltip
+              title="Set filters"
+              slots={{
+                transition: Zoom,
+              }}
+              arrow
+            >
+              <Button
+                onClick={() => {
+                  popUpFilterSelection(
+                    "info",
+                    "Dogs filters",
+                    "dogs",
+                    onDogFilterConfirmation
+                  );
+                }}
+              >
+                <img src="/assets/images/filterIcon.png" alt="Filter Icon" />
+              </Button>
+            </Tooltip>
           </Grid2>
           <Grid2 size={12}>
-            <Button
-              onClick={() => {
-                popUpFilterSelection(
-                  "info",
-                  "Dogs filters",
-                  "dogs",
-                  onDogFilterConfirmation
-                );
-              }}
-            >
-              <TuneIcon />
-            </Button>
             <MainScreenComponent
               parksOrDogs={seeParksOrDogs}
               isLoading={isParkLoading}
@@ -193,22 +196,34 @@ const MainPage = () => {
               sx={{
                 position: "absolute",
                 top: -drawerBleeding,
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
+                borderTopLeftRadius: 50,
+                borderTopRightRadius: 50,
                 visibility: "visible",
                 right: 0,
                 left: 0,
-                backgroundColor: "#fff",
+                backgroundColor: "#e6cfb3",
               }}
             >
               {Puller}
               <Typography
-                sx={{ p: 2, color: "text.secondary", textAlign: "center" }}
+                sx={{
+                  p: 2,
+                  color: "text.secondary",
+                  textAlign: "center",
+                }}
               >
-                Chat
+                <img src="/assets/images/chatIcon.png" alt="chat icon" />
               </Typography>
             </Box>
-            <Box sx={{ px: 2, pb: 2, height: "100%", overflow: "auto" }}>
+            <Box
+              sx={{
+                px: 2,
+                pb: 2,
+                height: "100%",
+                overflow: "auto",
+                backgroundColor: "#e6cfb3",
+              }}
+            >
               <ChatScreenComponent
                 isChatLoading={isChatLoading}
                 chatError={chatError}
@@ -259,7 +274,7 @@ const MainPage = () => {
                 );
               }}
             >
-              <TuneIcon />
+              <img src="/assets/images/filterIcon.png" alt="Filter Icon" />
             </Button>
           </Tooltip>
         </Grid2>
@@ -324,7 +339,7 @@ const MainPage = () => {
                 );
               }}
             >
-              <TuneIcon />
+              <img src="/assets/images/filterIcon.png" alt="Filter Icon" />
             </Button>
           </Tooltip>
         </Grid2>
@@ -390,7 +405,7 @@ const MainPage = () => {
                 );
               }}
             >
-              <TuneIcon />
+              <img src="/assets/images/filterIcon.png" alt="Filter Icon" />
             </Button>
           </Tooltip>
         </Grid2>

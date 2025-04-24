@@ -26,9 +26,7 @@ import {
 import { MultiSelect } from "primereact/multiselect";
 import useDogs from "../dogs/hooks/useDogs";
 import { useUser } from "../users/providers/UserProvider";
-
-// import { CopyToClipboard } from "react-copy-to-clipboard";
-// import { useSnackbar } from "./SnackbarProvider";
+import "../styles/general.css";
 
 const AlertContext = createContext();
 
@@ -44,11 +42,10 @@ export default function AlertProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const { fetchDogTypes } = useDogs();
   const { loginDog } = useUser();
-  // const { snackbarActivation } = useSnackbar();
 
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [breeds, setBreeds] = useState([]);
-  const [distance, setDistance] = useState(10);
+  const [distance, setDistance] = useState(60);
   const [dogLikes, setDogLikes] = useState(0);
 
   useEffect(() => {
@@ -84,7 +81,7 @@ export default function AlertProvider({ children }) {
     setAlertOpen(false);
     setPopUpOpen(false);
     setFiltersData(null);
-    setDistance(10);
+    setDistance(60);
     setDogLikes(0);
     setSelectedBreeds([]);
     setSize(null);
@@ -115,11 +112,6 @@ export default function AlertProvider({ children }) {
     if (operation) operation();
     handleClose();
   };
-
-  // const handleCopyToClipboard = () => {
-  //   handleClose();
-  //   snackbarActivation("info", "copied to Clipboard");
-  // };
 
   const alertActivation = useCallback(
     (color, title, message, operation = null) => {
@@ -174,15 +166,18 @@ export default function AlertProvider({ children }) {
           sx={{ width: 350, position: "reletive", zIndex: 1001 }}
           spacing={2}
         >
-          <Alert severity={color} variant="filled">
-            <AlertTitle>{title}</AlertTitle>
-            {message}
-            <br />
+          <Alert
+            severity={color}
+            variant="filled"
+            sx={{ backgroundColor: "var(--varodi)" }}
+          >
+            <AlertTitle sx={{ color: "var(--text)" }}>{title}</AlertTitle>
+            <Typography>{message}</Typography>
             <br />
             <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
               {
-                // operation ? (
                 <Button
+                  className="general-button"
                   variant="outlined"
                   color="inherit"
                   size="small"
@@ -190,13 +185,9 @@ export default function AlertProvider({ children }) {
                 >
                   OK
                 </Button>
-                // ) : (<CopyToClipboard text={message} onCopy={handleCopyToClipboard}>
-                //     <Button variant="outlined" color="inherit" size="small">
-                //       Copy
-                //     </Button>
-                //   </CopyToClipboard>)
               }
               <Button
+                className="general-button"
                 variant="outlined"
                 color="inherit"
                 size="small"
@@ -212,40 +203,54 @@ export default function AlertProvider({ children }) {
       <Backdrop open={popUpOpen} sx={{ zIndex: 1000 }}>
         <Stack
           sx={{
-            width: 700,
+            width: "97vw",
+            borderRadius: 13,
+            maxWidth: "700px",
+            height: "fit-content",
             position: "relative",
             zIndex: 1001,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
           spacing={2}
         >
           <Alert
+            className="filter-responsive-container"
+            icon={false}
             severity={color}
             variant="filled"
             sx={{
-              width: 700,
+              width: "100%",
+              maxHeight: "75vh",
+              overflowY: "auto",
+              backgroundColor: "var(--varodi)",
+              borderRadius: 13,
+              px: 2,
+              py: 2,
               display: "flex",
-              justifyContent: "center",
-              backgroundColor: "pink", /////////
-              // overflow: "auto", // Ensures scrollbar appears when content overflows
-              // maxHeight: "80vh", // Limits height and enables scrolling if needed
+              flexDirection: "column",
+              alignItems: "center",
               "& .MuiAlert-message": {
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
+                gap: 1,
               },
             }}
           >
-            <AlertTitle>{title}</AlertTitle>
-            Here you can optimize your {entityType} filters:
-            <br />
+            <AlertTitle sx={{ color: "var(--text)" }}>{title}</AlertTitle>
+            <Typography>
+              Here you can optimize your {entityType} filters:
+            </Typography>
             <br />
             {loginDog && (
               <Box sx={{ width: "90%", px: 2 }}>
                 <Typography>Distance:</Typography>
                 <Slider
-                  color="secondary"
-                  defaultValue={10}
+                  color="warning"
+                  defaultValue={60}
                   value={distance}
                   onChange={(e, value) => setDistance(value)}
                   valueLabelDisplay="auto"
@@ -266,7 +271,7 @@ export default function AlertProvider({ children }) {
               <Box sx={{ width: "90%", px: 2 }}>
                 <Typography>Park Likes:</Typography>
                 <Slider
-                  color="secondary"
+                  color="warning"
                   defaultValue={0}
                   value={dogLikes}
                   onChange={(e, value) => setDogLikes(value)}
@@ -289,10 +294,8 @@ export default function AlertProvider({ children }) {
                   <Typography>Breeds Types:</Typography>
                   <Box
                     sx={{
-                      maxWidth: "600px",
+                      maxWidth: "100%",
                       overflowX: "auto",
-                      position: "relative",
-
                       "& .p-multiselect-label-container": {
                         display: "flex",
                         flexWrap: "nowrap",
@@ -304,7 +307,6 @@ export default function AlertProvider({ children }) {
                           height: "4px",
                         },
                       },
-
                       "& .p-chip": {
                         flexShrink: 0,
                       },
@@ -321,8 +323,8 @@ export default function AlertProvider({ children }) {
                       display="chip"
                       className="w-full md:w-20rem"
                       style={{
-                        minWidth: "300px",
-                        maxWidth: "600px",
+                        minWidth: "260px",
+                        maxWidth: "100%",
                       }}
                     />
                   </Box>
@@ -379,6 +381,7 @@ export default function AlertProvider({ children }) {
               }}
             >
               <Button
+                className="general-button"
                 variant="outlined"
                 color="inherit"
                 size="small"
@@ -387,6 +390,7 @@ export default function AlertProvider({ children }) {
                 Save Filters
               </Button>
               <Button
+                className="general-button"
                 variant="outlined"
                 color="inherit"
                 size="small"
@@ -407,6 +411,7 @@ export default function AlertProvider({ children }) {
                 Clean Filters
               </Button>
               <Button
+                className="general-button"
                 variant="outlined"
                 color="inherit"
                 size="small"

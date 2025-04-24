@@ -13,6 +13,7 @@ const ROUTES = {
   EDIT_PARK: "/edit-park",
   PARK_PROFILE: "/park-info",
   UPLOAD_PARK_IMAGE: "/upload-park-img",
+  ADMIN_PAGE: "/admin",
 };
 
 export default ROUTES;

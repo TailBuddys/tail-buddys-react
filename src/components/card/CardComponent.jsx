@@ -45,6 +45,7 @@ function CardComponent({
   handleLikeUnlikePark,
   handleLikeUnlikeDog,
   handleSwipeDog,
+  TopCard = true,
 }) {
   const { loginDog } = useUser();
   const isMobile = useMediaQuery("(max-width:769px)");
@@ -73,6 +74,8 @@ function CardComponent({
             height: isMobile ? null : 500,
             m: 2,
             borderRadius: 5,
+            backgroundColor: "var(--creame)",
+            boxShadow: TopCard ? "0px 0px 20px" : "none",
           }}
         >
           <Grid2 container size={12}>
@@ -136,7 +139,14 @@ function CardComponent({
     >
       <Card
         className="card-responsive-size"
-        sx={{ width: 800, height: 500, m: 2, borderRadius: 5 }}
+        sx={{
+          width: 800,
+          height: 500,
+          m: 2,
+          borderRadius: 5,
+          backgroundColor: "var(--creame)",
+          boxShadow: TopCard ? "0px 0px 20px" : "none",
+        }}
       >
         <Grid2 container size={12}>
           <Grid2 size={6}>

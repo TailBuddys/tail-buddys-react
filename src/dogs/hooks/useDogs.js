@@ -184,6 +184,20 @@ export default function useDogs() {
     setIsLoading(false);
   }, []);
 
+  const handleDeleteDogAdmin = useCallback(
+    async (Id) => {
+      try {
+        const dogDeleted = await deleteDog(Id);
+        if (dogDeleted) {
+          snackbarActivation("success", `You deleted dog successfully`);
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+    },
+    [snackbarActivation]
+  );
+
   return {
     error,
     isLoading,
@@ -197,5 +211,6 @@ export default function useDogs() {
     handleGetUnmatchedDogs,
     handleDeleteDog,
     fetchDogTypes,
+    handleDeleteDogAdmin,
   };
 }

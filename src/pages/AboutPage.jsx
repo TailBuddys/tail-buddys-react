@@ -239,6 +239,7 @@ export default function AboutPage() {
               required
             />
             <Button
+              className="general-button"
               variant="contained"
               color="primary"
               type="submit"

@@ -6,7 +6,7 @@ const DogDataToModel = (DogData) => {
     distance: DogData.distance,
     type: DogData.type ?? "",
     size: DogData.size ?? "",
-    gender: DogData.gender === null ? "" : DogData.gender ? 1 : 0, // 0  for male, 1 for female
+    gender: DogData.gender === null ? "" : DogData.gender ? true : false,
     birthDate: DogData.birthDate,
     address: DogData.address,
     lon: DogData.lon,

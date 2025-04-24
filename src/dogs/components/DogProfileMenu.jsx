@@ -40,6 +40,7 @@ function DogProfileMenu({ isOpen, anchorEl, onClose }) {
             onClick={onClose}
           />
           <Button
+            className="general-button"
             onClick={() => {
               onClose();
               alertActivation(

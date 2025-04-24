@@ -47,7 +47,9 @@ function ChatsListPage({
         paddingTop: 0,
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        height: "80vh",
+        borderRadius: 13,
+        backgroundColor: "#e6cfb3",
       }}
     >
       <Box sx={{ width: "100%" }}>
@@ -65,6 +67,20 @@ function ChatsListPage({
                 value={selectedTab}
                 onChange={HandlePickTab}
                 aria-label="basic tabs example"
+                TabIndicatorProps={{
+                  style: {
+                    backgroundColor: "#8a431b", // underline for selected tab
+                  },
+                }}
+                sx={{
+                  "& .MuiTab-root": {
+                    color: "#4f4538", // unselected tab text color
+                    fontWeight: 600,
+                  },
+                  "& .MuiTab-root.Mui-selected": {
+                    color: "#8a431b", // selected tab text color
+                  },
+                }}
               >
                 <Tab label="Archive" {...a11yProps(0)} />
                 <Tab label="Chats" {...a11yProps(1)} />

@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useUser } from "../providers/UserProvider";
 import {
+  deleteUser,
   getAllUsers,
   getUserData,
   loginService,
@@ -150,22 +151,20 @@ export default function useUsers() {
   }, []);
 
   const handleDeleteUser = useCallback(
-    async (user) => {
+    async (id) => {
       setIsLoading(true);
 
       try {
-        const data = await updateUser(user.id);
-        snackbarActivation(
-          "success",
-          `You deleted user:${user.name.first} successfully`
-        );
-        return data;
+        const data = await deleteUser(id);
+        if (data) {
+          snackbarActivation(
+            "success",
+            `You deleted user:${data.firstName} successfully`
+          );
+        }
       } catch (error) {
         setError(error.message);
       }
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
     },
     [snackbarActivation]
   );

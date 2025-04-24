@@ -46,6 +46,7 @@ const DogsStackComponent = ({
               data={DogDataToModel(dog)}
               handleLikeUnlikeDog={handleLikeUnlikeDog}
               handleSwipeDog={handleSwipe}
+              TopCard={isTopCard}
             />
           </Box>
         );

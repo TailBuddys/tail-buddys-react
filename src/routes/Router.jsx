@@ -17,6 +17,7 @@ import CreateParkPage from "../parks/pages/CreateParkPage";
 import UploadParkImagesPage from "../parks/pages/UploadParkImagesPage";
 import ParkProfilePage from "../parks/pages/ParkProfilePage";
 import EditParkPage from "../parks/pages/EditParkPage";
+import AdminPage from "../pages/AdminPage";
 
 export default function Router() {
   return (
@@ -41,6 +42,7 @@ export default function Router() {
         path={ROUTES.UPLOAD_PARK_IMAGE + "/:id"}
         element={<UploadParkImagesPage />}
       />
+      <Route path={ROUTES.ADMIN_PAGE} element={<AdminPage />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

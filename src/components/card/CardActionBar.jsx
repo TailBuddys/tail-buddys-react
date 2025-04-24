@@ -12,7 +12,7 @@ function CardActionBar({
   return (
     <Box>
       {!data?.dogLikes ? (
-        <>
+        <Box>
           <Fab
             color="error"
             sx={{
@@ -43,7 +43,7 @@ function CardActionBar({
           >
             <FavoriteIcon />
           </Fab>
-        </>
+        </Box>
       ) : null}
     </Box>
   );

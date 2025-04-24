@@ -16,18 +16,19 @@
   line-height: normal;
 }
 
-.button-text {
+.MuiButton-root.general-button {
+  border-radius: 8px;
+  background: #e88536;
   color: #fff;
   font-family: Montserrat;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
-  line-height: 24px; /* 171.429% */
+  line-height: 24px;
 }
 
-.general-button {
-  border-radius: 8px;
-  background: #fa917c;
+.MuiButton-root.general-button:hover {
+  background: #c4614e;
 }
 
 .footer-container {
@@ -41,8 +42,8 @@
   align-items: center;
   padding: 8px;
   overflow: hidden;
-  background-color: white; /* Paper background */
-  box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1); /* Paper elevation */
+  background-color: white;
+  box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .footer-slider {
@@ -72,4 +73,35 @@
 
 .footer-container:hover .footer-slider {
   animation-play-state: paused;
+}
+
+/* for responsiv */
+/*--------------*/
+/* M smartphone*/
+@media (min-width: 320px) and (max-width: 426px) {
+  .MuiTableCell-root.card-responsive-container {
+    width: 90vw;
+  }
+  .MuiAlert-root.filter-responsive-container {
+    width: 97vw;
+  }
+}
+/* L smartphone*/
+@media (min-width: 427px) and (max-width: 769px) {
+  .MuiTableCell-root.card-responsive-container {
+    width: 90vw;
+  }
+}
+/* tablet*/
+@media (min-width: 767px) and (max-width: 1023px) {
+  .MuiCard-root.card-responsive-size {
+    width: 90vw;
+  }
+}
+/* leptop*/
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .MuiCard-root.card-responsive-size {
+    width: 60vw;
+    height: 80vh;
+  }
 }
