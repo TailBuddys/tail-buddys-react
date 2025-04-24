@@ -83,22 +83,7 @@ function ParksCarouselComponent({
             cursor: "pointer",
           }}
           aria-label={`Slide ${index + 1} ${isSelected ? "(Selected)" : ""}`}
-        >
-          {/* {parksData.length > 1 ? (
-            <img
-              src="/assets/images/imageSelector.png"
-              alt={`Indicator ${index}`}
-              style={{
-                width: isSelected ? "18px" : "15px",
-                height: isSelected ? "18px" : "15px",
-                opacity: isSelected ? 1 : 0.6,
-                transition: "all 0.3s ease",
-                filter: isSelected ? "none" : "grayscale(70%)",
-                pointerEvents: "none",
-              }}
-            />
-          ) : null} */}
-        </button>
+        ></button>
       )}
       renderArrowPrev={(onClickHandler, hasPrev, label) =>
         hasPrev && (
@@ -108,7 +93,7 @@ function ParksCarouselComponent({
             sx={{
               position: "absolute",
               left: 0,
-              top: "calc(50% - 20px)",
+              top: "calc(60% - 20px)",
               zIndex: 2,
             }}
           >
@@ -124,7 +109,7 @@ function ParksCarouselComponent({
             sx={{
               position: "absolute",
               right: 0,
-              top: "calc(50% - 20px)",
+              top: "calc(60% - 20px)",
               zIndex: 2,
             }}
           >

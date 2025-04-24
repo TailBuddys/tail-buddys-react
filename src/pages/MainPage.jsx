@@ -126,118 +126,128 @@ const MainPage = () => {
   // for mobile
   if (isMobile)
     return seeParksOrDogs === "dogs" ? (
-      <Grid2 container>
-        <Grid2 container size={12}>
-          <Grid2
-            size={12}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              ml: "4vw",
-            }}
-          >
-            <MatchScreenComponent
-              handleUnmatch={handleUpdateMatche}
-              handleCreateChat={handleCreateChat}
-              matches={matches}
-              notifications={notifications}
-            />
-            <Tooltip
-              title="Set filters"
-              slots={{
-                transition: Zoom,
+      <Box
+        sx={{
+          height: "100vh",
+          overflowY: "auto",
+          WebkitOverflowScrolling: "touch",
+          backgroundColor: "#fff",
+          mb: 8,
+        }}
+      >
+        <Grid2>
+          <Grid2 container size={12}>
+            <Grid2
+              size={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                ml: "4vw",
               }}
-              arrow
             >
-              <Button
-                onClick={() => {
-                  popUpFilterSelection(
-                    "info",
-                    "Dogs filters",
-                    "dogs",
-                    onDogFilterConfirmation
-                  );
+              <MatchScreenComponent
+                handleUnmatch={handleUpdateMatche}
+                handleCreateChat={handleCreateChat}
+                matches={matches}
+                notifications={notifications}
+              />
+              <Tooltip
+                title="Set filters"
+                slots={{
+                  transition: Zoom,
                 }}
+                arrow
               >
-                <img src="/assets/images/filterIcon.png" alt="Filter Icon" />
-              </Button>
-            </Tooltip>
+                <Button
+                  onClick={() => {
+                    popUpFilterSelection(
+                      "info",
+                      "Dogs filters",
+                      "dogs",
+                      onDogFilterConfirmation
+                    );
+                  }}
+                >
+                  <img src="/assets/images/filterIcon.png" alt="Filter Icon" />
+                </Button>
+              </Tooltip>
+            </Grid2>
+            <Grid2 size={12}>
+              <MainScreenComponent
+                parksOrDogs={seeParksOrDogs}
+                isLoading={isParkLoading}
+                error={parkError}
+                dogsData={dogsData}
+                handleLikeUnlikeDog={handleMatchInteraction}
+              />
+            </Grid2>
           </Grid2>
           <Grid2 size={12}>
-            <MainScreenComponent
-              parksOrDogs={seeParksOrDogs}
-              isLoading={isParkLoading}
-              error={parkError}
-              dogsData={dogsData}
-              handleLikeUnlikeDog={handleMatchInteraction}
-            />
-          </Grid2>
-        </Grid2>
-        <Grid2 size={12}>
-          <Global
-            styles={{
-              ".MuiDrawer-root > .MuiPaper-root": {
-                height: `calc(95% - ${drawerBleeding}px)`,
-                overflow: "visible",
-              },
-            }}
-          />
-          <SwipeableDrawer
-            anchor="bottom"
-            open={openDrawer}
-            onClose={() => setOpenDrawer(false)}
-            onOpen={() => setOpenDrawer(true)}
-            swipeAreaWidth={drawerBleeding}
-            disableSwipeToOpen={false}
-            keepMounted
-          >
-            <Box
-              sx={{
-                position: "absolute",
-                top: -drawerBleeding,
-                borderTopLeftRadius: 50,
-                borderTopRightRadius: 50,
-                visibility: "visible",
-                right: 0,
-                left: 0,
-                backgroundColor: "#e6cfb3",
+            <Global
+              styles={{
+                ".MuiDrawer-root > .MuiPaper-root": {
+                  height: `calc(95% - ${drawerBleeding}px)`,
+                  overflow: "visible",
+                },
               }}
+            />
+            <SwipeableDrawer
+              anchor="bottom"
+              open={openDrawer}
+              onClose={() => setOpenDrawer(false)}
+              onOpen={() => setOpenDrawer(true)}
+              swipeAreaWidth={drawerBleeding}
+              disableSwipeToOpen={false}
+              keepMounted
             >
-              {Puller}
-              <Typography
+              <Box
                 sx={{
-                  p: 2,
-                  color: "text.secondary",
-                  textAlign: "center",
+                  position: "absolute",
+                  top: -drawerBleeding,
+                  borderTopLeftRadius: 50,
+                  borderTopRightRadius: 50,
+                  visibility: "visible",
+                  right: 0,
+                  left: 0,
+                  backgroundColor: "#e6cfb3",
                 }}
               >
-                <img src="/assets/images/chatIcon.png" alt="chat icon" />
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                px: 2,
-                pb: 2,
-                height: "100%",
-                overflow: "auto",
-                backgroundColor: "#e6cfb3",
-              }}
-            >
-              <ChatScreenComponent
-                isChatLoading={isChatLoading}
-                chatError={chatError}
-                handleDeleteChat={handleDeleteChat}
-                chats={chats}
-                joinChatRoom={joinChat}
-                leaveChatRoom={leaveChat}
-                chatNotifications={chatNotifications}
-                handleUpdateChat={handleUpdateChat}
-              />
-            </Box>
-          </SwipeableDrawer>
+                {Puller}
+                <Typography
+                  sx={{
+                    p: 2,
+                    color: "text.secondary",
+                    textAlign: "center",
+                  }}
+                >
+                  <img src="/assets/images/chatIcon.png" alt="chat icon" />
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  px: 2,
+                  pb: 2,
+                  height: "100%",
+                  overflow: "auto",
+                  backgroundColor: "#e6cfb3",
+                }}
+              >
+                <ChatScreenComponent
+                  isChatLoading={isChatLoading}
+                  chatError={chatError}
+                  handleDeleteChat={handleDeleteChat}
+                  chats={chats}
+                  joinChatRoom={joinChat}
+                  leaveChatRoom={leaveChat}
+                  chatNotifications={chatNotifications}
+                  handleUpdateChat={handleUpdateChat}
+                />
+              </Box>
+            </SwipeableDrawer>
+          </Grid2>
         </Grid2>
-      </Grid2>
+      </Box>
     ) : (
       <Grid2 container size={12}>
         <Grid2 size={12} sx={{ display: "flex", justifyContent: "end" }}>

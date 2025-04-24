@@ -7,7 +7,6 @@ import ROUTES from "../../routes/routesModel";
 import Error from "../../components/Error";
 import Spinner from "../../components/Spinner";
 import { Box } from "@mui/material";
-// import EditDogButton from "../components/EditDogButton";
 
 function DogProfilePage() {
   const { handleGetDogById, error, isLoading } = useDogs();

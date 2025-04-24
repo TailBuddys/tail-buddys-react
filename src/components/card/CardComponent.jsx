@@ -28,12 +28,14 @@ const ExpandMore = styled((props) => {
     {
       props: ({ expand }) => !expand,
       style: {
+        marginRight: "30px",
         transform: "rotate(0deg)",
       },
     },
     {
       props: ({ expand }) => !!expand,
       style: {
+        marginRight: "30px",
         transform: "rotate(180deg)",
       },
     },
@@ -48,7 +50,7 @@ function CardComponent({
   TopCard = true,
 }) {
   const { loginDog } = useUser();
-  const isMobile = useMediaQuery("(max-width:769px)");
+  const isMobile = useMediaQuery("(max-width:1025px)");
   const [expanded, setExpanded] = React.useState(false);
   const location = useLocation();
   const isDogInfoRoute = location.pathname === "/dog-info";
@@ -69,7 +71,6 @@ function CardComponent({
         }}
       >
         <Card
-          className={isDogInfoRoute ? "card-responsive-size" : null}
           sx={{
             height: isMobile ? null : 500,
             m: 2,
@@ -140,8 +141,8 @@ function CardComponent({
       <Card
         className="card-responsive-size"
         sx={{
-          width: 800,
-          height: 500,
+          width: isDogInfoRoute ? "700px" : "60vw",
+          height: isDogInfoRoute ? "500px" : "61vh",
           m: 2,
           borderRadius: 5,
           backgroundColor: "var(--creame)",

@@ -8,7 +8,6 @@ import {
   Typography,
   Zoom,
 } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useChats from "../hooks/useChats";
@@ -42,7 +41,7 @@ function ChatPage({
     if (chat) {
       handleGetChatById(chat.id).then((chat) => {
         setChatData(chat);
-      }); //?????????????????? לרנדר שוב
+      });
     }
   }, [handleGetChatById, chat, chatNotifications]);
 
@@ -71,18 +70,6 @@ function ChatPage({
       leaveChatRoom(chat.id);
     };
   }, [chat?.id, joinChatRoom, leaveChatRoom]);
-
-  // useEffect(() => {
-  //   if (messageRef && messageRef.current) {
-  //     const { scrollHeight, clientHeight } = messageRef.current;
-  //     messageRef.current.scrollTo({
-  //       left: 0,
-  //       top: scrollHeight - clientHeight,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // }, [chatData]);
-
   useLayoutEffect(() => {
     if (chatData?.messages?.length && messageRef.current) {
       const container = messageRef.current;
@@ -94,11 +81,12 @@ function ChatPage({
   return (
     <Box
       sx={{
-        width: 400,
-        height: 600,
-        border: "1px solid #ccc",
+        width: "97%",
+        height: "98%",
         display: "flex",
         flexDirection: "column",
+        mt: 1,
+        ml: 1,
       }}
     >
       <Box
@@ -107,8 +95,6 @@ function ChatPage({
           alignItems: "center",
           justifyContent: "space-between",
           p: 1,
-          borderBottom: "1px solid #ccc",
-          backgroundColor: "#f0f0f0",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -153,7 +139,6 @@ function ChatPage({
             flex: 1,
             overflowY: "auto",
             p: 1,
-            backgroundColor: "#e5ddd5",
             "&::-webkit-scrollbar": {
               display: "none",
             },
@@ -194,18 +179,32 @@ function ChatPage({
                 >
                   <Paper
                     sx={{
-                      pl: 2,
+                      pl: msg.senderDogId === chat.dogId ? 1 : 2,
+                      pr: msg.senderDogId === chat.dogId ? 2 : 0,
                       pt: 1,
                       pb: 0.5,
                       maxWidth: "70%",
+                      borderRadius:
+                        msg.senderDogId === chat.dogId
+                          ? "30px 30px 30px 0px"
+                          : "30px 30px 0px 30px",
                       backgroundColor:
-                        msg.senderDogId === chat.dogId ? "#fff" : "#dcf8c6",
+                        msg.senderDogId === chat.dogId ? "#fff8ee" : "#e3be87",
                       textAlign: "right",
                       display: "flex",
                       gap: 1,
                     }}
                   >
-                    <Typography variant="body2">{msg.content}</Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        wordBreak: "break-word",
+                        overflowWrap: "anywhere",
+                        whiteSpace: "pre-wrap",
+                      }}
+                    >
+                      {msg.content}
+                    </Typography>
                     {msg.senderDogId !== chat.dogId && (
                       <>
                         {msg.isRead === false ? (
@@ -244,7 +243,6 @@ function ChatPage({
           alignItems: "center",
           borderTop: "1px solid #ccc",
           p: 1,
-          backgroundColor: "#f0f0f0",
         }}
       >
         <InputBase
@@ -262,7 +260,7 @@ function ChatPage({
             ml: 1,
             flex: 1,
             backgroundColor: "#fff",
-            borderRadius: 2,
+            borderRadius: "8px",
             px: 2,
             py: 0.5,
           }}
@@ -274,7 +272,7 @@ function ChatPage({
           }}
           disabled={messageContent.trim() === ""}
         >
-          <SendIcon />
+          <img src="/assets/images/sendMessageIcon.png" alt="send icon" />
         </IconButton>
       </Box>
     </Box>

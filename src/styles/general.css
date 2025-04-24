@@ -4,7 +4,11 @@
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: 180%; /* 21.6px */
+  line-height: 180%;
+  font-size: clamp(10px, 2.5vw, 14px);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .MuiTypography-root.headers-typography {
@@ -75,13 +79,26 @@
   animation-play-state: paused;
 }
 
+.google-address-input {
+  height: 56px;
+  padding: 16.5px 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.google-address-input:focus {
+  outline: none;
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+}
+
 /* for responsiv */
 /*--------------*/
 /* M smartphone*/
 @media (min-width: 320px) and (max-width: 426px) {
-  .MuiTableCell-root.card-responsive-container {
-    width: 90vw;
-  }
   .MuiAlert-root.filter-responsive-container {
     width: 97vw;
   }
@@ -102,6 +119,6 @@
 @media (min-width: 1024px) and (max-width: 1439px) {
   .MuiCard-root.card-responsive-size {
     width: 60vw;
-    height: 80vh;
+    height: 61vh;
   }
 }

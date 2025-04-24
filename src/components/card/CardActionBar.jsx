@@ -1,7 +1,5 @@
 import { Box, Fab } from "@mui/material";
 import React from "react";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 function CardActionBar({
   data,
@@ -14,10 +12,12 @@ function CardActionBar({
       {!data?.dogLikes ? (
         <Box>
           <Fab
-            color="error"
             sx={{
+              backgroundColor: "#cc6e61",
+              color: "#fff",
               boxShadow: "none",
               "&:hover": {
+                backgroundColor: "#b85a4e",
                 boxShadow: "none",
               },
             }}
@@ -26,13 +26,15 @@ function CardActionBar({
               handleLikeUnlikeDog(loginDog, data.id, false);
             }}
           >
-            <ThumbDownAltIcon />
+            <img src="/assets/images/dislikeIcon.png" alt="like icon" />
           </Fab>
           <Fab
-            color="success"
             sx={{
+              backgroundColor: "#7ca982",
+              color: "#fff",
               boxShadow: "none",
               "&:hover": {
+                backgroundColor: "#699172",
                 boxShadow: "none",
               },
             }}
@@ -41,7 +43,7 @@ function CardActionBar({
               handleLikeUnlikeDog(loginDog, data.id, true);
             }}
           >
-            <FavoriteIcon />
+            <img src="/assets/images/likeIcon.png" alt="like icon" />
           </Fab>
         </Box>
       ) : null}

@@ -3,6 +3,7 @@ import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
 import GoogleAddressComponent from "../../components/GoogleAddressComponent";
+import { Box } from "@mui/material";
 
 export default function CreateDogForm({
   onSubmit,
@@ -26,19 +27,21 @@ export default function CreateDogForm({
       styles={{ maxWidth: "800px" }}
       to={ROUTES.ROOT}
     >
-      <Input
-        name="name"
-        label="name"
-        error={errors.first}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-      />
-      <GoogleAddressComponent
-        onReset={(callback) => (resetGoogleAddressRef.current = callback)}
-        onSelectAddress={handleSelectAddress}
-        data={data}
-      />
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+        <Input
+          name="name"
+          label="name"
+          error={errors.first}
+          onChange={onInputChange}
+          data={data}
+          sm={6}
+        />
+        <GoogleAddressComponent
+          onReset={(callback) => (resetGoogleAddressRef.current = callback)}
+          onSelectAddress={handleSelectAddress}
+          data={data}
+        />
+      </Box>
     </Form>
   );
 }

@@ -17,6 +17,7 @@ import ParkProfileMenu from "../../parks/components/ParkProfileMenu";
 import DogProfileMenu from "../../dogs/components/DogProfileMenu";
 import DogDetailsComponent from "../../dogs/components/DogDetailsComponent";
 import "../../styles/general.css";
+import { useLocation } from "react-router-dom";
 
 function CardBody({ data, loginDog, handleLikeUnlikePark }) {
   const theme = useMuiTheme();
@@ -24,6 +25,8 @@ function CardBody({ data, loginDog, handleLikeUnlikePark }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [anchorEL, setAnchor] = useState(null);
   const user = getUser();
+  const location = useLocation();
+  const isDogInfoRoute = location.pathname === "/dog-info";
 
   useEffect(() => {
     setMenuOpen(false);
@@ -42,18 +45,18 @@ function CardBody({ data, loginDog, handleLikeUnlikePark }) {
                 }}
               >
                 <TableCell
-                  className="card-responsive-container"
                   sx={{
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    width: isDogInfoRoute ? "90vw" : "none",
                   }}
                 >
                   {!data.distance && (
                     <>
                       <IconButton
                         sx={{ p: 0, display: "inline-flex", marginLeft: 1 }}
-                        onClick={() => window.history.back()} // או לדף בית
+                        onClick={() => window.history.back()}
                       >
                         <ArrowBackIosNewIcon />
                       </IconButton>
@@ -104,7 +107,7 @@ function CardBody({ data, loginDog, handleLikeUnlikePark }) {
                     <>
                       <IconButton
                         sx={{ p: 0, display: "inline-flex", marginLeft: 1 }}
-                        onClick={() => window.history.back()} // או לדף בית
+                        onClick={() => window.history.back()}
                       >
                         <ArrowBackIosNewIcon />
                       </IconButton>

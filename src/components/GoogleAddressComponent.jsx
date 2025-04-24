@@ -70,12 +70,13 @@ const GoogleAddressComponent = ({
   }, [onReset]);
   return (
     <input
+      style={{ width: "340px" }}
       value={initialAddress}
       ref={inputRef}
       type="text"
       placeholder={placeholder}
       onChange={handleInputChange}
-      className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 google-address-input"
     />
   );
 };

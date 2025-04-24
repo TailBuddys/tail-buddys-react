@@ -9,6 +9,7 @@ import { Navigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 import useUsers from "../hooks/useUsers";
 import GoogleLoginButton from "../components/GoogleLoginButton";
+import { Box } from "@mui/material";
 
 export default function SignupPage() {
   const { handleSignup } = useUsers();
@@ -29,16 +30,17 @@ export default function SignupPage() {
         alignItems: "center",
       }}
     >
-      <SignupForm
-        onSubmit={onSubmit}
-        onReset={handleReset}
-        validateForm={validateForm}
-        title={"register form"}
-        errors={errors}
-        data={data}
-        onInputChange={handleChange}
-      />
-      <GoogleLoginButton to={ROUTES.ROOT} />
+      <Box>
+        <SignupForm
+          onSubmit={onSubmit}
+          onReset={handleReset}
+          validateForm={validateForm}
+          title={"register form"}
+          errors={errors}
+          data={data}
+          onInputChange={handleChange}
+        />
+      </Box>
     </Container>
   );
 }

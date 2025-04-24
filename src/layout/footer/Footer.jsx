@@ -5,7 +5,7 @@ import ROUTES from "../../routes/routesModel";
 import NavItem from "../../routes/components/NavItem";
 
 export default function Footer() {
-  const isMobile = useMediaQuery("(max-width:768px)");
+  const isMobile = useMediaQuery("(max-width:1025px)");
 
   if (isMobile) return null;
 
