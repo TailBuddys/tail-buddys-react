@@ -14,12 +14,25 @@ import {
 } from "@mui/material";
 import useDogs from "../dogs/hooks/useDogs";
 import useUsers from "../users/hooks/useUsers";
+import { getUser } from "../services/localStorageService";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../routes/routesModel";
+import Spinner from "../components/Spinner";
 
 export default function AdminPage() {
+  const user = getUser();
   const [users, setUsers] = useState([]);
   const [dogs, setDogs] = useState([]);
   const { handleGetAllDogsAdmin, handleDeleteDogAdmin } = useDogs();
   const { handleGetAllUsers, handleDeleteUser } = useUsers();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user === null) return; // wait for user to load
+    if (!user.IsAdmin) {
+      navigate(ROUTES.ROOT);
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,13 +46,14 @@ export default function AdminPage() {
       }
     };
     fetchData();
-  }, [handleGetAllUsers, handleGetAllDogsAdmin]);
+  }, [handleGetAllUsers, handleGetAllDogsAdmin, navigate, user.isAdmin]);
+
+  if (!user) return <Spinner />; // Or a loading spinner
 
   const handleDeleteUserClick = async (userId) => {
     try {
       await handleDeleteUser(userId);
       setUsers(users.filter((user) => user.id !== userId));
-      // Also remove any dogs associated with this user
       setDogs(dogs.filter((dog) => dog.userId !== userId));
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -55,7 +69,6 @@ export default function AdminPage() {
     }
   };
 
-  // Helper function to get gender text
   const getGenderText = (genderCode) => {
     switch (genderCode) {
       case 0:
@@ -69,9 +82,6 @@ export default function AdminPage() {
     }
   };
 
-  // Helper function to get dog type text (you might want to expand this)
-
-  // Helper function to get dog size text
   return (
     <Box sx={{ p: 4 }}>
       <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>

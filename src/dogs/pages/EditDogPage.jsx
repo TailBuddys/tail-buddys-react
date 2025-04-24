@@ -4,7 +4,6 @@ import Container from "@mui/material/Container";
 import ROUTES from "../../routes/routesModel";
 import { useAlert } from "../../providers/AlertProvider";
 import { useNavigate } from "react-router-dom";
-import DogDataToModel from "../helpers/initialForms/dogToModel";
 import { getDogFromLocalStorage } from "../../services/localStorageService";
 import editDogSchema from "../models/editDogSchema";
 import initialEditDogForm from "../helpers/initialForms/initialEditDogForm";
@@ -14,6 +13,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import EditImagesPage from "../../images/components/EditImagesPage";
 import CustomTabPanel from "../../components/CustomTabPanel";
 import useImages from "../../images/hooks/useImages";
+import editDogToModel from "../helpers/initialForms/editDogToModel";
 
 export default function EditDogPage() {
   const { handleGetDogById, handleUpdateDog } = useDogs();
@@ -53,7 +53,7 @@ export default function EditDogPage() {
 
     if (dog) {
       handleGetDogById(dog).then((data) => {
-        const modelDog = DogDataToModel(data);
+        const modelDog = editDogToModel(data);
         setData(modelDog);
       });
     } else {
