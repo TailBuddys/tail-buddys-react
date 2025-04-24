@@ -7,12 +7,6 @@ Tail Buddys – A responsive and dynamic React-based UI for the ultimate dog-mat
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [Admin Access](#admin-access)
-- [License](#license)
-- [Contributing](#contributing)
 
 ## Features
 
